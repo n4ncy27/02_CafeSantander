@@ -1,3 +1,13 @@
+# ☕ Café Santander — FASE I
+
+![React](https://img.shields.io/badge/React-19.0+-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.5+-3178C6)
+![Vite](https://img.shields.io/badge/Vite-5.4+-646CFF)
+![Node.js](https://img.shields.io/badge/Node.js-20.0+-brightgreen)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3+-purple)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+---
 ## Proyecto: Café Santander — FASE I 
 
 Este repositorio contiene la aplicación web desarrollada en React + TypeScript con Vite para la entrega de la FASE‑I del proyecto.
@@ -222,11 +232,15 @@ Galería (si las imágenes están en `public/imagenes/cafe/` se mostrarán aquí
 
 ![Portada](/imagenes/cafe/portada-1.png)
 
-![Login modal](/imagenes/cafe/login-modal.png)
+![Login modal]<img width="1292" height="644" alt="image" src="https://github.com/user-attachments/assets/0b610681-9d17-4f7e-8140-245671ab1703" />
 
-![Ruleta catadora](/imagenes/cafe/ruleta-catadora.png)
+![Ruleta catadora] <img width="1292" height="642" alt="image" src="https://github.com/user-attachments/assets/92ff9652-1d27-4689-8e66-36ea48fc9e6f" />
 
-![Nuestra historia](/imagenes/cafe/historia.png)
+
+![Nuestra historia] <img width="1327" height="627" alt="image" src="https://github.com/user-attachments/assets/d09d8302-d22c-4ace-a833-fbc7fde69875" />
+
+![Nuestros Productos]<img width="1213" height="598" alt="image" src="https://github.com/user-attachments/assets/f6c4b400-76dc-45cc-8f9f-7bce1b9acef4" />
+
 
 (Si las imágenes no aparecen en el README cuando lo ves directamente en GitHub, recuerda que el servidor de desarrollo sirve `public/` en la raíz; en GitHub las imágenes deben estar comprometidas en el repo en `public/imagenes/cafe/` para mostrarse).</p>
 Incluye capturas en `public/imagenes/cafe/` y actualiza las rutas en este README si deseas mostrar imágenes concretas en la documentación.
