@@ -8,11 +8,11 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
-## Proyecto: Café Santander — FASE I 
+## **Proyecto: Café Santander — FASE I**
 
 Este repositorio contiene la aplicación web desarrollada en React + TypeScript con Vite para la entrega de la FASE‑I del proyecto.
 
-## Portada
+##  **Portada**
 
 - Nombre del aplicativo: Café Santander
 <p align="center">**_02_CafeSantander — FASE I_**</p>
