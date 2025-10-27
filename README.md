@@ -204,7 +204,9 @@ Local (desarrollo): http://localhost:5173/imagenes/cafe/
 
 Capturas incluidas (añade los archivos en `public/imagenes/cafe/`):
 
-- `/imagenes/cafe/portada-1.png` — Portada y header con menú.
+- — Portada y header con menú <img width="1351" height="658" alt="image" src="https://github.com/user-attachments/assets/0066b2de-3bf7-4784-8cb2-9a26c2eb8ca9" />
+
+
 - `/imagenes/cafe/login-modal.png` — Modal de inicio de sesión (con CAPTCHA y control de visibilidad de contraseña).
 - `/imagenes/cafe/ruleta-catadora.png` — Rueda catadora interactiva en la página de Servicios.
 - `/imagenes/cafe/historia.png` — Sección «Nuestra Historia» (banner principal).
