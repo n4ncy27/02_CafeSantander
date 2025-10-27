@@ -14,16 +14,16 @@ Este repositorio contiene la aplicación web desarrollada en React + TypeScript 
 
 ##  **Portada**
 
-- Nombre del aplicativo: Café Santander
-<p align="center">**_02_CafeSantander — FASE I_**</p>
+- Nombre del aplicativo:  **Café Santander **
+<p align="center">**02_CafeSantander — FASE I**</p>
 
-<p align="center">**_Aplicación web: Café Santander_**</p>
+<p align="center">**Aplicación web: Café Santander**</p>
 
 Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositorio contiene la aplicación front‑end desarrollada en React + TypeScript con Vite, la documentación de uso y las instrucciones para empaquetado y entrega.
 
 ---
 
-<p align="center">**_Tabla de contenidos_**</p>
+<p align="center">**Tabla de contenidos**</p>
 
 - [Resumen ejecutivo](#resumen-ejecutivo)
 - [Integrantes y roles](#integrantes-y-roles)
@@ -46,20 +46,18 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 
 ---
 
-<p align="center">**_Resumen ejecutivo_**</p>
+<p align="center">**Resumen ejecutivo**</p>
 
 `02_CafeSantander` es una aplicación front‑end que presenta la identidad y el catálogo de Café Santander. La FASE‑I entregada incluye una interfaz responsiva, navegación con rutas públicas y privadas, formularios, componentes multimedia y un prototipo interactivo de rueda catadora. El objetivo fue entregar una aplicación clara, documentada y lista para ser revisada por el docente.
 
-<p align="center">**_Integrantes y roles_**</p>
+<p align="center">**Integrantes y roles**</p>
 
-- César Daniel Ávila Barbosa (Líder) — 25% (coordinación y frontend)
-- Juan David Neira Meza — 25% (componentes y estilos)
-- Nancy Liliana Sáenz Moreno — 25% (multimedia y pruebas)
-- Carlos David Pimienta Rivera — 25% (routing y hooks)
+-  **César Daniel Ávila Barbosa (Líder)** — 25% (coordinación y frontend)
+-  **Juan David Neira Meza** — 25% (componentes y estilos)
+-  **Nancy Liliana Sáenz Moreno** — 25% (multimedia y pruebas)
+-  **Carlos David Pimienta Rivera** — 25% (routing y hooks)
 
-> El líder debe enviar el enlace del repositorio al docente y, si el repo es privado, provisión de acceso.
-
-<p align="center">**_Objetivos específicos — Lo que hicimos_**</p>
+<p align="center">**Objetivos específicos**</p>
 
 1. Analizamos el contexto del comercio electrónico del café y documentamos oportunidades para posicionar un producto con identidad local; los resultados guiaron la selección de contenidos del sitio.
 2. Diseñamos y prototipamos un flujo de exploración y compra accesible: catálogo, vista de producto y carrito simulado en frontend.
@@ -69,7 +67,7 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 6. Integramos contenido auténtico relacionado con la tradición cafetera de la familia del líder como elemento distintivo en secciones informativas.
 7. Aplicamos principios de accesibilidad y usabilidad en el frontend: `alt` en imágenes, etiquetas en formularios, navegación fija y protección de rutas para evitar accesos directos no autorizados.
 
-<p align="center">**_Características principales / Funcionalidades_**</p>
+<p align="center">**Características principales / Funcionalidades**</p>
 
 - Diseño responsivo (móvil / tablet / desktop).
 - Portada con títulos, logo y barra de menú fija.
@@ -82,24 +80,26 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 - Multimedia: imágenes, audio y video (carpeta `public/`).
 - Footer con ficha de integrantes y enlaces a redes sociales.
 
-<p align="center">**_Tecnologías utilizadas_**</p>
+<p align="center">**Tecnologías utilizadas**</p>
 
 - React (v19)
-- TypeScript
+- TypeScript 
 - Vite
 - React Router (v7)
 - Bootstrap 5 + React-Bootstrap
 - ESLint / TypeScript
 - Node.js / npm
 
-<p align="center">**_Requisitos previos_**</p>
+**NOTA:** Se eligió TypeScript por ser el estándar actual en desarrollo web con React, ofreciendo tipado estático, detección temprana de errores y mayor escalabilidad, lo que mejora la estabilidad y mantenibilidad de la aplicación frente a JavaScript.
+
+<p align="center">**Requisitos previos**</p>
 
 - Node.js v18+ (recomendado)
 - npm v9+ (recomendado)
 - Git
 - Navegador moderno
 
-<p align="center">**_Instalación y ejecución local (PowerShell) — paso a paso_**</p>
+<p align="center">**Instalación y ejecución local (PowerShell) — paso a paso**</p>
 
 Ejecuta los siguientes comandos en PowerShell desde tu máquina (reemplaza `<usuario>` y `<repositorio>` por los reales si corresponde):
 
@@ -121,7 +121,7 @@ npm run preview
 
 Después de `npm run dev` abre la URL que Vite indique (por ejemplo `http://localhost:5173`).
 
-<p align="center">**_Estructura del proyecto (árbol) y descripción de carpetas_**</p>
+<p align="center">**Estructura del proyecto (árbol) y descripción de carpetas**</p>
 
 ```text
 02_CafeSantander/
@@ -166,7 +166,7 @@ Breve explicación de carpetas clave
 
 Nota: la estructura mostrada refleja el estado actual del directorio `cafe-react` en este repositorio. Si deseas que incorpore una carpeta `src/backend/` y `src/frontend/` para organización, dímelo y las crearé sin mover archivos existentes (o puedo mover carpetas y actualizar imports si me lo autorizas).
 
-<p align="center">**_Mecanismo de login y rutas privadas_**</p>
+<p align="center">**Mecanismo de login y rutas privadas**</p>
 
 - Modal de login: `src/components/BootstrapLoginModal.tsx`.
 - Contexto de autenticación: `src/context/AuthContext.tsx`.
