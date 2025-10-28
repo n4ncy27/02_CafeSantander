@@ -215,23 +215,27 @@ Local (desarrollo): http://localhost:5173/imagenes/cafe/
 
 Capturas incluidas (añade los archivos en `public/imagenes/cafe/`):
 
-- — Portada y header con menú <img width="1351" height="658" alt="image" src="https://github.com/user-attachments/assets/0066b2de-3bf7-4784-8cb2-9a26c2eb8ca9" />
+A continuación se listan las capturas sugeridas y los nombres de archivo recomendados. Guarda las imágenes en `public/imagenes/cafe/` con los nombres indicados para que se muestren correctamente en el README y en el servidor de desarrollo.
 
+- `portada-1.png` — Portada y header con menú (vista principal).
+- `login-modal.png` — Modal de inicio de sesión (con control de visibilidad de contraseña / CAPTCHA si aplica).
+- `ruleta-catadora.png` — Rueda catadora interactiva (página Servicios).
+- `historia.png` — Sección «Nuestra Historia» (banner o imagen informativa).
+- `productos.png` — Página o sección de «Nuestros productos» (galería o tarjetas de producto).
 
-- `/imagenes/cafe/login-modal.png` — Modal de inicio de sesión (con CAPTCHA y control de visibilidad de contraseña).
-- `/imagenes/cafe/ruleta-catadora.png` — Rueda catadora interactiva en la página de Servicios.
-- `/imagenes/cafe/historia.png` — Sección «Nuestra Historia» (banner principal).
+Vista previa (si las imágenes están en `public/imagenes/cafe/` se mostrarán aquí cuando el servidor de desarrollo esté activo o cuando las añadas al repo):
 
 ![Portada](/imagenes/cafe/portada-1.png)
 
-![Login modal]<img width="1292" height="644" alt="image" src="https://github.com/user-attachments/assets/0b610681-9d17-4f7e-8140-245671ab1703" />
+![Login modal](/imagenes/cafe/login-modal.png)
 
-![Ruleta catadora] <img width="1292" height="642" alt="image" src="https://github.com/user-attachments/assets/92ff9652-1d27-4689-8e66-36ea48fc9e6f" />
+![Ruleta catadora](/imagenes/cafe/ruleta-catadora.png)
 
+![Nuestra historia](/imagenes/cafe/historia.png)
 
-![Nuestra historia] <img width="1327" height="627" alt="image" src="https://github.com/user-attachments/assets/d09d8302-d22c-4ace-a833-fbc7fde69875" />
+![Nuestros productos](/imagenes/cafe/productos.png)
 
-![Nuestros Productos]<img width="1213" height="598" alt="image" src="https://github.com/user-attachments/assets/f6c4b400-76dc-45cc-8f9f-7bce1b9acef4" />
+Si no tienes las imágenes locales y quieres usar enlaces externos (por ejemplo recursos subidos a GitHub o a un CDN), reemplaza las rutas anteriores por la URL completa. ¿Quieres que suba un `README-assets/` con versiones optimizadas de estas capturas o que genere las rutas exactas para Vercel/Netlify? 
 
 
 
@@ -251,3 +255,4 @@ Capturas incluidas (añade los archivos en `public/imagenes/cafe/`):
 - Carlos David Pimienta Rivera — correo@ejemplo.com — 25%
 
 ---
+
