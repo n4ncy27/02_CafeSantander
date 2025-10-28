@@ -225,26 +225,26 @@ A continuación se listan las capturas sugeridas y los nombres de archivo recome
 
 Vista previa (si las imágenes están en `public/imagenes/cafe/` se mostrarán aquí cuando el servidor de desarrollo esté activo o cuando las añadas al repo):
 
-![Portada](/imagenes/cafe/portada-1.png)
+![Portada]<img width="1288" height="641" alt="image" src="https://github.com/user-attachments/assets/5302a61a-bd64-46ee-bc49-59adb895b0df" />
 
 ![Login modal](/imagenes/cafe/login-modal.png)
 
-![Ruleta catadora](/imagenes/cafe/ruleta-catadora.png)
-
-![Nuestra historia](/imagenes/cafe/historia.png)
-
-![Nuestros productos](/imagenes/cafe/productos.png)
-
-Si no tienes las imágenes locales y quieres usar enlaces externos (por ejemplo recursos subidos a GitHub o a un CDN), reemplaza las rutas anteriores por la URL completa. ¿Quieres que suba un `README-assets/` con versiones optimizadas de estas capturas o que genere las rutas exactas para Vercel/Netlify? 
+![Ruleta catadora]<img width="1199" height="550" alt="image" src="https://github.com/user-attachments/assets/169aa0f5-f68b-41b3-8867-da41196140ab" />
 
 
+![Nuestra historia]<img width="1342" height="616" alt="image" src="https://github.com/user-attachments/assets/aac67934-6b6e-40e2-91a8-a7a69797a955" />
+
+
+![Nuestros productos]<img width="627" height="584" alt="image" src="https://github.com/user-attachments/assets/b2c6b0fd-aa5c-4b19-b80f-a97080cdd4c1" />
 
 ## **Roadmap y próximas mejoras**
 
 - Integrar backend para autenticación real y persistencia (BD).
 - Añadir encuesta y estadísticas.
 - Mejorar la rueda catadora con datos sensoriales guardados por usuario.
-- Implementar captcha y validaciones robustas en formularios.
+- Implementar más captcha  o validaciones robustas en formularios.
+- mejorar el estilo css
+- entre otras conforme sigamos avanzando.
 
 
 ## **Contacto de los integrantes**
