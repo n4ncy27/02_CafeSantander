@@ -14,10 +14,11 @@ Este repositorio contiene la aplicación web desarrollada en React + TypeScript 
 
 ##  **Portada**
 
-- Nombre del aplicativo:  **Café Santander **
-### **02_CafeSantander — FASE I**
+- Nombre del aplicativo: **Café Santander**
 
-### **Aplicación web: Café Santander**
+**02_CafeSantander — FASE I**
+
+**Aplicación web: Café Santander**
 
 Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositorio contiene la aplicación front‑end desarrollada en React + TypeScript con Vite, la documentación de uso y las instrucciones para empaquetado y entrega.
 
@@ -97,27 +98,27 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 - Git
 - Navegador moderno
 
-## **Instalación y ejecución local (PowerShell) — paso a paso**
+## **Instalación y ejecución (local y nube) — paso a paso**
 
-Ejecuta los siguientes comandos en PowerShell desde tu máquina (reemplaza `<usuario>` y `<repositorio>` por los reales si corresponde):
+Abajo tienes la misma información organizada en una tabla para que sea rápida de consultar. A la derecha incluyo notas/prácticas recomendadas.
 
-```powershell
-# 1. Clonar el repositorio y entrar a la carpeta del proyecto
-git clone https://github.com/<usuario>/<repositorio>.git
-cd 02_CafeSantander\cafe-react
+| Paso | Comando (PowerShell) | Descripción | Notas |
+|------|----------------------|-------------|-------|
+| Comprobaciones previas | `node -v`<br>`npm -v`<br>`git --version` | Verificar que Node (>=18), npm (>=9) y Git están instalados | Actualizar Node si es necesario (nvm-windows) |
+| Crear carpeta local (opcional) | `mkdir $env:USERPROFILE\MisProyectos`<br>`Set-Location $env:USERPROFILE\MisProyectos` | Crea y entra a la carpeta donde clonarás el repo | Cambia la ruta si prefieres otro directorio |
+| Clonar repo | `git clone https://github.com/n4ncy27/02_CafeSantander.git` | Descarga el repositorio a tu equipo | Usa el botón Code → HTTPS en GitHub si cambias la URL |
+| Entrar en el proyecto | `cd 02_CafeSantander\cafe-react` | Coloca la terminal en la carpeta del frontend | Es la ruta donde están package.json y src |
+| Abrir en VS Code (opcional) | `code .` | Abre la carpeta actual en Visual Studio Code | Si `code` no está en PATH, abre VS Code y usa Archivo → Abrir carpeta... |
+| Instalar dependencias | `npm install` (o `npm ci`) | Instala módulos necesarios | `npm ci` es reproducible para CI/entornos limpios |
+| Ejecutar en modo desarrollo | `npm run dev` | Inicia Vite dev server y recarga en cambios | Abre la URL que muestre Vite (ej. `http://localhost:5173`) |
+| Build producción | `npm run build` | Genera la carpeta `dist/` con archivos estáticos | Preparado para ser servido por cualquier hosting estático |
+| Previsualizar producción | `npm run preview`<br>o `npx serve dist -l 5173` | Ver la versión de producción localmente | `npx serve` sirve la carpeta `dist` rápidamente |
+| Docker (opcional) | `docker build -t cafe-santander:latest .`<br>`docker run -p 8080:80 cafe-santander:latest` | Construir y ejecutar imagen Docker | Requiere Docker Desktop instalado |
+| Deploy (Vercel / Netlify / Render) | (config. en la UI) Build: `npm run build`<br>Publish: `dist` | Deploy automático al conectar el repo | Establecer root a `02_CafeSantander/cafe-react` si pide subcarpeta |
 
-# 2. Instalar dependencias
-npm install
+| Checklist rápido | - | Asegúrate de: `node -v` compatible, `npm install` sin errores, `npm run dev` abre la app. | Añade `.env.example` si hay variables de entorno |
 
-# 3. Ejecutar modo desarrollo (Vite)
-npm run dev
-
-# 4. Para producción: construir y previsualizar
-npm run build
-npm run preview
-```
-
-Después de `npm run dev` abre la URL que Vite indique (por ejemplo `http://localhost:5173`).
+Si quieres, puedo también añadir un archivo automático `run-local.ps1` en `cafe-react/` (ejecuta instalación y arranque) o subir el `Dockerfile` al repo y crear un pequeño script `start-docker.ps1`.
 
 ## **Estructura del proyecto (árbol) y descripción de carpetas**
 
@@ -214,26 +215,26 @@ A continuación se listan las capturas sugeridas y los nombres de archivo recome
 
 Vista previa
 
-![Portada]<img width="1288" height="641" alt="image" src="https://github.com/user-attachments/assets/5302a61a-bd64-46ee-bc49-59adb895b0df" />
+![Portada](/imagenes/cafe/portada-1.png)
 
 ![Login modal](/imagenes/cafe/login-modal.png)
 
-![Ruleta catadora]<img width="1199" height="550" alt="image" src="https://github.com/user-attachments/assets/169aa0f5-f68b-41b3-8867-da41196140ab" />
+![Ruleta catadora](/imagenes/cafe/ruleta-catadora.png)
 
+![Nuestra historia](/imagenes/cafe/historia.png)
 
-![Nuestra historia]<img width="1342" height="616" alt="image" src="https://github.com/user-attachments/assets/aac67934-6b6e-40e2-91a8-a7a69797a955" />
-
-
-![Nuestros productos]<img width="627" height="584" alt="image" src="https://github.com/user-attachments/assets/b2c6b0fd-aa5c-4b19-b80f-a97080cdd4c1" />
+![Nuestros productos](/imagenes/cafe/productos.png)
 
 ## **Roadmap y próximas mejoras**
 
 - Integrar backend para autenticación real y persistencia (BD).
 - Añadir encuesta y estadísticas.
 - Mejorar la rueda catadora con datos sensoriales guardados por usuario.
-- Implementar más captcha  o validaciones robustas en formularios.
-- mejorar el estilo css
-- entre otras conforme sigamos avanzando.
+- Implementar captcha y validaciones robustas en formularios.
+- Mejorar el estilo CSS.
+- Entre otras mejoras conforme avancemos.
+
+<!-- Sección de instrucciones rápidas eliminada (ya incluida en 'Instalación y ejecución (local y nube)') -->
 
 
 ## **Contacto de los integrantes**
