@@ -249,10 +249,10 @@ Vista previa
 
 ## **Contacto de los integrantes**
 
-- César Daniel Ávila Barbosa — correo@ejemplo.com — 25%
-- Juan David Neira Meza — correo@ejemplo.com — 25%
-- Nancy Liliana Sáenz Moreno — correo@ejemplo.com — 25%
-- Carlos David Pimienta Rivera — correo@ejemplo.com — 25%
+- César Daniel Ávila Barbosa —  cesar2224642@correo.uis.edu.co  — 25%
+- Juan David Neira Meza —  juan2235605@correo.uis.edu.co — 25%
+- Nancy Liliana Sáenz Moreno —nancy2224510@correo.uis.edu.co — 25%
+- Carlos David Pimienta Rivera — carlos2224380@correo.uis.edu.co  — 25%
 
 ---
 
