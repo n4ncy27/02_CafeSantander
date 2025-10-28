@@ -197,15 +197,6 @@ Se incluyó un prototipo de rueda catadora en la sección de Productos/Servicios
 - Accesibilidad básica: `alt` en imágenes, labels en formularios y foco visible en elementos interactivos.
 - Usabilidad: barra de navegación fija y estructura clara de contenidos.
 
-## **Logros y alcance del proyecto**
-
-- Interfaz responsiva y navegable en distintos dispositivos.
-- Rutas públicas y privadas con autenticación simulada funcional.
-- Formularios y validaciones básicas implementadas.
-- Componentes interactivos y multimedia integrados.
-- Prototipo de rueda catadora digital.
-- Documentación para instalación, ejecución y empaquetado incluida en este README.
-
 ## **Capturas y demostración**
 
 Las siguientes capturas corresponden a pantallas principales de la aplicación. Para verlas localmente (mientras el servidor de desarrollo de Vite está corriendo) coloca las imágenes en `public/imagenes/cafe/` con los nombres indicados y ábrelas en el navegador o visualízalas dentro del README cuando el servidor esté activo.
