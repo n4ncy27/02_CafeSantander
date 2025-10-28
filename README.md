@@ -25,23 +25,21 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 
 ## **Tabla de contenidos**
 
+- [Portada](#portada)
 - [Resumen ejecutivo](#resumen-ejecutivo)
 - [Integrantes y roles](#integrantes-y-roles)
-- [Objetivos específicos — Lo que hicimos](#objetivos-espec%C3%ADficos---lo-que-hicimos)
-- [Características principales / Funcionalidades](#caracter%C3%ADsticas-principales--funcionalidades)
-- [Tecnologías utilizadas](#tecnolog%C3%ADas-utilizadas)
+- [Objetivos específicos](#objetivos-especificos)
+- [Características principales / Funcionalidades](#caracteristicas-principales--funcionalidades)
+- [Tecnologías utilizadas](#tecnologias-utilizadas)
 - [Requisitos previos](#requisitos-previos)
-- [Instalación y ejecución local (PowerShell) — paso a paso](#instalaci%C3%B3n-y-ejecuci%C3%B3n-local-powershell--paso-a-paso)
-- [Estructura del proyecto (árbol) y descripción de carpetas](#estructura-del-proyecto-%C3%A1rbol-y-descripci%C3%B3n-de-carpetas)
+- [Instalación y ejecución (local y nube) — paso a paso](#instalacion-y-ejecucion-local-y-nube--paso-a-paso)
+- [Estructura del proyecto (árbol) y descripción de carpetas](#estructura-del-proyecto-arbol-y-descripcion-de-carpetas)
 - [Mecanismo de login y rutas privadas](#mecanismo-de-login-y-rutas-privadas)
 - [Formularios y componentes interactivos](#formularios-y-componentes-interactivos)
-- [Rueda catadora digital (protótipo)](#rueda-catadora-digital-prot%C3%B3tipo)
-- [Principios de diseño aplicados (ANEXO 1)](#principios-de-dise%C3%B1o-aplicados-anexo-1)
-- [Logros y alcance del proyecto](#logros-y-alcance-del-proyecto)
-- [Capturas y demostración](#capturas-y-demostraci%C3%B3n)
-- [Instrucciones para empaquetar y entregar (xx_App.zip)](#instrucciones-para-empaquetar-y-entregar-xx_appzip)
-- [Roadmap y próximas mejoras](#roadmap-y-pr%C3%B3ximas-mejoras)
-- [Contribución](#contribuci%C3%B3n)
+- [Rueda catadora digital (protótipo)](#rueda-catadora-digital-prototipo)
+- [Principios de diseño aplicados (ANEXO 1)](#principios-de-diseno-aplicados-anexo-1)
+- [Capturas y demostración](#capturas-y-demostracion)
+- [Roadmap y próximas mejoras](#roadmap-y-proximas-mejoras)
 - [Contacto de los integrantes](#contacto-de-los-integrantes)
 
 ---
@@ -246,4 +244,5 @@ Vista previa
 - Carlos David Pimienta Rivera — carlos2224380@correo.uis.edu.co  — 25%
 
 ---
+
 
