@@ -118,7 +118,7 @@ Abajo tienes la misma información organizada en una tabla para que sea rápida 
 
 | Checklist rápido | - | Asegúrate de: `node -v` compatible, `npm install` sin errores, `npm run dev` abre la app. | Añade `.env.example` si hay variables de entorno |
 
-Si quieres, puedo también añadir un archivo automático `run-local.ps1` en `cafe-react/` (ejecuta instalación y arranque) o subir el `Dockerfile` al repo y crear un pequeño script `start-docker.ps1`.
+
 
 ## **Estructura del proyecto (árbol) y descripción de carpetas**
 
