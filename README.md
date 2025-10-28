@@ -223,7 +223,7 @@ A continuación se listan las capturas sugeridas y los nombres de archivo recome
 - `historia.png` — Sección «Nuestra Historia» (banner o imagen informativa).
 - `productos.png` — Página o sección de «Nuestros productos» (galería o tarjetas de producto).
 
-Vista previa (si las imágenes están en `public/imagenes/cafe/` se mostrarán aquí cuando el servidor de desarrollo esté activo o cuando las añadas al repo):
+Vista previa
 
 ![Portada]<img width="1288" height="641" alt="image" src="https://github.com/user-attachments/assets/5302a61a-bd64-46ee-bc49-59adb895b0df" />
 
