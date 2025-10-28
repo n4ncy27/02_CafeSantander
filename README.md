@@ -100,7 +100,6 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 
 ## **Instalación y ejecución (local y nube) — paso a paso**
 
-Abajo tienes la misma información organizada en una tabla para que sea rápida de consultar. A la derecha incluyo notas/prácticas recomendadas.
 
 | Paso | Comando (PowerShell) | Descripción | Notas |
 |------|----------------------|-------------|-------|
@@ -215,15 +214,20 @@ A continuación se listan las capturas sugeridas y los nombres de archivo recome
 
 Vista previa
 
-![Portada](/imagenes/cafe/portada-1.png)
+![Portada]<img width="1266" height="649" alt="image" src="https://github.com/user-attachments/assets/b6088c12-a61d-4aad-a185-7cb56ce36213" />
 
-![Login modal](/imagenes/cafe/login-modal.png)
 
-![Ruleta catadora](/imagenes/cafe/ruleta-catadora.png)
+![Login modal]<img width="744" height="524" alt="image" src="https://github.com/user-attachments/assets/cbf3fab8-40d3-4182-89c4-cbdd42114a5d" />
 
-![Nuestra historia](/imagenes/cafe/historia.png)
 
-![Nuestros productos](/imagenes/cafe/productos.png)
+![Ruleta catadora]<img width="935" height="646" alt="image" src="https://github.com/user-attachments/assets/3c838fd5-a0a6-45dc-9e22-05af8302f17c" />
+
+
+![Nuestra historia]<img width="693" height="648" alt="image" src="https://github.com/user-attachments/assets/22f252ef-d302-4a8d-8107-dad20b11a0fd" />
+
+
+![Nuestros productos]<img width="666" height="575" alt="image" src="https://github.com/user-attachments/assets/289ad17f-cb52-4af9-bfbc-96eb0d7bb5ee" />
+
 
 ## **Roadmap y próximas mejoras**
 
