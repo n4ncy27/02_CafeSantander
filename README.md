@@ -15,15 +15,15 @@ Este repositorio contiene la aplicación web desarrollada en React + TypeScript 
 ##  **Portada**
 
 - Nombre del aplicativo:  **Café Santander **
-<p align="center">**02_CafeSantander — FASE I**</p>
+### **02_CafeSantander — FASE I**
 
-<p align="center">**Aplicación web: Café Santander**</p>
+### **Aplicación web: Café Santander**
 
 Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositorio contiene la aplicación front‑end desarrollada en React + TypeScript con Vite, la documentación de uso y las instrucciones para empaquetado y entrega.
 
 ---
 
-<p align="center">**Tabla de contenidos**</p>
+## **Tabla de contenidos**
 
 - [Resumen ejecutivo](#resumen-ejecutivo)
 - [Integrantes y roles](#integrantes-y-roles)
@@ -46,18 +46,18 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 
 ---
 
-<p align="center">**Resumen ejecutivo**</p>
+## **Resumen ejecutivo**
 
 `02_CafeSantander` es una aplicación front‑end que presenta la identidad y el catálogo de Café Santander. La FASE‑I entregada incluye una interfaz responsiva, navegación con rutas públicas y privadas, formularios, componentes multimedia y un prototipo interactivo de rueda catadora. El objetivo fue entregar una aplicación clara, documentada y lista para ser revisada por el docente.
 
-<p align="center">**Integrantes y roles**</p>
+## **Integrantes y roles**
 
 -  **César Daniel Ávila Barbosa (Líder)** — 25% (coordinación y frontend)
 -  **Juan David Neira Meza** — 25% (componentes y estilos)
 -  **Nancy Liliana Sáenz Moreno** — 25% (multimedia y pruebas)
 -  **Carlos David Pimienta Rivera** — 25% (routing y hooks)
 
-<p align="center">**Objetivos específicos**</p>
+## **Objetivos específicos**
 
 1. Analizamos el contexto del comercio electrónico del café y documentamos oportunidades para posicionar un producto con identidad local; los resultados guiaron la selección de contenidos del sitio.
 2. Diseñamos y prototipamos un flujo de exploración y compra accesible: catálogo, vista de producto y carrito simulado en frontend.
@@ -67,7 +67,7 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 6. Integramos contenido auténtico relacionado con la tradición cafetera de la familia del líder como elemento distintivo en secciones informativas.
 7. Aplicamos principios de accesibilidad y usabilidad en el frontend: `alt` en imágenes, etiquetas en formularios, navegación fija y protección de rutas para evitar accesos directos no autorizados.
 
-<p align="center">**Características principales / Funcionalidades**</p>
+## **Características principales / Funcionalidades**
 
 - Diseño responsivo (móvil / tablet / desktop).
 - Portada con títulos, logo y barra de menú fija.
@@ -80,7 +80,7 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 - Multimedia: imágenes, audio y video (carpeta `public/`).
 - Footer con ficha de integrantes y enlaces a redes sociales.
 
-<p align="center">**Tecnologías utilizadas**</p>
+## **Tecnologías utilizadas**
 
 - React (v19)
 - TypeScript 
@@ -92,14 +92,14 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 
 **NOTA:** Se eligió TypeScript por ser el estándar actual en desarrollo web con React, ofreciendo tipado estático, detección temprana de errores y mayor escalabilidad, lo que mejora la estabilidad y mantenibilidad de la aplicación frente a JavaScript.
 
-<p align="center">**Requisitos previos**</p>
+## **Requisitos previos**
 
 - Node.js v18+ (recomendado)
 - npm v9+ (recomendado)
 - Git
 - Navegador moderno
 
-<p align="center">**Instalación y ejecución local (PowerShell) — paso a paso**</p>
+## **Instalación y ejecución local (PowerShell) — paso a paso**
 
 Ejecuta los siguientes comandos en PowerShell desde tu máquina (reemplaza `<usuario>` y `<repositorio>` por los reales si corresponde):
 
@@ -121,7 +121,7 @@ npm run preview
 
 Después de `npm run dev` abre la URL que Vite indique (por ejemplo `http://localhost:5173`).
 
-<p align="center">**Estructura del proyecto (árbol) y descripción de carpetas**</p>
+## **Estructura del proyecto (árbol) y descripción de carpetas**
 
 ```text
 02_CafeSantander/
@@ -166,7 +166,7 @@ Breve explicación de carpetas clave
 
 Nota: la estructura mostrada refleja el estado actual del directorio `cafe-react` en este repositorio. Si deseas que incorpore una carpeta `src/backend/` y `src/frontend/` para organización, dímelo y las crearé sin mover archivos existentes (o puedo mover carpetas y actualizar imports si me lo autorizas).
 
-<p align="center">**Mecanismo de login y rutas privadas**</p>
+## **Mecanismo de login y rutas privadas**
 
 - Modal de login: `src/components/BootstrapLoginModal.tsx`.
 - Contexto de autenticación: `src/context/AuthContext.tsx`.
@@ -179,17 +179,17 @@ Credenciales de evaluación (simulación):
 
 Flujo resumido: al iniciar sesión con las credenciales anteriores, `AuthContext` actualiza el estado a autenticado y las rutas privadas se vuelven accesibles; `PrivateRoute` impide el acceso directo por URL cuando el usuario no está autenticado.
 
-<p align="center">**_Formularios y componentes interactivos_**</p>
+## **Formularios y componentes interactivos**
 
 - Formularios: `src/pages/Contacto.tsx` usa `react-bootstrap/Form` con validación básica.
 - Componentes: Carrusel, Acordeón, Collapse, Popover y Dropdown disponibles mediante `react-bootstrap`.
 - Multimedia: archivos en `public/video/` y `public/audio/` con controles de reproducción.
 
-<p align="center">**_Rueda catadora digital (protótipo)_**</p>
+## **Rueda catadora digital (protótipo)**
 
 Se incluyó un prototipo de rueda catadora en la sección de Productos/Servicios para orientar la selección del café con base en preferencias sensoriales (sabor, aroma, intensidad). El componente es interactivo y sirve como base para futuras mejoras.
 
-<p align="center">**_Principios de diseño aplicados (ANEXO 1)_**</p>
+## **Principios de diseño aplicados (ANEXO 1)**
 
 - Contraste de color para legibilidad.
 - Jerarquía visual mediante tipografías y espaciado.
@@ -197,7 +197,7 @@ Se incluyó un prototipo de rueda catadora en la sección de Productos/Servicios
 - Accesibilidad básica: `alt` en imágenes, labels en formularios y foco visible en elementos interactivos.
 - Usabilidad: barra de navegación fija y estructura clara de contenidos.
 
-<p align="center">**_Logros y alcance del proyecto_**</p>
+## **Logros y alcance del proyecto**
 
 - Interfaz responsiva y navegable en distintos dispositivos.
 - Rutas públicas y privadas con autenticación simulada funcional.
@@ -206,11 +206,12 @@ Se incluyó un prototipo de rueda catadora en la sección de Productos/Servicios
 - Prototipo de rueda catadora digital.
 - Documentación para instalación, ejecución y empaquetado incluida en este README.
 
-<p align="center">**_Capturas y demostración_**</p>
+## **Capturas y demostración**
 
 Las siguientes capturas corresponden a pantallas principales de la aplicación. Para verlas localmente (mientras el servidor de desarrollo de Vite está corriendo) coloca las imágenes en `public/imagenes/cafe/` con los nombres indicados y ábrelas en el navegador o visualízalas dentro del README cuando el servidor esté activo.
 
 Local (desarrollo): http://localhost:5173/imagenes/cafe/
+
 
 Capturas incluidas (añade los archivos en `public/imagenes/cafe/`):
 
@@ -220,15 +221,6 @@ Capturas incluidas (añade los archivos en `public/imagenes/cafe/`):
 - `/imagenes/cafe/login-modal.png` — Modal de inicio de sesión (con CAPTCHA y control de visibilidad de contraseña).
 - `/imagenes/cafe/ruleta-catadora.png` — Rueda catadora interactiva en la página de Servicios.
 - `/imagenes/cafe/historia.png` — Sección «Nuestra Historia» (banner principal).
-
-Ejemplo de cómo se verán en local (URL de ejemplo):
-
-- http://localhost:5173/imagenes/cafe/portada-1.png
-- http://localhost:5173/imagenes/cafe/login-modal.png
-- http://localhost:5173/imagenes/cafe/ruleta-catadora.png
-- http://localhost:5173/imagenes/cafe/historia.png
-
-Galería (si las imágenes están en `public/imagenes/cafe/` se mostrarán aquí cuando el servidor esté activo):
 
 ![Portada](/imagenes/cafe/portada-1.png)
 
@@ -242,38 +234,16 @@ Galería (si las imágenes están en `public/imagenes/cafe/` se mostrarán aquí
 ![Nuestros Productos]<img width="1213" height="598" alt="image" src="https://github.com/user-attachments/assets/f6c4b400-76dc-45cc-8f9f-7bce1b9acef4" />
 
 
-(Si las imágenes no aparecen en el README cuando lo ves directamente en GitHub, recuerda que el servidor de desarrollo sirve `public/` en la raíz; en GitHub las imágenes deben estar comprometidas en el repo en `public/imagenes/cafe/` para mostrarse).</p>
-Incluye capturas en `public/imagenes/cafe/` y actualiza las rutas en este README si deseas mostrar imágenes concretas en la documentación.
 
-<p align="center">**_Instrucciones para empaquetar y entregar (xx_App.zip)_**</p>
-
-1. Ejecutar `npm run build` para generar `dist/`.
-2. Crear carpeta `02_App` y copiar dentro:
-   - Carpeta `cafe-react` completa **sin** `node_modules`.
-   - Archivo `02_aplicativo.pdf` con portada, capturas y anexos.
-   - `Readme.txt` corto (versión resumida de este README).
-3. Comprimir la carpeta `02_App` en `02_App.zip` y subir a meiweb24 o proporcionar enlace al docente.
-
-> Recomendación: incluir `dist/` en el zip si desea que el docente pueda ver la versión construida sin ejecutar `npm install`.
-
-<p align="center">**_Roadmap y próximas mejoras_**</p>
+## **Roadmap y próximas mejoras**
 
 - Integrar backend para autenticación real y persistencia (BD).
 - Añadir encuesta y estadísticas.
 - Mejorar la rueda catadora con datos sensoriales guardados por usuario.
 - Implementar captcha y validaciones robustas en formularios.
 
-<p align="center">**_Contribución_**</p>
 
-Si deseas colaborar:
-
-1. Fork del proyecto.
-2. Clonar tu fork y crear una rama feature.
-3. Hacer cambios, pruebas y enviar Pull Request con descripción clara.
-
-Convenciones de commits: `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`.
-
-<p align="center">**_Contacto de los integrantes_**</p>
+## **Contacto de los integrantes**
 
 - César Daniel Ávila Barbosa — correo@ejemplo.com — 25%
 - Juan David Neira Meza — correo@ejemplo.com — 25%
@@ -281,4 +251,3 @@ Convenciones de commits: `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:
 - Carlos David Pimienta Rivera — correo@ejemplo.com — 25%
 
 ---
-
