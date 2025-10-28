@@ -115,9 +115,6 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 | Docker (opcional) | `docker build -t cafe-santander:latest .`<br>`docker run -p 8080:80 cafe-santander:latest` | Construir y ejecutar imagen Docker | Requiere Docker Desktop instalado |
 | Deploy (Vercel / Netlify / Render) | (config. en la UI) Build: `npm run build`<br>Publish: `dist` | Deploy automático al conectar el repo | Establecer root a `02_CafeSantander/cafe-react` si pide subcarpeta |
 
-| Checklist rápido | - | Asegúrate de: `node -v` compatible, `npm install` sin errores, `npm run dev` abre la app. | Añade `.env.example` si hay variables de entorno |
-
-
 
 ## **Estructura del proyecto (árbol) y descripción de carpetas**
 
