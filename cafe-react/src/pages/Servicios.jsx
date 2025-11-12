@@ -1,6 +1,6 @@
-// Archivo: Servicios.tsx
+// Archivo: Servicios.jsx
 // Página: servicios ofrecidos, ruleta de sabores y opciones para empresas.
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -8,20 +8,20 @@ import '../styles/servicios.css';
 import useCart from '../hooks/useCart';
 
 // Nota: se porta la lógica original de `cafes/Servicios.html` a React.
-const Servicios: React.FC = () => {
+const Servicios = () => {
   // ref eliminado (no usado)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubOption, setSelectedSubOption] = useState<string | null>(null);
-  const [selectedFinalOption, setSelectedFinalOption] = useState<string | null>(null);
-  const [finalProduct, setFinalProduct] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubOption, setSelectedSubOption] = useState(null);
+  const [selectedFinalOption, setSelectedFinalOption] = useState(null);
+  const [finalProduct, setFinalProduct] = useState(null);
   const { addItem } = useCart();
 
   // Calcula precio aproximado según categoría y opción seleccionada
   // Mantiene la lógica adaptada desde el HTML original
-  const calculatePrice = (category: string | null, option: string | null) => {
+  const calculatePrice = (category, option) => {
     if (!category || !option) return 0;
     let basePrice = 15000;
-    const categoryMultipliers: Record<string, number> = {
+    const categoryMultipliers = {
       AFRUTADO: 1.0,
       FLORAL: 1.2,
       DULCE: 1.1,
@@ -33,7 +33,7 @@ const Servicios: React.FC = () => {
       'NUECES/CACAO': 1.1
     };
 
-    const complexityMultipliers: Record<string, number> = {
+    const complexityMultipliers = {
       Mora: 1.0, Frambuesa: 1.0, Arandano: 1.0, Fresa: 1.0,
       'Pasas de uva': 1.1, 'Pasas de ciruela': 1.1,
       Coco: 1.2, Cereza: 1.2, Granada: 1.3, Piña: 1.2,
@@ -53,7 +53,7 @@ const Servicios: React.FC = () => {
   };
 
   // Datos de la ruleta: categorías, subopciones y productos
-  const wheelData: any = React.useMemo(() => ({
+  const wheelData = useMemo(() => ({
     AFRUTADO: {
       description: 'Una mezcla dulce, floral y aromática de una variedad de frutas maduras.',
       subOptions: ['Baya', 'Fruta seca', 'Otras frutas', 'Cítricos'],
@@ -116,12 +116,12 @@ const Servicios: React.FC = () => {
     const anglePer = 360 / total;
     let currentAngle = 0;
 
-    const polarToCartesian = (cxN: number, cyN: number, r: number, angleDeg: number) => {
+    const polarToCartesian = (cxN, cyN, r, angleDeg) => {
       const angle = (angleDeg - 90) * Math.PI / 180;
       return { x: cxN + r * Math.cos(angle), y: cyN + r * Math.sin(angle) };
     };
 
-    const createSectorPath = (startAngle: number, endAngle: number, rOuter: number, rInner: number) => {
+    const createSectorPath = (startAngle, endAngle, rOuter, rInner) => {
       const oStart = polarToCartesian(cx, cy, rOuter, startAngle);
       const oEnd = polarToCartesian(cx, cy, rOuter, endAngle);
       const iStart = polarToCartesian(cx, cy, rInner, startAngle);
@@ -154,24 +154,25 @@ const Servicios: React.FC = () => {
 
       currentAngle += anglePer;
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [/* redibujar solo en montaje */]);
 
-  const handleCategorySelect = (category: string) => {
+  const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setSelectedSubOption(null);
     setSelectedFinalOption(null);
     setFinalProduct(null);
   };
 
-  const handleSubOptionSelect = (sub: string) => {
+  const handleSubOptionSelect = (sub) => {
     setSelectedSubOption(sub);
     setSelectedFinalOption(null);
     setFinalProduct(null);
   };
 
-  const handleFinalOptionSelect = (finalOpt: string) => {
+  const handleFinalOptionSelect = (finalOpt) => {
     setSelectedFinalOption(finalOpt);
-    const product = wheelData[selectedCategory as string]?.products?.[finalOpt];
+    const product = wheelData[selectedCategory]?.products?.[finalOpt];
     if (product) {
       const price = calculatePrice(selectedCategory, finalOpt);
       setFinalProduct({ ...product, price, category: selectedCategory, option: finalOpt });
@@ -209,7 +210,7 @@ const Servicios: React.FC = () => {
           {selectedCategory && (
             <div className="suboptions">
               <h4>Opciones</h4>
-              {wheelData[selectedCategory].subOptions.map((s: string) => (
+              {wheelData[selectedCategory].subOptions.map((s) => (
                 <button key={s} onClick={() => handleSubOptionSelect(s)} className={selectedSubOption === s ? 'active' : ''}>{s}</button>
               ))}
             </div>
@@ -218,7 +219,7 @@ const Servicios: React.FC = () => {
           {selectedSubOption && (
             <div className="subsuboptions">
               <h4>Detalles</h4>
-              {wheelData[selectedCategory!].finalOptions[selectedSubOption!].map((f: string) => (
+              {wheelData[selectedCategory].finalOptions[selectedSubOption].map((f) => (
                 <button key={f} onClick={() => handleFinalOptionSelect(f)} className={selectedFinalOption === f ? 'active' : ''}>{f}</button>
               ))}
             </div>

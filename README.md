@@ -1,16 +1,16 @@
 # ☕ Café Santander — FASE I
 
-![React](https://img.shields.io/badge/React-19.0+-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.5+-3178C6)
-![Vite](https://img.shields.io/badge/Vite-5.4+-646CFF)
-![Node.js](https://img.shields.io/badge/Node.js-20.0+-brightgreen)
+![React](https://img.shields.io/badge/React-19.1+-blue)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES2020+-yellow)
+![Vite](https://img.shields.io/badge/Vite-7.2+-646CFF)
+![Node.js](https://img.shields.io/badge/Node.js-18.0+-brightgreen)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3+-purple)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
 ## **Proyecto: Café Santander — FASE I**
 
-Este repositorio contiene la aplicación web desarrollada en React + TypeScript con Vite para la entrega de la FASE‑I del proyecto.
+Este repositorio contiene la aplicación web desarrollada en React + JavaScript moderno con Vite para la entrega de la FASE‑I del proyecto.
 
 ##  **Portada**
 
@@ -20,7 +20,7 @@ Este repositorio contiene la aplicación web desarrollada en React + TypeScript 
 
 **Aplicación web: Café Santander**
 
-Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositorio contiene la aplicación front‑end desarrollada en React + TypeScript con Vite, la documentación de uso y las instrucciones para empaquetado y entrega.
+Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositorio contiene la aplicación front‑end desarrollada en React + JavaScript con Vite, la documentación de uso y las instrucciones para empaquetado y entrega.
 
 ---
 
@@ -81,22 +81,20 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 
 ## **Tecnologías utilizadas**
 
-- React (v19)
-- TypeScript 
-- Vite
-- React Router (v7)
+- React (v19.1)
+- JavaScript (ES2020)
+- Vite (v7.2)
+- React Router (v7.9)
 - Bootstrap 5 + React-Bootstrap
-- ESLint / TypeScript
+- ESLint (v9.36)
 - Node.js / npm
-
-**NOTA:** Se eligió TypeScript por ser el estándar actual en desarrollo web con React, ofreciendo tipado estático, detección temprana de errores y mayor escalabilidad, lo que mejora la estabilidad y mantenibilidad de la aplicación frente a JavaScript.
 
 ## **Requisitos previos**
 
-- Node.js v18+ (recomendado)
-- npm v9+ (recomendado)
+- Node.js v18+ (recomendado v20+)
+- npm v9+
 - Git
-- Navegador moderno
+- Navegador moderno con soporte para JavaScript ES2020
 
 ## **Instalación y ejecución (local y nube) — paso a paso**
 
@@ -109,6 +107,7 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 | Entrar en el proyecto | `cd 02_CafeSantander\cafe-react` | Coloca la terminal en la carpeta del frontend | Es la ruta donde están package.json y src |
 | Abrir en VS Code (opcional) | `code .` | Abre la carpeta actual en Visual Studio Code | Si `code` no está en PATH, abre VS Code y usa Archivo → Abrir carpeta... |
 | Instalar dependencias | `npm install` (o `npm ci`) | Instala módulos necesarios | `npm ci` es reproducible para CI/entornos limpios |
+| Verificar código | `npm run lint` | Ejecuta ESLint para revisar la calidad del código | 0 errores esperados en el código actual |
 | Ejecutar en modo desarrollo | `npm run dev` | Inicia Vite dev server y recarga en cambios | Abre la URL que muestre Vite (ej. `http://localhost:5173`) |
 | Build producción | `npm run build` | Genera la carpeta `dist/` con archivos estáticos | Preparado para ser servido por cualquier hosting estático |
 | Previsualizar producción | `npm run preview`<br>o `npx serve dist -l 5173` | Ver la versión de producción localmente | `npx serve` sirve la carpeta `dist` rápidamente |
@@ -125,27 +124,26 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
    ├─ index.html
    ├─ package.json
    ├─ package-lock.json
+   ├─ eslint.config.js
+   ├─ vite.config.js
    ├─ node_modules/ (no commiteada normalmente)
    ├─ public/
-   │  ├─ imagenes/  (logos, fotos)
+   │  ├─ imagenes/  (logos, fotos, cafe/)
    │  ├─ audio/
    │  └─ video/
    ├─ src/
    │  ├─ assets/    (imágenes y recursos importados)
-   │  ├─ components/ (Header, Footer, Modales, ProductCard, PrivateRoute)
-   │  ├─ context/    (AuthContext.tsx)
-   │  ├─ hooks/      (useCart y hooks personalizados)
-   │  ├─ pages/      (Inicio, Productos, Carrito, Contacto, Acerca, Servicios)
-   │  ├─ styles/     (css por página y global)
+   │  ├─ components/ (Header, Footer, Modales, ProductCard, PrivateRoute, etc.)
+   │  ├─ context/    (AuthContext.jsx, useAuth.js, authUtils.js)
+   │  ├─ hooks/      (useCart.js)
+   │  ├─ pages/      (Inicio.jsx, Productos.jsx, Carrito.jsx, Contacto.jsx, Acerca.jsx, Servicios.jsx)
+   │  ├─ styles/     (CSS por página: acerca.css, carrito.css, contacto.css, servicios.css, global.css)
+   │  ├─ App.jsx
    │  ├─ App.css
-   │  ├─ App.tsx
    │  ├─ index.css
-   │  ├─ main.tsx
-   │  └─ (otros archivos TypeScript/JS según componentes)
-   ├─ tsconfig.json
-   ├─ tsconfig.app.json
-   ├─ tsconfig.node.json
-   └─ vite.config.ts
+   │  ├─ main.jsx
+   │  └─ (componentes y archivos JavaScript según necesidad)
+   └─ dist/ (generado al ejecutar npm run build)
 ```
 
 Breve explicación de carpetas clave
@@ -154,18 +152,17 @@ Breve explicación de carpetas clave
 - `src/`: código fuente principal de la aplicación.
   - `components/`: componentes React reutilizables (Header, Footer, modales, tarjetas, etc.).
   - `pages/`: vistas (rutas) que representan cada página del sitio.
-  - `context/`: contextos React (aquí `AuthContext` para simular autenticación).
-  - `hooks/`: hooks personalizados (p. ej. `useCart`).
+  - `context/`: contextos y hooks de autenticación (AuthContext.jsx, useAuth.js, authUtils.js).
+  - `hooks/`: hooks personalizados (useCart.js para gestión del carrito).
   - `styles/`: archivos CSS organizados por página o globales.
-  - `assets/`: imágenes y otros recursos importados desde TypeScript/JS.
-
-Nota: la estructura mostrada refleja el estado actual del directorio `cafe-react` en este repositorio. Si deseas que incorpore una carpeta `src/backend/` y `src/frontend/` para organización, dímelo y las crearé sin mover archivos existentes (o puedo mover carpetas y actualizar imports si me lo autorizas).
+  - `assets/`: imágenes y otros recursos importados desde JavaScript.
 
 ## **Mecanismo de login y rutas privadas**
 
-- Modal de login: `src/components/BootstrapLoginModal.tsx`.
-- Contexto de autenticación: `src/context/AuthContext.tsx`.
-- Protección de rutas: `src/components/PrivateRoute.tsx`.
+- Modal de login: `src/components/BootstrapLoginModal.jsx`.
+- Contexto de autenticación: `src/context/AuthContext.jsx`.
+- Hook de autenticación: `src/context/useAuth.js`.
+- Protección de rutas: `src/components/PrivateRoute.jsx`.
 
 Credenciales de evaluación (simulación):
 
@@ -176,13 +173,20 @@ Flujo resumido: al iniciar sesión con las credenciales anteriores, `AuthContext
 
 ## **Formularios y componentes interactivos**
 
-- Formularios: `src/pages/Contacto.tsx` usa `react-bootstrap/Form` con validación básica.
-- Componentes: Carrusel, Acordeón, Collapse, Popover y Dropdown disponibles mediante `react-bootstrap`.
-- Multimedia: archivos en `public/video/` y `public/audio/` con controles de reproducción.
+- Formularios: `src/pages/Contacto.jsx` usa `react-bootstrap/Form` con validación básica.
+- Componentes interactivos: Carrusel, Acordeón, Collapse, Popover y Dropdown disponibles mediante `react-bootstrap`.
+- Multimedia: archivos en `public/video/` y `public/audio/` con controles de reproducción integrados.
 
 ## **Rueda catadora digital (protótipo)**
 
 Se incluyó un prototipo de rueda catadora en la sección de Productos/Servicios para orientar la selección del café con base en preferencias sensoriales (sabor, aroma, intensidad). El componente es interactivo y sirve como base para futuras mejoras.
+
+## **Calidad de código y linting**
+
+- **ESLint**: Configurado con soporte para React y JavaScript moderno (ES2020).
+- **Sin errores de linting**: El código ha sido revisado y optimizado para cumplir con los estándares de ESLint.
+- **Mejores prácticas**: Imports limpios, hooks correctamente configurados, manejo de errores documentado.
+- Ejecuta `npm run lint` para verificar la calidad del código en cualquier momento.
 
 ## **Principios de diseño aplicados (ANEXO 1)**
 

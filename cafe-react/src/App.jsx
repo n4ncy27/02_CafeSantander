@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Inicio from './pages/Inicio';
 import Carrito from './pages/Carrito';
@@ -10,7 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import MandatoryAuthModal from './components/MandatoryAuthModal';
 
 function App() {
-  // Archivo: App.tsx
+  // Archivo: App.jsx
   // Componente raíz: define rutas y estructura general de la app.
   return (
     <AuthProvider>
@@ -36,7 +36,7 @@ export default App;
 function ScrollHandler() {
   const location = useLocation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     // En cada navegación: si hay un hash, intentar hacer scroll a ese elemento;
     // si no, desplazarse al principio de la página.
     const tryScrollToHash = (maxAttempts = 8) => {
@@ -52,7 +52,7 @@ function ScrollHandler() {
         attempt += 1;
         const el = document.getElementById(id) || document.querySelector(location.hash);
         if (el) {
-          const top = (el as HTMLElement).getBoundingClientRect().top + window.scrollY - 120;
+          const top = el.getBoundingClientRect().top + window.scrollY - 120;
           window.scrollTo({ top, behavior: 'smooth' });
           return;
         }

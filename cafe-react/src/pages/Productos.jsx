@@ -1,17 +1,13 @@
-// Archivo: Productos.tsx
+// Archivo: Productos.jsx
 // Página: Catálogo completo de productos.
-import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import useCart from '../hooks/useCart';
 import '../styles/global.css';
 
-// Tipo que representa un producto
-type Product = { id: number; name: string; description?: string; price: number; image: string };
-
 // Datos de ejemplo del catálogo
-const products: Product[] = [
+const products = [
 	{ id: 1, name: 'Expreso', description: 'Intenso, aromático y lleno de carácter. El café expreso es una bebida concentrada elaborada al pasar agua caliente a presión por café molido fino.', price: 7000, image: '/imagenes/expreso.png' },
 	{ id: 2, name: 'Mocachino', description: 'Deliciosa combinación de café expreso, leche vaporizada y chocolate. Su sabor suave y dulce lo convierte en una opción perfecta.', price: 8000, image: '/imagenes/mocachino.png' },
 	{ id: 3, name: 'Latte', description: 'Suave y cremoso: mezcla de café expreso y leche vaporizada, con una ligera capa de espuma en la parte superior.', price: 7000, image: '/imagenes/latte.png' },
@@ -20,12 +16,12 @@ const products: Product[] = [
 	{ id: 6, name: 'Galletas', description: 'Crujientes por fuera, suaves por dentro y llenas de sabor. El acompañante perfecto para tu bebida caliente.', price: 6000, image: '/imagenes/galletitas.png' }
 ];
 
-const Productos: React.FC = () => {
+const Productos = () => {
 	// Hook para agregar items al carrito
 	const { addItem } = useCart();
 
 	// delegado para añadir producto (se pasa a ProductCard)
-	const handleAdd = (p: Product) => addItem({ id: p.id, name: p.name, description: p.description, price: p.price, image: p.image });
+	const handleAdd = (p) => addItem({ id: p.id, name: p.name, description: p.description, price: p.price, image: p.image });
 
 	return (
 		<div className="main-container">

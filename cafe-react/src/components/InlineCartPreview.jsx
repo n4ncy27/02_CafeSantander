@@ -1,10 +1,9 @@
-// Archivo: InlineCartPreview.tsx
+// Archivo: InlineCartPreview.jsx
 // Componente: vista previa rápida del carrito (panel lateral pequeño).
-import React from 'react';
 import useCart from '../hooks/useCart';
 import { useNavigate } from 'react-router-dom';
 
-const InlineCartPreview: React.FC = () => {
+const InlineCartPreview = () => {
   const { cart, removeItem, updateQuantity, total = 0, count = 0 } = useCart();
   const navigate = useNavigate();
 
@@ -23,7 +22,7 @@ const InlineCartPreview: React.FC = () => {
         <div className="inline-empty">No hay productos aún. Añade algo desde la sección de productos.</div>
       ) : (
         <div className="inline-items">
-          {cart.map((item: any) => (
+          {cart.map((item) => (
             <div className="inline-item" key={item.id}>
               <div className="inline-thumb"><img src={item.image} alt={item.name} /></div>
               <div className="inline-meta">

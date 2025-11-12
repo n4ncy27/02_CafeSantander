@@ -2,11 +2,10 @@
 // - Propósito: proteger rutas que requieren autenticación.
 // - Comportamiento: si el usuario NO está autenticado, redirige a la página de inicio (/).
 
-import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
-const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
+const PrivateRoute = ({ children }) => {
   // Obtener estado de autenticación desde el contexto
   const { isAuthenticated } = useAuth();
 

@@ -1,16 +1,15 @@
-// Archivo: Contacto.tsx
+// Archivo: Contacto.jsx
 // Página: formulario de contacto, preguntas frecuentes y equipo de atención.
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import '../styles/contacto.css';
-import useCart from '../hooks/useCart';
 import TeamModal from '../components/TeamModal';
 
 // función showToast para notificaciones breves
-const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+const showToast = (message, type = 'success') => {
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `
@@ -26,19 +25,19 @@ const showToast = (message: string, type: 'success' | 'error' = 'success') => {
 };
 
 // Delegar render del encabezado al componente global Header
-const PageHeader: React.FC = () => <Header />;
+const PageHeader = () => <Header />;
 
-const ContactForm: React.FC = () => {
+const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
   const [validated, setValidated] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((s) => ({ ...s, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.checkValidity()) {
@@ -102,7 +101,7 @@ const ContactForm: React.FC = () => {
   );
 };
 
-const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
+const FAQItem = ({ question, answer }) => {
   const [active, setActive] = useState(false);
   return (
     <div className={`faq-item ${active ? 'active' : ''}`}>
@@ -119,7 +118,7 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
 
 // Cada miembro del equipo se muestra como tarjeta clicable que abre un modal (ver más abajo)
 
-const Contacto: React.FC = () => {
+const Contacto = () => {
   const faqItems = [
     { question: '¿Cuál es el tiempo de entrega de los pedidos?', answer: 'El tiempo de entrega varía según la ubicación. En áreas urbanas principales, los pedidos se entregan en 2-3 días hábiles. Para zonas rurales, puede tomar hasta 5 días hábiles. Ofrecemos seguimiento en tiempo real para todos los pedidos.' },
     { question: '¿Ofrecen envío internacional?', answer: 'Sí, realizamos envíos internacionales a la mayoría de países. Los tiempos de entrega y costos varían según el destino. Contáctanos para obtener una cotización específica para tu país.' },
@@ -135,10 +134,10 @@ const Contacto: React.FC = () => {
     { name: 'Carlos Pimienta', role: 'Soporte Técnico', email: 'pimienta@cafesantander.com', phone: '+57 321 456 7894', image: '/imagenes/integrante4.jpg' }
   ];
 
-  const [selectedMember, setSelectedMember] = useState<any | null>(null);
+  const [selectedMember, setSelectedMember] = useState(null);
   const [showMemberModal, setShowMemberModal] = useState(false);
 
-  const openMemberModal = (m: any) => { setSelectedMember(m); setShowMemberModal(true); };
+  const openMemberModal = (m) => { setSelectedMember(m); setShowMemberModal(true); };
   const closeMemberModal = () => { setSelectedMember(null); setShowMemberModal(false); };
 
   return (

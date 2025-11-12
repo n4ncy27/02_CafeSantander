@@ -1,21 +1,9 @@
-// Archivo: TeamModal.tsx
+// Archivo: TeamModal.jsx
 // Modal para mostrar la ficha de un miembro del equipo (imagen, rol, bio y detalles).
-import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-// Tipo que representa la información del miembro del equipo
-type Member = {
-  id?: number;
-  name: string;
-  role?: string;
-  bio?: string;
-  image?: string;
-  details?: any;
-  social?: any;
-};
-
 // Componente: modal que recibe visibilidad, callback de cierre y el miembro a mostrar
-const TeamModal: React.FC<{ show: boolean; onHide: () => void; member?: Member | null }> = ({ show, onHide, member }) => {
+const TeamModal = ({ show, onHide, member }) => {
   // Si no hay miembro seleccionado no renderizamos nada
   if (!member) return null;
 

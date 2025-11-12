@@ -1,27 +1,16 @@
-// Archivo: Acerca.tsx
+// Archivo: Acerca.jsx
 // Página: Información sobre la empresa, equipo, valores y multimedia.
 
-import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import '../styles/acerca.css';
-import useCart from '../hooks/useCart';
 import TeamModal from '../components/TeamModal';
 import Carousel from 'react-bootstrap/Carousel';
 
-// Mostrar una notificación breve en pantalla (sin dependencia externa)
-const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = `\n    <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i>\n    ${message}\n  `;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.classList.add('show'), 100);
-  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => document.body.removeChild(toast), 300); }, 3000);
-};
-
 // Componente simple que delega el encabezado global
-const PageHeader: React.FC = () => <Header />;
+const PageHeader = () => <Header />;
 
 // Carrusel de imágenes de la finca (react-bootstrap)
 function ImageCarousel() {
@@ -55,8 +44,8 @@ function ImageCarousel() {
 }
 
 // Tarjeta interactiva para cada miembro del equipo (abre modal con detalles)
-function TeamMember({ member }: any) {
-  const [show, setShow] = React.useState(false);
+function TeamMember({ member }) {
+  const [show, setShow] = useState(false);
   const open = () => setShow(true);
   const close = () => setShow(false);
 
@@ -76,10 +65,10 @@ function TeamMember({ member }: any) {
 }
 
 // Número animado para la sección de estadísticas (conteo incremental)
-function AnimatedNumber({ value }: { value: number }) {
-  const [count, setCount] = React.useState(0);
+function AnimatedNumber({ value }) {
+  const [count, setCount] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (count < value) {
       const increment = Math.max(1, Math.floor(value / 50));
       const timer = setInterval(() => {
@@ -98,9 +87,9 @@ function AnimatedNumber({ value }: { value: number }) {
 
 // Sección de estadísticas que inicia la animación al hacerse visible
 function AnimatedStats() {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setIsVisible(true); }, { threshold: 0.5 });
     const section = document.querySelector('.achievements');
     if (section) observer.observe(section);
@@ -138,7 +127,7 @@ const teamMembers = [
 ];
 
 // Página principal de "Acerca": historia, multimedia, valores y equipo
-const AboutPage: React.FC = () => {
+const AboutPage = () => {
   return (
     <div className="main-container">
       <PageHeader />
@@ -245,16 +234,6 @@ const AboutPage: React.FC = () => {
           </div>
         </section>
       </div>
-
-      <footer>
-        <div className="footer-content">
-          <div className="footer-column"><h3>CaféSantander</h3><p>Desde 1985 llevando el mejor café de las montañas de Santander directamente a tu hogar.</p></div>
-          <div className="footer-column"><h3>Enlaces Rápidos</h3><ul><li><Link to="/">Inicio</Link></li><li><Link to="/acerca">Acerca</Link></li><li><Link to="/servicios">Servicios</Link></li><li><Link to="/contacto">Contacto</Link></li></ul></div>
-          <div className="footer-column"><h3>Políticas</h3><ul><li><a href="#">Términos y Condiciones</a></li><li><a href="#">Política de Privacidad</a></li><li><a href="#">Política de Envíos</a></li><li><a href="#">Devoluciones</a></li></ul></div>
-          <div className="footer-column"><h3>Contacto</h3><ul><li><i className="fas fa-map-marker-alt"></i> Santander, Colombia</li><li><i className="fas fa-phone"></i> +57 321 456 7890</li><li><i className="fas fa-envelope"></i> info@cafesantander.com</li><li><i className="fas fa-clock"></i> Lun-Vie: 8am-6pm</li></ul></div>
-        </div>
-        <div className="footer-bottom"><p>&copy; 2023 CaféSantander. Todos los derechos reservados.</p></div>
-      </footer>
 
       <Footer />
     </div>

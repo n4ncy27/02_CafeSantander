@@ -1,7 +1,7 @@
-﻿// Archivo: Inicio.tsx
+﻿// Archivo: Inicio.jsx
 // Página principal: hero, productos destacados y secciones informativas.
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -10,13 +10,11 @@ import '../styles/global.css';
 import useCart from '../hooks/useCart';
 
 // Delegar el encabezado al componente global para mantener los controles de autenticación en la esquina superior.
-const PageHeader: React.FC = () => {
+const PageHeader = () => {
   return <Header />;
 };
 
-type Product = { id: number; name: string; description?: string; price: number; image: string };
-
-const initialProducts: Product[] = [
+const initialProducts = [
   {
     id: 1,
     name: 'Expreso',
@@ -61,8 +59,8 @@ const initialProducts: Product[] = [
   }
 ];
 
-const Inicio: React.FC = () => {
-  const [products] = useState<Product[]>(initialProducts);
+const Inicio = () => {
+  const [products] = useState(initialProducts);
   const { addItem } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -78,16 +76,16 @@ const Inicio: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => setCurrentImageIndex(i => (i + 1) % heroImages.length), 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [heroImages.length]);
 
   // Scroll suave para enlaces que apuntan a ids
   useEffect(() => {
-    const smoothScroll = (e: Event) => {
-      const target = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+    const smoothScroll = (e) => {
+      const target = e.currentTarget.getAttribute('href');
       if (target && target.startsWith('#')) {
         e.preventDefault();
         const el = document.querySelector(target);
-        if (el) window.scrollTo({ top: (el as HTMLElement).offsetTop - 140, behavior: 'smooth' });
+        if (el) window.scrollTo({ top: el.offsetTop - 140, behavior: 'smooth' });
       }
     };
 
@@ -102,7 +100,7 @@ const Inicio: React.FC = () => {
     if (hash) {
       setTimeout(() => {
         const el = document.querySelector(hash);
-        if (el) window.scrollTo({ top: (el as HTMLElement).offsetTop - 140, behavior: 'smooth' });
+        if (el) window.scrollTo({ top: el.offsetTop - 140, behavior: 'smooth' });
       }, 80);
     }
   }, []);
@@ -110,17 +108,23 @@ const Inicio: React.FC = () => {
   
 
   // Mostrar una notificación breve al añadir un producto
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  const showToast = (message, type = 'success') => {
     const toast = document.createElement('div');
     toast.className = `toast ${type === 'success' ? 'success' : 'error'}`;
-    toast.innerHTML = `<i class=\"fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}\"></i> ${message}`;
+    toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
     document.body.appendChild(toast);
   // activar animación
     setTimeout(() => toast.classList.add('show'), 100);
-    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => { try { document.body.removeChild(toast); } catch (e) {} }, 300); }, 3000);
+    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => { 
+      try { 
+        document.body.removeChild(toast); 
+      } catch {
+        // ignorar errores si el elemento ya fue removido
+      } 
+    }, 300); }, 3000);
   };
 
-  const addToCartWithToast = (p: Product) => {
+  const addToCartWithToast = (p) => {
     addItem({ id: p.id, name: p.name, description: p.description, price: p.price, image: p.image });
     showToast(`${p.name} añadido al carrito`, 'success');
   };

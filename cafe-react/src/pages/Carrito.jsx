@@ -1,23 +1,20 @@
-// Archivo: Carrito.tsx
+// Archivo: Carrito.jsx
 // Página: gestión y resumen del carrito de compras.
 
-import React from 'react';
 import Header from '../components/Header';
 import { NavLink } from 'react-router-dom';
 import '../styles/carrito.css';
 import useCart from '../hooks/useCart';
 
-type CartItemType = { id: number | string; name: string; description?: string; price: number; image: string; quantity: number };
-
-const Carrito: React.FC = () => {
+const Carrito = () => {
   const { cart, removeItem, updateQuantity, total = 0, count = 0 } = useCart();
 
   const shipping = 12000;
   const discount = cart && cart.length > 0 ? 15000 : 0;
   const finalTotal = (total || 0) + shipping - discount;
 
-  const handleRemove = (id: number | string) => removeItem(id);
-  const handleUpdateQuantity = (id: number | string, qty: number) => updateQuantity(id, qty);
+  const handleRemove = (id) => removeItem(id);
+  const handleUpdateQuantity = (id, qty) => updateQuantity(id, qty);
 
   return (
     <div className="cart-page">
@@ -55,7 +52,7 @@ const Carrito: React.FC = () => {
             </div>
           ) : (
             <div className="cart-items-list">
-              {cart.map((item: CartItemType) => (
+              {cart.map((item) => (
                 <article className="cart-card" key={item.id}>
                   <div className="card-thumb"><img src={item.image} alt={item.name} /></div>
                   <div className="card-body">

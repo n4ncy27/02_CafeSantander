@@ -1,20 +1,11 @@
-// Archivo: ProductCard.tsx
+// Archivo: ProductCard.jsx
 // Tarjeta visual para un producto: muestra imagen, nombre, descripción, precio y botón para añadir al carrito.
 
 import React from 'react';
 import useCart from '../hooks/useCart';
 import { useState, useEffect } from 'react';
 
-// Tipo de producto usado por la tarjeta
-type Product = {
-  id: number;
-  name: string;
-  description?: string;
-  price: number;
-  image: string;
-};
-
-const ProductCard: React.FC<{ product: Product; onAdd: (p: Product) => void }> = ({ product, onAdd }) => {
+const ProductCard = ({ product, onAdd }) => {
   // Hook personalizado para acceder al carrito (persistencia y sincronización)
   const { cart } = useCart();
 

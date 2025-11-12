@@ -1,32 +1,32 @@
-// Archivo: BootstrapLoginModal.tsx
+// Archivo: BootstrapLoginModal.jsx
 // Componente: modal de acceso y registro con Bootstrap.
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form, Alert, InputGroup } from 'react-bootstrap';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 
 const VALID_USER = { username: 'Admin', password: '1234', name: 'Admin' };
 
-const BootstrapLoginModal: React.FC<{ show: boolean; onHide: () => void; initialTab?: 'login' | 'register' }> = ({ show, onHide, initialTab = 'login' }) => {
-  const [tab, setTab] = useState<'login'|'register'>(initialTab);
+const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
+  const [tab, setTab] = useState(initialTab);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   // estado para un captcha matemático simple
   const [captchaA, setCaptchaA] = useState(() => Math.floor(Math.random() * 8) + 2);
   const [captchaB, setCaptchaB] = useState(() => Math.floor(Math.random() * 8) + 1);
   const [captchaInput, setCaptchaInput] = useState('');
-  const [captchaError, setCaptchaError] = useState<string | null>(null);
-  const captchaRef = useRef<HTMLInputElement | null>(null);
+  const [captchaError, setCaptchaError] = useState(null);
+  const captchaRef = useRef(null);
   const { login } = useAuth();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     setError(null);
     setCaptchaError(null);
   // validar captcha primero
     const expected = captchaA + captchaB;
-    if (parseInt(captchaInput || '', 10) !== expected) {
+    if (parseInt(captchaInput || '0', 10) !== expected) {
       setCaptchaError('Respuesta de CAPTCHA incorrecta. Intenta de nuevo.');
       return;
     }
@@ -47,11 +47,11 @@ const BootstrapLoginModal: React.FC<{ show: boolean; onHide: () => void; initial
     }
   }, [show, tab]);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     setCaptchaError(null);
     const expected = captchaA + captchaB;
-    if (parseInt(captchaInput || '', 10) !== expected) {
+    if (parseInt(captchaInput || '0', 10) !== expected) {
       setCaptchaError('Respuesta de CAPTCHA incorrecta. Intenta de nuevo.');
       return;
     }

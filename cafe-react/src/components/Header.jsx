@@ -1,35 +1,34 @@
-// Archivo: Header.tsx
+// Archivo: Header.jsx
 // Componente: cabecera de la aplicación con navegación y controles de usuario.
-import React, { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import useCart from '../hooks/useCart';
-import { useAuth } from '../context/AuthContext';
-import { Dropdown, OverlayTrigger, Popover, Button, Overlay, Form, InputGroup } from 'react-bootstrap';
-import { useNavigate, NavLink, Link } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
+import { Dropdown, Overlay, Popover, Button, Form, InputGroup } from 'react-bootstrap';
+import { NavLink, Link } from 'react-router-dom';
 import BootstrapLoginModal from './BootstrapLoginModal';
 // El header mantiene la estructura para que el CSS de página siga funcionando.
-const Header: React.FC = () => {
-  const [isNavActive, setIsNavActive] = React.useState(false);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [activeAuthTab, setActiveAuthTab] = React.useState<'login' | 'register'>('login');
+const Header = () => {
+  const [isNavActive, setIsNavActive] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeAuthTab, setActiveAuthTab] = useState('login');
   // escuchar eventos globales para abrir el modal de login (ej. MandatoryAuthModal)
-  React.useEffect(() => {
-    const handler = (e: Event) => {
+  useEffect(() => {
+    const handler = (e) => {
       try {
-        const ce = e as CustomEvent;
-        const tab = ce?.detail?.tab === 'register' ? 'register' : 'login';
-        setActiveAuthTab(tab as 'login' | 'register');
+        const tab = e?.detail?.tab === 'register' ? 'register' : 'login';
+        setActiveAuthTab(tab);
         setIsModalOpen(true);
-      } catch (err) {
+      } catch {
         setActiveAuthTab('login');
         setIsModalOpen(true);
       }
     };
-    window.addEventListener('open-login-modal', handler as EventListener);
-    return () => window.removeEventListener('open-login-modal', handler as EventListener);
+    window.addEventListener('open-login-modal', handler);
+    return () => window.removeEventListener('open-login-modal', handler);
   }, []);
   // estado del popover de acceso inline (anclado al botón Acceder)
   const [showInlineLogin, setShowInlineLogin] = useState(false);
-  const accBtnRef = useRef<HTMLButtonElement | null>(null);
+  const accBtnRef = useRef(null);
   const [inlineUser, setInlineUser] = useState('');
   const [inlinePass, setInlinePass] = useState('');
   const [inlineShowPass, setInlineShowPass] = useState(false);
@@ -38,23 +37,14 @@ const Header: React.FC = () => {
   const [captchaInputInline, setCaptchaInputInline] = useState('');
 
   const toggleNav = () => setIsNavActive(s => !s);
-  const openAuthModal = (tab: 'login' | 'register' = 'login') => { setActiveAuthTab(tab); setIsModalOpen(true); };
-  const closeAuthModal = () => setIsModalOpen(false);
 
   const { logout, isAuthenticated, login } = useAuth();
-  const navigate = useNavigate();
 
-  const handleAuthSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // handler legado: abrir modal Bootstrap para autenticación
-    setIsModalOpen(true);
-  };
-
-  const handleInlineLogin = (e?: React.FormEvent) => {
+  const handleInlineLogin = (e) => {
     if (e) e.preventDefault();
     // validar captcha
     const expected = captchaA_inline + captchaB_inline;
-    if (parseInt(captchaInputInline || '', 10) !== expected) {
+    if (parseInt(captchaInputInline || '0', 10) !== expected) {
       showToast('Respuesta de CAPTCHA incorrecta.', 'error');
       return;
     }
@@ -71,7 +61,7 @@ const Header: React.FC = () => {
   const { count: hookCount } = useCart();
 
   // util de notificaciones breves (misma funcionalidad en otros componentes)
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  const showToast = (message, type = 'success') => {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.innerHTML = `\n      <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i> ${message}\n    `;
@@ -106,7 +96,7 @@ const Header: React.FC = () => {
             <>
               <Button ref={accBtnRef} variant="outline-primary" size="sm" className="me-2" onClick={() => { setShowInlineLogin(s => !s); setActiveAuthTab('login'); setIsModalOpen(false); }}>Acceder</Button>
               <Overlay target={accBtnRef.current} show={showInlineLogin} placement="bottom" rootClose onHide={() => setShowInlineLogin(false)}>
-                {({ placement, arrowProps, show: _show, popper, ...props }) => (
+                {({ ...props }) => (
                   <Popover id="inline-login" {...props} style={{ minWidth: 320, maxWidth: 360, boxShadow: '0 8px 30px rgba(0,0,0,0.12)' }}>
                     <Popover.Body>
                       <Form onSubmit={(e) => { e.preventDefault(); handleInlineLogin(); }}>

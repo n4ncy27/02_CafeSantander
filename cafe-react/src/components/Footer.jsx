@@ -1,9 +1,8 @@
-// Archivo: Footer.tsx
+// Archivo: Footer.jsx
 // Componente: pie de página con enlaces rápidos, políticas y contacto.
-import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
     <footer id="contacto">
       {/* El equipo ya se muestra en la sección correspondiente de la página Contacto/Acerca; se elimina aquí para evitar duplicado */}

@@ -1,10 +1,10 @@
-// Archivo: MandatoryAuthModal.tsx
+// Archivo: MandatoryAuthModal.jsx
 // Componente: aviso discreto que sugiere registro o inicio de sesión.
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../context/useAuth';
 const DEFAULT_USER = { username: 'Admin', password: '1234', name: 'Admin' };
 
-const MandatoryAuthModal: React.FC = () => {
+const MandatoryAuthModal = () => {
 	const { isAuthenticated, login } = useAuth();
 	const [visible, setVisible] = useState(false);
 
@@ -22,8 +22,12 @@ const MandatoryAuthModal: React.FC = () => {
 		setVisible(false);
 	};
 
-	const handleOpenAuthModal = (tab: 'login' | 'register' = 'login') => {
-		try { window.dispatchEvent(new CustomEvent('open-login-modal', { detail: { tab } })); } catch (e) {}
+	const handleOpenAuthModal = (tab = 'login') => {
+		try { 
+			window.dispatchEvent(new CustomEvent('open-login-modal', { detail: { tab } })); 
+		} catch {
+			// ignorar errores de evento custom
+		}
 		// mantener banner visible hasta que el usuario lo cierre o inicie sesión
 	};
 
