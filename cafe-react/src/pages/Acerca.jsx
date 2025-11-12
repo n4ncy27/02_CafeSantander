@@ -3,7 +3,6 @@
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import '../styles/acerca.css';
 import TeamModal from '../components/TeamModal';

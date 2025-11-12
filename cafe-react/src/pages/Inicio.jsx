@@ -207,7 +207,7 @@ const Inicio = () => {
         {/* About us */}
         <section className="about-us" id="nosotros">
           <div className="about-image">
-            <img src="/imagenes/cafesantander.jpg" alt="Sobre nosotros" />
+            <img src="/imagenes/cafe/cafe2.jpg" alt="Sobre nosotros" />
           </div>
           <div className="about-content">
             <h2 className="section-title">Nuestra Historia</h2>
