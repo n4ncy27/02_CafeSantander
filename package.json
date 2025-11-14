@@ -1,0 +1,13 @@
+{
+  "name": "02_CafeSantander",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm --prefix backend start\" \"npm --prefix frontend/cafe-react run dev\"",
+    "start:backend": "npm --prefix backend start",
+    "start:frontend": "npm --prefix frontend/cafe-react run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
