@@ -1,19 +1,14 @@
-// Componente: PrivateRoute
-// - Propósito: proteger rutas que requieren autenticación.
-// - Comportamiento: si el usuario NO está autenticado, redirige a la página de inicio (/).
-
+import { useAuth } from '../context/useAuthHook.js';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/useAuth';
 
 const PrivateRoute = ({ children }) => {
-  // Obtener estado de autenticación desde el contexto
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
-  // Si no hay sesión activa, redirigir al inicio (reemplaza la entrada en el historial)
-  if (!isAuthenticated) return <Navigate to="/" replace />;
+  if (loading) {
+    return <div className="loading">Cargando...</div>;
+  }
 
-  // Si está autenticado, renderizar el hijo protegido
-  return children;
+  return isAuthenticated ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

@@ -2,10 +2,17 @@
 // Componente: vista previa rápida del carrito (panel lateral pequeño).
 import useCart from '../hooks/useCart';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuthHook';
 
 const InlineCartPreview = () => {
   const { cart, removeItem, updateQuantity, total = 0, count = 0 } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  // Si no está autenticado, no mostrar el panel
+  if (!isAuthenticated) {
+    return null;
+  }
 
   // Costos y totales
   const shipping = 12000; // costo fijo de envío mostrado aquí
@@ -24,9 +31,9 @@ const InlineCartPreview = () => {
         <div className="inline-items">
           {cart.map((item) => (
             <div className="inline-item" key={item.id}>
-              <div className="inline-thumb"><img src={item.image} alt={item.name} /></div>
+              <div className="inline-thumb"><img src={item.imagen} alt={item.nombre} /></div>
               <div className="inline-meta">
-                <div className="inline-name">{item.name}</div>
+                <div className="inline-name">{item.nombre}</div>
                 {/* Controles: disminuir/aumentar cantidad y eliminar */}
                 <div className="inline-controls">
                   <button className="q" onClick={() => updateQuantity(item.id, Math.max(1, (item.quantity || 1) - 1))}>-</button>
@@ -35,7 +42,7 @@ const InlineCartPreview = () => {
                   <button className="remove" onClick={() => removeItem(item.id)}>Eliminar</button>
                 </div>
               </div>
-              <div className="inline-price">${(item.price || 0).toLocaleString()}</div>
+              <div className="inline-price">${(item.precio || 0).toLocaleString()}</div>
             </div>
           ))}
 

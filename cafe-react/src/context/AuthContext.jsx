@@ -1,55 +1,60 @@
-// Archivo: AuthContext.jsx
-// Contexto de autenticación: guarda usuario en localStorage y sincroniza entre ventanas.
-import { createContext, useEffect, useState } from 'react';
-import { STORAGE_KEY, readState } from './authUtils';
+import { createContext, useState, useEffect } from 'react';
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext(undefined);
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => readState().user ?? null);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  // Al cargar la aplicación, verificar si hay token guardado
   useEffect(() => {
-    // sincronizar con otras pestañas/ventanas mediante storage event
-    const onStorage = (e) => {
-      if (e.key === STORAGE_KEY) {
-        const s = readState();
-        setUser(s.user ?? null);
+    const savedToken = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('cafe_user');
+    
+    if (savedToken && savedUser) {
+      try {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error('Error loading user:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('cafe_user');
       }
-    };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    }
+    setLoading(false);
   }, []);
 
-  const persistUser = (nextUser) => {
-    try {
-      const state = readState();
-      const merged = { ...state, user: nextUser };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-      // notificar también a listeners en la misma ventana (evento custom)
-      try { 
-        window.dispatchEvent(new CustomEvent('cafesantander_state_changed', { detail: merged })); 
-      } catch {
-        // ignorar errores de evento custom
-      }
-    } catch {
-      // ignorar errores de persistencia
+  const login = (userData, authToken) => {
+    setUser(userData);
+    if (authToken) {
+      setToken(authToken);
+      localStorage.setItem('token', authToken);
     }
-  };
-
-  const login = (u) => {
-    setUser(u);
-    persistUser(u);
+    localStorage.setItem('cafe_user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    persistUser(null);
+    setToken(null);
+    localStorage.removeItem('cafe_user');
+    localStorage.removeItem('token');
+  };
+
+  const value = {
+    user,
+    token,
+    login,
+    logout,
+    loading,
+    isAuthenticated: !!token && !!user
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;

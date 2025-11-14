@@ -1,48 +1,17 @@
 import { useEffect, useState, useCallback } from 'react';
-
-// Archivo: useCart.js
-// Hook para gestionar el carrito con persistencia y sincronización.
-const STORAGE_KEY = 'cafesantander_state';
-const OLD_CART_KEY = 'cafesantander_cart';
-
-function migrateOldCartIfNeeded() {
-  try {
-    const old = localStorage.getItem(OLD_CART_KEY);
-    const existing = localStorage.getItem(STORAGE_KEY);
-    if (old && !existing) {
-  const parsedOld = JSON.parse(old);
-  // si la versión anterior es un array, usarla; si no, usar array vacío
-  const state = { cart: Array.isArray(parsedOld) ? parsedOld : [], user: null };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      localStorage.removeItem(OLD_CART_KEY);
-    }
-  } catch {
-    // ignorar errores
-  }
-}
-
-function readStateFromStorage() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { cart: [], user: null };
-    const parsed = JSON.parse(raw);
-    return { cart: Array.isArray(parsed.cart) ? parsed.cart : [], user: parsed.user ?? null };
-  } catch {
-    return { cart: [], user: null };
-  }
-}
+import { useAuth } from '../context/useAuthHook';
+import { API_BASE_URL } from '../services/api';
 
 export default function useCart() {
-  const [cart, setCart] = useState(() => {
-    migrateOldCartIfNeeded();
-    return readStateFromStorage().cart;
-  });
-  // id único por instancia para evitar reaccionar a eventos propios
+  const { isAuthenticated, token } = useAuth();
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // senderId para evitar reaccionar a nuestros propios eventos
   const senderId = (() => {
-    // crear id estable por instancia usando una propiedad en window
-    // esto mantiene el mismo id durante la carga de la página
     try {
-      const key = '__cafesantander_sender_id__';
+      const key = '__cafesantander_cart_sender_id__';
       if (!window[key]) window[key] = Math.random().toString(36).slice(2);
       return window[key];
     } catch {
@@ -50,72 +19,217 @@ export default function useCart() {
     }
   })();
 
-  // sincronizar instancias mediante un evento personalizado
-  useEffect(() => {
-    const onExternal = (event) => {
-      try {
-        // si el evento lo envié yo mismo, no hago nada
-        if (event.detail && event.detail.__sender === senderId) {
-          return;
+  const broadcastCart = (newCart) => {
+    try {
+      const detail = { cart: newCart, count: (newCart || []).reduce((t, i) => t + (i.quantity || 0), 0), __sender: senderId };
+      window.dispatchEvent(new CustomEvent('cafesantander_cart_updated', { detail }));
+    } catch (err) {
+      // ignorar
+    }
+  };
+
+  // Obtener carrito del backend
+  const fetchCart = useCallback(async () => {
+    if (!isAuthenticated || !token) {
+      setCart([]);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/carrito`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-        const state = readStateFromStorage();
-        setCart(state.cart);
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al obtener carrito');
+      }
+
+      const data = await response.json();
+      // Convertir el formato de API al formato esperado por la UI
+      const cartItems = (data.items || []).map(item => ({
+        id: item.producto_id,
+        itemId: item.id, // ID de carrito_items para actualizaciones
+        nombre: item.nombre,
+        imagen: item.imagen,
+        precio: item.precio,
+        quantity: item.cantidad
+      }));
+      setCart(cartItems);
+      // Broadcast para sincronizar otras instancias del hook (Header, etc.)
+      broadcastCart(cartItems);
+    } catch (err) {
+      console.error('Error al cargar carrito:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated, token]);
+
+  // Cargar carrito al montar o cuando cambia autenticación
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
+
+  // Escuchar actualizaciones externas del carrito y sincronizar
+  useEffect(() => {
+    const handler = (e) => {
+      try {
+        const detail = e?.detail;
+        if (!detail) return;
+        if (detail.__sender === senderId) return; // evento propio
+        const incoming = Array.isArray(detail.cart) ? detail.cart : [];
+        setCart(incoming);
       } catch {
-        // si hay error, intento leer de nuevo por si acaso
-        const state = readStateFromStorage();
-        setCart(state.cart);
+        // ignorar
       }
     };
-    window.addEventListener('cafesantander_state_changed', onExternal);
-    return () => window.removeEventListener('cafesantander_state_changed', onExternal);
+    window.addEventListener('cafesantander_cart_updated', handler);
+    return () => window.removeEventListener('cafesantander_cart_updated', handler);
   }, [senderId]);
 
-  const persist = useCallback((newCart) => {
-    try {
-      const existing = readStateFromStorage();
-      const state = { cart: newCart, user: existing.user ?? null };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      // notify other hook instances in same window (with the new state as detail)
-      try {
-        const detail = { ...state, __sender: senderId };
-        window.dispatchEvent(new CustomEvent('cafesantander_state_changed', { detail }));
-      } catch {
-        // ignorar errores de evento custom
-      }
-    } catch {
-      // ignorar errores de persistencia
+  const addItem = useCallback(async (item) => {
+    if (!isAuthenticated || !token) {
+      console.log('Usuario no autenticado');
+      return;
     }
-  }, [senderId]);
 
-  useEffect(() => {
-    persist(cart);
-  }, [cart, persist]);
+    try {
+      const response = await fetch(`${API_BASE_URL}/carrito/agregar`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          productId: item.id,
+          quantity: 1
+        })
+      });
 
-  const addItem = useCallback((item) => {
-    setCart((prev) => {
-      const found = prev.find((p) => p.id === item.id);
-      let next;
-      if (found) {
-        next = prev.map((p) => (p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p));
-      } else {
-        next = [...prev, { ...item, quantity: 1 }];
+      if (!response.ok) {
+        throw new Error('Error al agregar producto');
       }
-      return next;
-    });
-  }, []);
 
-  const removeItem = useCallback((id) => {
-    setCart((prev) => prev.filter((p) => p.id !== id));
-  }, []);
+      // Recargar carrito después de agregar
+      await fetchCart();
+    } catch (err) {
+      console.error('Error al agregar al carrito:', err);
+      setError(err.message);
+    }
+  }, [isAuthenticated, token, fetchCart]);
 
-  const updateQuantity = useCallback((id, quantity) => {
-    setCart((prev) => prev.map((p) => (p.id === id ? { ...p, quantity: Math.max(0, quantity) } : p)).filter(p => p.quantity > 0));
-  }, []);
+  const removeItem = useCallback(async (id) => {
+    if (!isAuthenticated || !token) {
+      return;
+    }
 
-  const clearCart = useCallback(() => setCart([]), []);
+    try {
+      // Buscar el itemId (ID de carrito_items) desde el carrito actual
+      const item = cart.find(i => i.id === id);
+      if (!item || !item.itemId) {
+        throw new Error('Item no encontrado');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/carrito/eliminar/${item.itemId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar producto');
+      }
+
+      // Recargar carrito
+      await fetchCart();
+    } catch (err) {
+      console.error('Error al eliminar del carrito:', err);
+      setError(err.message);
+    }
+  }, [isAuthenticated, token, cart, fetchCart]);
+
+  const updateQuantity = useCallback(async (id, quantity) => {
+    if (!isAuthenticated || !token) {
+      return;
+    }
+
+    if (quantity <= 0) {
+      await removeItem(id);
+      return;
+    }
+
+    try {
+      const item = cart.find(i => i.id === id);
+      if (!item || !item.itemId) {
+        throw new Error('Item no encontrado');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/carrito/actualizar/${item.itemId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity })
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al actualizar cantidad');
+      }
+
+      // Recargar carrito
+      await fetchCart();
+    } catch (err) {
+      console.error('Error al actualizar carrito:', err);
+      setError(err.message);
+    }
+  }, [isAuthenticated, token, cart, fetchCart, removeItem]);
+
+  const clearCart = useCallback(async () => {
+    if (!isAuthenticated || !token) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/carrito/vaciar`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al vaciar carrito');
+      }
+
+      setCart([]);
+      broadcastCart([]);
+    } catch (err) {
+      console.error('Error al vaciar carrito:', err);
+      setError(err.message);
+    }
+  }, [isAuthenticated, token]);
 
   const count = cart.reduce((t, i) => t + (i.quantity || 0), 0);
-  const total = cart.reduce((t, i) => t + (i.price * (i.quantity || 0)), 0);
+  const total = cart.reduce((t, i) => t + (i.precio * (i.quantity || 0)), 0);
 
-  return { cart, addItem, removeItem, updateQuantity, clearCart, count, total };
+  return {
+    cart,
+    addItem,
+    removeItem,
+    updateQuantity,
+    clearCart,
+    count,
+    total,
+    loading,
+    error
+  };
 }

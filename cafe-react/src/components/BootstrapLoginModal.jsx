@@ -2,17 +2,16 @@
 // Componente: modal de acceso y registro con Bootstrap.
 import { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form, Alert, InputGroup } from 'react-bootstrap';
-import { useAuth } from '../context/useAuth';
-
-const VALID_USER = { username: 'Admin', password: '1234', name: 'Admin' };
+import { useAuth } from '../context/useAuthHook.js';
 
 const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
   const [tab, setTab] = useState(initialTab);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [nombre, setNombre] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  // estado para un captcha matemático simple
   const [captchaA, setCaptchaA] = useState(() => Math.floor(Math.random() * 8) + 2);
   const [captchaB, setCaptchaB] = useState(() => Math.floor(Math.random() * 8) + 1);
   const [captchaInput, setCaptchaInput] = useState('');
@@ -20,45 +19,100 @@ const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
   const captchaRef = useRef(null);
   const { login } = useAuth();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
     setCaptchaError(null);
-  // validar captcha primero
+
     const expected = captchaA + captchaB;
     if (parseInt(captchaInput || '0', 10) !== expected) {
       setCaptchaError('Respuesta de CAPTCHA incorrecta. Intenta de nuevo.');
       return;
     }
-    if (username === VALID_USER.username && password === VALID_USER.password) {
-      login({ id: `local:${username}`, name: VALID_USER.name, email: `${username.toLowerCase()}@local` });
+
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Error al iniciar sesión');
+        return;
+      }
+
+      localStorage.setItem('token', data.token);
+      login({ id: data.user.id, name: data.user.name, email: data.user.email }, data.token);
+      setEmail('');
+      setPassword('');
+      setCaptchaInput('');
       onHide();
-    } else {
-      setError('Usuario o contraseña incorrectos. Usa Admin / 1234');
+    } catch (err) {
+      setError('Error de conexión. Verifica que el servidor esté corriendo.');
+      console.error('Login error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // enfocar input del captcha cuando se abra el modal en la pestaña de inicio
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setCaptchaError(null);
+
+    const expected = captchaA + captchaB;
+    if (parseInt(captchaInput || '0', 10) !== expected) {
+      setCaptchaError('Respuesta de CAPTCHA incorrecta. Intenta de nuevo.');
+      return;
+    }
+
+    if (!email || !nombre || !password) {
+      setError('Todos los campos son requeridos');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Error al registrarse');
+        return;
+      }
+
+      // Cambiar a tab de login para que se autentique
+      setTab('login');
+      setError(null);
+      // Mostrar mensaje de éxito
+      alert('¡Usuario creado exitosamente! Ahora inicia sesión con tus credenciales.');
+      setNombre('');
+      setEmail('');
+      setPassword('');
+      setCaptchaInput('');
+    } catch (err) {
+      setError('Error de conexión. Verifica que el servidor esté corriendo.');
+      console.error('Register error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (show && tab === 'login') {
-      // pequeño retardo para esperar la animación del modal
       const t = setTimeout(() => captchaRef.current?.focus(), 200);
       return () => clearTimeout(t);
     }
   }, [show, tab]);
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    setCaptchaError(null);
-    const expected = captchaA + captchaB;
-    if (parseInt(captchaInput || '0', 10) !== expected) {
-      setCaptchaError('Respuesta de CAPTCHA incorrecta. Intenta de nuevo.');
-      return;
-    }
-  // registro simulado: iniciar sesión con el nombre proporcionado por el profe
-    login({ id: `local:${username}`, name: username || 'Usuario', email: `${username || 'user'}@local` });
-    onHide();
-  };
 
   return (
     <Modal show={show} onHide={onHide} centered className="login-modal">
@@ -77,15 +131,15 @@ const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
         {error && <Alert variant="danger">{error}</Alert>}
         {tab === 'login' ? (
             <Form onSubmit={handleLogin} className="login-form">
-            <Form.Group className="mb-3" controlId="bs-login-username">
-              <Form.Label>Usuario</Form.Label>
-                <Form.Control value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Admin" />
+            <Form.Group className="mb-3" controlId="bs-login-email">
+              <Form.Label>Email</Form.Label>
+                <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" disabled={loading} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="bs-login-password">
               <Form.Label>Contraseña</Form.Label>
               <InputGroup>
-                <Form.Control type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="1234" />
-                <Button variant="outline-secondary" onClick={() => setShowPassword(s => !s)} aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}>
+                <Form.Control type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Tu contraseña" disabled={loading} />
+                <Button variant="outline-secondary" onClick={() => setShowPassword(s => !s)} aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'} disabled={loading}>
                   <i className={`fas fa-eye${showPassword ? '-slash' : ''}`}></i>
                 </Button>
               </InputGroup>
@@ -94,15 +148,15 @@ const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
             <Form.Group className="mb-3" controlId="bs-login-captcha">
               <Form.Label>CAPTCHA: ¿Cuánto es {captchaA} + {captchaB}?</Form.Label>
               <InputGroup>
-                <Form.Control ref={captchaRef} value={captchaInput} onChange={(e) => setCaptchaInput(e.target.value)} placeholder="Respuesta" aria-label="Respuesta CAPTCHA" />
-                <Button variant="outline-secondary" onClick={() => { setCaptchaA(Math.floor(Math.random() * 8) + 2); setCaptchaB(Math.floor(Math.random() * 8) + 1); setCaptchaInput(''); setCaptchaError(null); }} aria-label="Refrescar CAPTCHA">↻</Button>
+                <Form.Control ref={captchaRef} value={captchaInput} onChange={(e) => setCaptchaInput(e.target.value)} placeholder="Respuesta" aria-label="Respuesta CAPTCHA" disabled={loading} />
+                <Button variant="outline-secondary" onClick={() => { setCaptchaA(Math.floor(Math.random() * 8) + 2); setCaptchaB(Math.floor(Math.random() * 8) + 1); setCaptchaInput(''); setCaptchaError(null); }} aria-label="Refrescar CAPTCHA" disabled={loading}>↻</Button>
               </InputGroup>
               {captchaError && <div style={{ color: '#b02a37', marginTop: 6 }}>{captchaError}</div>}
             </Form.Group>
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <Button variant="primary" type="submit" className="login-submit">Entrar</Button>{' '}
-                <Button variant="link" onClick={() => setTab('register')} className="muted-link">Crear cuenta</Button>
+                <Button variant="primary" type="submit" className="login-submit" disabled={loading}>{loading ? 'Cargando...' : 'Entrar'}</Button>{' '}
+                <Button variant="link" onClick={() => { setTab('register'); setError(null); setCaptchaError(null); }} className="muted-link" disabled={loading}>Crear cuenta</Button>
               </div>
             </div>
           </Form>
@@ -110,25 +164,34 @@ const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
           <Form onSubmit={handleRegister} className="login-form">
             <Form.Group className="mb-3" controlId="bs-register-name">
               <Form.Label>Nombre</Form.Label>
-              <Form.Control value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Tu nombre" />
+              <Form.Control value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" disabled={loading} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="bs-register-email">
               <Form.Label>Correo</Form.Label>
-              <Form.Control type="email" placeholder="email@dominio.com" />
+              <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" disabled={loading} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="bs-register-password">
               <Form.Label>Contraseña</Form.Label>
               <InputGroup>
-                <Form.Control type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} />
-                <Button variant="outline-secondary" onClick={() => setShowPassword(s => !s)} aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}>
+                <Form.Control type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Tu contraseña" disabled={loading} />
+                <Button variant="outline-secondary" onClick={() => setShowPassword(s => !s)} aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'} disabled={loading}>
                   <i className={`fas fa-eye${showPassword ? '-slash' : ''}`}></i>
                 </Button>
               </InputGroup>
             </Form.Group>
+            {/* CAPTCHA básico: pregunta matemática */}
+            <Form.Group className="mb-3" controlId="bs-register-captcha">
+              <Form.Label>CAPTCHA: ¿Cuánto es {captchaA} + {captchaB}?</Form.Label>
+              <InputGroup>
+                <Form.Control value={captchaInput} onChange={(e) => setCaptchaInput(e.target.value)} placeholder="Respuesta" aria-label="Respuesta CAPTCHA" disabled={loading} />
+                <Button variant="outline-secondary" onClick={() => { setCaptchaA(Math.floor(Math.random() * 8) + 2); setCaptchaB(Math.floor(Math.random() * 8) + 1); setCaptchaInput(''); setCaptchaError(null); }} aria-label="Refrescar CAPTCHA" disabled={loading}>↻</Button>
+              </InputGroup>
+              {captchaError && <div style={{ color: '#b02a37', marginTop: 6 }}>{captchaError}</div>}
+            </Form.Group>
             <div className="d-flex justify-content-between align-items-center">
               <div>
-                <Button variant="success" type="submit" className="login-submit">Registrarse</Button>{' '}
-                <Button variant="link" onClick={() => setTab('login')} className="muted-link">¿Ya tienes cuenta?</Button>
+                <Button variant="success" type="submit" className="login-submit" disabled={loading}>{loading ? 'Registrando...' : 'Registrarse'}</Button>{' '}
+                <Button variant="link" onClick={() => { setTab('login'); setError(null); setCaptchaError(null); }} className="muted-link" disabled={loading}>¿Ya tienes cuenta?</Button>
               </div>
             </div>
           </Form>

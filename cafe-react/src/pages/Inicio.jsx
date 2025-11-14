@@ -8,61 +8,40 @@ import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
 import '../styles/global.css';
 import useCart from '../hooks/useCart';
+import { productoService } from '../services/productoService';
 
 // Delegar el encabezado al componente global para mantener los controles de autenticación en la esquina superior.
 const PageHeader = () => {
   return <Header />;
 };
 
-const initialProducts = [
-  {
-    id: 1,
-    name: 'Expreso',
-    description: 'Intenso, aromático y lleno de carácter. El café expreso es una bebida concentrada elaborada al pasar agua caliente a presión por café molido fino.',
-    price: 7000,
-    image: '/imagenes/expreso.png'
-  },
-  {
-    id: 2,
-    name: 'Mocachino',
-    description: 'Deliciosa combinación de café expreso, leche vaporizada y chocolate. Su sabor suave y dulce lo convierte en una opción perfecta para disfrutar en cualquier momento.',
-    price: 8000,
-    image: '/imagenes/mocachino.png'
-  },
-  {
-    id: 3,
-    name: 'Latte',
-    description: 'Suave y cremoso: mezcla de café expreso y leche vaporizada, con una ligera capa de espuma en la parte superior que realza su textura.',
-    price: 7000,
-    image: '/imagenes/latte.png'
-  },
-  {
-    id: 4,
-    name: 'Chocolate',
-    description: 'Una bebida reconfortante y cremosa elaborada con leche caliente y chocolate derretido, ideal para acompañar momentos dulces.',
-    price: 9000,
-    image: '/imagenes/chocolate.png'
-  },
-  {
-    id: 5,
-    name: 'Pastel de chocolate',
-    description: 'Un pequeño placer irresistible: suave, húmedo y lleno de sabor. Ideal para acompañar tu café y disfrutar en cualquier momento del día.',
-    price: 15000,
-    image: '/imagenes/pastelchocolate.png'
-  },
-  {
-    id: 6,
-    name: 'Galletas',
-    description: 'Crujientes por fuera, suaves por dentro y llenas de sabor. El acompañante perfecto para tu bebida caliente.',
-    price: 6000,
-    image: '/imagenes/galletitas.png'
-  }
-];
-
 const Inicio = () => {
-  const [products] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { addItem } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Cargar productos desde la API
+  useEffect(() => {
+    const cargarProductos = async () => {
+      try {
+        setLoading(true);
+        const datos = await productoService.obtenerProductos();
+        setProducts(datos);
+        setError(null);
+      } catch (err) {
+        console.error('Error al cargar productos:', err);
+        setError('No se pudieron cargar los productos');
+        // Fallback: usar productos locales si la API falla
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    cargarProductos();
+  }, []);
 
   const heroImages = [
     'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80',
@@ -125,8 +104,8 @@ const Inicio = () => {
   };
 
   const addToCartWithToast = (p) => {
-    addItem({ id: p.id, name: p.name, description: p.description, price: p.price, image: p.image });
-    showToast(`${p.name} añadido al carrito`, 'success');
+    addItem({ id: p.id });
+    showToast(`${p.nombre || p.name} añadido al carrito`, 'success');
   };
 
   return (
@@ -190,11 +169,22 @@ const Inicio = () => {
         <section className="featured-products" id="productos">
           <h2 className="section-title">Nuestros Productos</h2>
           <div className="products-and-cart container">
-            <div className="products-grid">
-              {products.map((p) => (
-                <ProductCard key={p.id} product={p} onAdd={addToCartWithToast} />
-              ))}
-            </div>
+            {loading && <p style={{ textAlign: 'center', padding: '40px' }}>Cargando productos...</p>}
+            {error && <p style={{ textAlign: 'center', color: 'red', padding: '40px' }}>{error}</p>}
+            {!loading && products.length === 0 && <p style={{ textAlign: 'center', padding: '40px' }}>No hay productos disponibles</p>}
+            {!loading && products.length > 0 && (
+              <div className="products-grid">
+                {products.map((p) => (
+                  <ProductCard key={p.id} product={{ 
+                    id: p.id, 
+                    nombre: p.nombre, 
+                    descripcion: p.descripcion || '', 
+                    precio: p.precio, 
+                    imagen: p.imagen 
+                  }} onAdd={addToCartWithToast} />
+                ))}
+              </div>
+            )}
             {/* Vista rápida del carrito removida de la sección Productos (según solicitud) */}
           </div>
         </section>

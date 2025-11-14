@@ -54,9 +54,9 @@ const Carrito = () => {
             <div className="cart-items-list">
               {cart.map((item) => (
                 <article className="cart-card" key={item.id}>
-                  <div className="card-thumb"><img src={item.image} alt={item.name} /></div>
+                  <div className="card-thumb"><img src={item.imagen} alt={item.nombre} /></div>
                   <div className="card-body">
-                    <div className="card-title"><strong>{item.name}</strong></div>
+                    <div className="card-title"><strong>{item.nombre}</strong></div>
                     <div className="card-desc">{item.description || ''}</div>
                     <div className="card-actions">
                       <div className="qty-control">
@@ -67,7 +67,7 @@ const Carrito = () => {
                       <button className="link-remove" onClick={() => handleRemove(item.id)}><i className="fas fa-trash"></i> Eliminar</button>
                     </div>
                   </div>
-                  <div className="card-price">${(item.price * (item.quantity || 0)).toLocaleString()}</div>
+                  <div className="card-price">${(item.precio * (item.quantity || 0)).toLocaleString()}</div>
                 </article>
               ))}
             </div>

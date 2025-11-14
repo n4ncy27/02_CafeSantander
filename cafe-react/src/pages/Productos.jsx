@@ -1,33 +1,30 @@
 // Archivo: Productos.jsx
 // Página: Catálogo completo de productos.
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import useCart from '../hooks/useCart';
+import { productoService } from '../services/productoService';
 import '../styles/global.css';
 
-// Datos de ejemplo del catálogo
-const products = [
-	{ id: 1, name: 'Expreso', description: 'Intenso, aromático y lleno de carácter. El café expreso es una bebida concentrada elaborada al pasar agua caliente a presión por café molido fino.', price: 7000, image: '/imagenes/expreso.png' },
-	{ id: 2, name: 'Mocachino', description: 'Deliciosa combinación de café expreso, leche vaporizada y chocolate. Su sabor suave y dulce lo convierte en una opción perfecta.', price: 8000, image: '/imagenes/mocachino.png' },
-	{ id: 3, name: 'Latte', description: 'Suave y cremoso: mezcla de café expreso y leche vaporizada, con una ligera capa de espuma en la parte superior.', price: 7000, image: '/imagenes/latte.png' },
-	{ id: 4, name: 'Chocolate', description: 'Bebida reconfortante y cremosa elaborada con leche caliente y chocolate derretido.', price: 9000, image: '/imagenes/chocolate.png' },
-	{ id: 5, name: 'Pastel de chocolate', description: 'Suave, húmedo y lleno de sabor; ideal para acompañar tu café.', price: 15000, image: '/imagenes/pastelchocolate.png' },
-	{ id: 6, name: 'Galletas', description: 'Crujientes por fuera, suaves por dentro y llenas de sabor. El acompañante perfecto para tu bebida caliente.', price: 6000, image: '/imagenes/galletitas.png' },
-	{ id: 7, name: 'Café Arábica Gourmet', description: 'Granos seleccionados de las mejores plantaciones. Perfecto para los amantes del café premium.', price: 25000, image: '/imagenes/expreso.png' },
-	{ id: 8, name: 'Cappuccino', description: 'Clásica mezcla italiana de espresso, leche vaporizada y espuma cremosa. Balance perfecto entre café y leche.', price: 8500, image: '/imagenes/latte.png' },
-	{ id: 9, name: 'Café con Leche', description: 'Nuestro café colombiano servido con leche caliente, suave y reconfortante.', price: 6500, image: '/imagenes/mocachino.png' },
-	{ id: 10, name: 'Americano', description: 'Espresso diluido en agua caliente. Simple, elegante y con todo el sabor.', price: 6000, image: '/imagenes/expreso.png' },
-	{ id: 11, name: 'Muffin de Arándanos', description: 'Delicioso acompañamiento para tu café. Suave, esponjoso y lleno de sabor a fruta.', price: 8000, image: '/imagenes/pastelchocolate.png' },
-	{ id: 12, name: 'Croissant de Chocolate', description: 'Hojaldre crujiente relleno de chocolate derretido. El matrimonio perfecto con tu café.', price: 10000, image: '/imagenes/pastelchocolate.png' }
-];
-
 const Productos = () => {
-	// Hook para agregar items al carrito
+	const [products, setProducts] = useState([]);
 	const { addItem } = useCart();
 
+	useEffect(() => {
+		let mounted = true;
+		productoService.obtenerProductos()
+			.then(data => { if (mounted) setProducts(data || []); })
+			.catch(err => { console.error('Error cargando productos:', err); });
+		return () => { mounted = false; };
+	}, []);
+
 	// delegado para añadir producto (se pasa a ProductCard)
-	const handleAdd = (p) => addItem({ id: p.id, name: p.name, description: p.description, price: p.price, image: p.image });
+	const handleAdd = (p) => {
+		// useCart expects an object with at least `id` property (numeric)
+		addItem({ id: p.id });
+	};
 
 	return (
 		<div className="main-container">

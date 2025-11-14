@@ -1226,3 +1226,58 @@ section {
 .orange-border-card {
   padding: 12px; /* no romper mucho el diseño existente */
 }
+
+/* Estilos para el perfil de usuario */
+.user-profile {
+  padding: 10px 0;
+}
+
+.profile-field {
+  margin-bottom: 20px;
+  padding: 10px;
+  background: var(--light-bg);
+  border-radius: var(--radius);
+}
+
+.profile-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--dark-text);
+}
+
+.profile-field p {
+  margin: 0;
+  color: var(--text);
+}
+
+.profile-actions {
+  margin-top: 25px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+/* Mensajes de error */
+.error-message {
+  background: var(--error);
+  color: white;
+  padding: 10px 15px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 50px;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+/* Mejoras para formularios */
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+}

@@ -36,14 +36,14 @@ const ProductCard = ({ product, onAdd }) => {
   return (
     <div className="product-card">
       <div className="product-image">
-        <img src={product.image} alt={product.name} />
+        <img src={product.imagen} alt={product.nombre} />
       </div>
       <div className="product-info">
-        <h3>{product.name}</h3>
-        {product.description && <p>{product.description}</p>}
+        <h3>{product.nombre}</h3>
+        {product.descripcion && <p>{product.descripcion}</p>}
         <div className="product-price">
           <div>
-            <div className="price">${product.price.toLocaleString()} COP</div>
+            <div className="price">${product.precio.toLocaleString()} COP</div>
             {inCartQty > 0 && <div className="in-cart-note">En carrito: {inCartQty}</div>}
           </div>
           <button

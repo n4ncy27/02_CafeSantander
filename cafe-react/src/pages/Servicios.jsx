@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import '../styles/servicios.css';
 import useCart from '../hooks/useCart';
+import { productoService } from '../services/productoService';
 
 // Nota: se porta la lógica original de `cafes/Servicios.html` a React.
 const Servicios = () => {
@@ -15,6 +16,7 @@ const Servicios = () => {
   const [selectedFinalOption, setSelectedFinalOption] = useState(null);
   const [finalProduct, setFinalProduct] = useState(null);
   const { addItem } = useCart();
+  const [productosList, setProductosList] = useState([]);
 
   // Calcula precio aproximado según categoría y opción seleccionada
   // Mantiene la lógica adaptada desde el HTML original
@@ -157,6 +159,15 @@ const Servicios = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [/* redibujar solo en montaje */]);
 
+  // Cargar productos desde API para mapear opciones de la ruleta con productos reales
+  useEffect(() => {
+    let mounted = true;
+    productoService.obtenerProductos()
+      .then(data => { if (mounted) setProductosList(data || []); })
+      .catch(err => console.error('Error cargando productos:', err));
+    return () => { mounted = false; };
+  }, []);
+
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setSelectedSubOption(null);
@@ -172,19 +183,41 @@ const Servicios = () => {
 
   const handleFinalOptionSelect = (finalOpt) => {
     setSelectedFinalOption(finalOpt);
-    const product = wheelData[selectedCategory]?.products?.[finalOpt];
-    if (product) {
+    const template = wheelData[selectedCategory]?.products?.[finalOpt];
+    // Buscar en productos cargados desde el backend por nombre
+    const match = productosList.find(p => {
+      if (!p.nombre) return false;
+      const nombre = p.nombre.toLowerCase();
+      return nombre.includes(finalOpt.toLowerCase()) || (template && template.name && nombre.includes(template.name.toLowerCase()));
+    });
+
+    if (match) {
+      setFinalProduct(match);
+    } else if (template) {
+      // Si no hay match en DB, construir preview pero desactivar el add-to-cart real
       const price = calculatePrice(selectedCategory, finalOpt);
-      setFinalProduct({ ...product, price, category: selectedCategory, option: finalOpt });
+      setFinalProduct({ nombre: template.name || finalOpt, descripcion: template.description || '', imagen: template.image || template.imagen, precio: price, _external: true });
+    } else {
+      setFinalProduct(null);
     }
   };
 
   const addToCart = () => {
     if (!finalProduct) return;
-    const product = { id: `${finalProduct.category}-${finalProduct.option}`, name: finalProduct.name, description: finalProduct.description, price: finalProduct.price, image: finalProduct.image };
-    addItem(product);
-    // feedback mínimo
-    alert(`${finalProduct.name} añadido al carrito`);
+    // Si el producto viene de la base de datos (tiene id), usar ese id
+    if (finalProduct.id) {
+      addItem({ id: finalProduct.id });
+      alert(`${finalProduct.nombre} añadido al carrito`);
+      return;
+    }
+
+    // Si el producto es sólo de preview (_external), no permitir añadir al carrito
+    if (finalProduct._external) {
+      alert('Este producto es una vista previa y no está disponible en el catálogo.');
+      return;
+    }
+
+    alert('Producto no disponible para añadir al carrito');
   };
 
   return (
@@ -225,14 +258,14 @@ const Servicios = () => {
             </div>
           )}
 
-          {finalProduct && (
+                {finalProduct && (
             <div className="final-product">
               <div className="product-display">
-                <img className="product-image" src={finalProduct.image} alt={finalProduct.name} />
+                <img className="product-image" src={finalProduct.imagen || finalProduct.image} alt={finalProduct.nombre || finalProduct.name} />
                 <div className="product-details">
-                  <strong>{finalProduct.name}</strong>
-                  <div className="description">{finalProduct.description}</div>
-                  <div className="price">${finalProduct.price.toLocaleString()} COP</div>
+                  <strong>{finalProduct.nombre || finalProduct.name}</strong>
+                  <div className="description">{finalProduct.descripcion || finalProduct.description}</div>
+                  <div className="price">${(finalProduct.precio || finalProduct.price || 0).toLocaleString()} COP</div>
                   <button className="add-to-cart-final" onClick={addToCart}><i className="fas fa-shopping-cart"></i> Añadir al carrito</button>
                 </div>
               </div>
