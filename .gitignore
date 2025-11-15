@@ -1,16 +1,23 @@
 # Dependencies
 node_modules/
 package-lock.json
+.pnp
+.pnp.js
 
 # Environment variables
 .env
 .env.local
+.env.development.local
+.env.test.local
+.env.production.local
 .env.*.local
 
 # Build outputs
 dist/
 dist-ssr/
 build/
+*.tsbuildinfo
+out/
 
 # Logs
 logs/
@@ -28,6 +35,8 @@ lerna-debug.log*
 .DS_Store
 *.tmp
 *.temp
+.eslintcache
+*.tgz
 
 # Editor directories and files
 .vscode/*
@@ -41,18 +50,44 @@ lerna-debug.log*
 *.sw?
 *.swp
 *~
+.project
+.classpath
+.settings/
 
 # OS files
 Thumbs.db
 Desktop.ini
 .DS_Store
+*.lnk
+.Spotlight-V100
+.Trashes
 
 # Testing
 coverage/
 .nyc_output/
+*.lcov
+.jest/
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
 
 # Uploads folder (opcional - si no quieres versionar archivos subidos)
 # backend/public/uploads/
 
 # Carpeta de imágenes no utilizada
 frontend/cafe-react/public/imagenes/image/
+
+# Archivos de reportes y documentación temporal
+*.md.backup
+*.md.tmp
+
+# Archivos de sistema Windows
+$RECYCLE.BIN/
+ehthumbs.db
+ehthumbs_vista.db
+
+# Archivos de configuración local de IDE
+.fleet/
+.cursor/
