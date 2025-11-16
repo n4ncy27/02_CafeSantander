@@ -56,57 +56,57 @@ export default function useCart() {
   };
 
   // ============================================
-  // fetchCart() - Obtener carrito desde el backend
+  // fetchCart() - Obtener carrito desde el backend o localStorage
   // ============================================
-  // Endpoint: GET /api/carrito
-  // Requiere: Usuario autenticado con token JWT
+  // Si autenticado: GET /api/carrito (backend)
+  // Si NO autenticado: Cargar desde localStorage
   // Comportamiento: Convierte formato de API a formato de UI
   const fetchCart = useCallback(async () => {
-    // Si no está autenticado, vaciar carrito local
-    if (!isAuthenticated || !token) {
-      setCart([]);
-      return;
-    }
-
     setLoading(true);
     setError(null);
     try {
-      // Petición al backend con token JWT
-      const response = await fetch(`${API_BASE_URL}/carrito`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      // Si está autenticado, obtener del backend
+      if (isAuthenticated && token) {
+        // Petición al backend con token JWT
+        const response = await fetch(`${API_BASE_URL}/carrito`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al obtener carrito');
         }
-      });
 
-      if (!response.ok) {
-        throw new Error('Error al obtener carrito');
+        const data = await response.json();
+        
+        // ============================================
+        // TRANSFORMACIÓN DE DATOS API → UI
+        // ============================================
+        // Backend retorna: { items: [{ id, producto_id, nombre, precio, cantidad, imagen }] }
+        // UI espera: [{ id, itemId, nombre, precio, quantity, imagen }]
+        const cartItems = (data.items || []).map(item => ({
+          id: item.producto_id,        // ID del producto (para identificación)
+          itemId: item.id,              // ID de carrito_items (para actualizaciones/eliminación)
+          nombre: item.nombre,
+          imagen: item.imagen,
+          precio: item.precio,
+          quantity: item.cantidad
+        }));
+        
+        setCart(cartItems);
+        broadcastCart(cartItems);
+      } else {
+        // FALLBACK: Si NO está autenticado, cargar desde localStorage
+        const localCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
+        setCart(localCart);
+        broadcastCart(localCart);
       }
-
-      const data = await response.json();
-      
-      // ============================================
-      // TRANSFORMACIÓN DE DATOS API → UI
-      // ============================================
-      // Backend retorna: { items: [{ id, producto_id, nombre, precio, cantidad, imagen }] }
-      // UI espera: [{ id, itemId, nombre, precio, quantity, imagen }]
-      const cartItems = (data.items || []).map(item => ({
-        id: item.producto_id,        // ID del producto (para identificación)
-        itemId: item.id,              // ID de carrito_items (para actualizaciones/eliminación)
-        nombre: item.nombre,
-        imagen: item.imagen,
-        precio: item.precio,
-        quantity: item.cantidad
-      }));
-      
-      setCart(cartItems);
-      
-      // Emitir evento para sincronizar con otros componentes
-      // Ejemplo: Header muestra contador actualizado
-      broadcastCart(cartItems);
     } catch (err) {
       console.error('Error al cargar carrito:', err);
       setError(err.message);
+      setCart([]);
     } finally {
       setLoading(false);
     }
@@ -152,35 +152,55 @@ export default function useCart() {
   // addItem() - Agregar producto al carrito
   // ============================================
   // Parámetros: item { id } - Objeto con ID del producto
-  // Endpoint: POST /api/carrito/agregar
+  // Endpoint: POST /api/carrito/agregar (si autenticado)
+  // Fallback: Guardar en localStorage si no está autenticado
   // Comportamiento: Si el producto ya existe, incrementa cantidad
   const addItem = useCallback(async (item) => {
-    if (!isAuthenticated || !token) {
-      console.log('Usuario no autenticado');
-      return;
-    }
-
     try {
-      // Petición POST para agregar producto
-      const response = await fetch(`${API_BASE_URL}/carrito/agregar`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          productId: item.id,  // ID del producto a agregar
-          quantity: 1          // Por defecto 1 unidad
-        })
-      });
+      // Si está autenticado, usar backend
+      if (isAuthenticated && token) {
+        // Petición POST para agregar producto
+        const response = await fetch(`${API_BASE_URL}/carrito/agregar`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            productId: item.id,  // ID del producto a agregar
+            quantity: 1          // Por defecto 1 unidad
+          })
+        });
 
-      if (!response.ok) {
-        throw new Error('Error al agregar producto');
+        if (!response.ok) {
+          throw new Error('Error al agregar producto');
+        }
+
+        // Recargar carrito completo desde el backend
+        // Esto actualiza el estado y emite evento de sincronización
+        await fetchCart();
+      } else {
+        // FALLBACK: Si NO está autenticado, usar localStorage
+        const currentCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
+        const existingItem = currentCart.find(i => i.id === item.id);
+
+        if (existingItem) {
+          existingItem.quantity = (existingItem.quantity || 1) + 1;
+        } else {
+          currentCart.push({
+            id: item.id,
+            quantity: 1,
+            // Información que obtendremos del producto
+            nombre: item.nombre || 'Producto',
+            precio: item.precio || 0,
+            imagen: item.imagen || '/imagenes/expreso.png'
+          });
+        }
+
+        localStorage.setItem('cafesantander_cart', JSON.stringify(currentCart));
+        setCart(currentCart);
+        broadcastCart(currentCart);
       }
-
-      // Recargar carrito completo desde el backend
-      // Esto actualiza el estado y emite evento de sincronización
-      await fetchCart();
     } catch (err) {
       console.error('Error al agregar al carrito:', err);
       setError(err.message);
@@ -190,41 +210,41 @@ export default function useCart() {
   // ============================================
   // removeItem() - Eliminar producto del carrito
   // ============================================
-  // Parámetros: id - ID del producto (no itemId)
-  // Endpoint: DELETE /api/carrito/eliminar/:itemId
-  // Nota: Busca itemId en carrito local antes de eliminar
+  // Parámetros: id - ID del producto
+  // Si autenticado: DELETE /api/carrito/eliminar/:itemId
+  // Si NO autenticado: Eliminar de localStorage
   const removeItem = useCallback(async (id) => {
-    if (!isAuthenticated || !token) {
-      return;
-    }
-
     try {
-      // ============================================
-      // IMPORTANTE: Diferencia entre id e itemId
-      // ============================================
-      // id: producto_id (identifica el producto)
-      // itemId: id de carrito_items (identifica el registro en la tabla)
-      // Backend necesita itemId para eliminar
-      const item = cart.find(i => i.id === id);
-      if (!item || !item.itemId) {
-        throw new Error('Item no encontrado');
-      }
-
-      // Petición DELETE con itemId en la URL
-      const response = await fetch(`${API_BASE_URL}/carrito/eliminar/${item.itemId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      if (isAuthenticated && token) {
+        // Modo autenticado: usar backend
+        const item = cart.find(i => i.id === id);
+        if (!item || !item.itemId) {
+          throw new Error('Item no encontrado');
         }
-      });
 
-      if (!response.ok) {
-        throw new Error('Error al eliminar producto');
+        // Petición DELETE con itemId en la URL
+        const response = await fetch(`${API_BASE_URL}/carrito/eliminar/${item.itemId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al eliminar producto');
+        }
+
+        // Recargar carrito desde backend
+        await fetchCart();
+      } else {
+        // FALLBACK: Si NO está autenticado, eliminar de localStorage
+        const currentCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
+        const filteredCart = currentCart.filter(item => item.id !== id);
+        localStorage.setItem('cafesantander_cart', JSON.stringify(filteredCart));
+        setCart(filteredCart);
+        broadcastCart(filteredCart);
       }
-
-      // Recargar carrito desde backend
-      await fetchCart();
     } catch (err) {
       console.error('Error al eliminar del carrito:', err);
       setError(err.message);
@@ -237,41 +257,50 @@ export default function useCart() {
   // Parámetros:
   //   - id: ID del producto
   //   - quantity: Nueva cantidad (si es 0 o negativo, elimina el item)
-  // Endpoint: PUT /api/carrito/actualizar/:itemId
+  // Si autenticado: PUT /api/carrito/actualizar/:itemId
+  // Si NO autenticado: Actualizar en localStorage
   const updateQuantity = useCallback(async (id, quantity) => {
-    if (!isAuthenticated || !token) {
-      return;
-    }
-
-    // Si la cantidad es 0 o negativa, eliminar el item
-    if (quantity <= 0) {
-      await removeItem(id);
-      return;
-    }
-
     try {
-      // Buscar itemId del producto en carrito local
-      const item = cart.find(i => i.id === id);
-      if (!item || !item.itemId) {
-        throw new Error('Item no encontrado');
+      // Si la cantidad es 0 o negativa, eliminar el item
+      if (quantity <= 0) {
+        await removeItem(id);
+        return;
       }
 
-      // Petición PUT para actualizar cantidad
-      const response = await fetch(`${API_BASE_URL}/carrito/actualizar/${item.itemId}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ quantity })
-      });
+      if (isAuthenticated && token) {
+        // Modo autenticado: usar backend
+        const item = cart.find(i => i.id === id);
+        if (!item || !item.itemId) {
+          throw new Error('Item no encontrado');
+        }
 
-      if (!response.ok) {
-        throw new Error('Error al actualizar cantidad');
+        // Petición PUT para actualizar cantidad
+        const response = await fetch(`${API_BASE_URL}/carrito/actualizar/${item.itemId}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ quantity })
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al actualizar cantidad');
+        }
+
+        // Recargar carrito desde backend
+        await fetchCart();
+      } else {
+        // FALLBACK: Si NO está autenticado, actualizar en localStorage
+        const currentCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
+        const itemIndex = currentCart.findIndex(i => i.id === id);
+        if (itemIndex >= 0) {
+          currentCart[itemIndex].quantity = quantity;
+          localStorage.setItem('cafesantander_cart', JSON.stringify(currentCart));
+          setCart(currentCart);
+          broadcastCart(currentCart);
+        }
       }
-
-      // Recargar carrito desde backend
-      await fetchCart();
     } catch (err) {
       console.error('Error al actualizar carrito:', err);
       setError(err.message);
