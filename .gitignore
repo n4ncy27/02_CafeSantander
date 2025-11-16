@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
-package-lock.json
 .pnp
 .pnp.js
+# ⚠️ package-lock.json NO se ignora - es necesario para reproducibilidad
 
 # Environment variables
 .env
@@ -73,14 +73,13 @@ coverage/
 *.sqlite3
 *.db
 
-# Uploads folder (opcional - si no quieres versionar archivos subidos)
-# backend/public/uploads/
+# Uploads folder (solo archivos temporales subidos por usuarios)
+backend/public/uploads/*
+!backend/public/uploads/.gitkeep
 
-# ⚠️ IMPORTANTE: NO ignorar backend/public/imagenes/ (necesario para que funcionen las imágenes)
-# Las imágenes del backend son esenciales y deben clonarse con el proyecto
-
-# Carpeta de imágenes no utilizada
-frontend/cafe-react/public/imagenes/image/
+# ⚠️ IMPORTANTE: Las imágenes del proyecto SÍ deben versionarse
+# backend/public/imagenes/ - NO IGNORAR (necesarias para el proyecto)
+# frontend/cafe-react/public/ - NO IGNORAR (assets del proyecto)
 
 # Archivos de reportes y documentación temporal
 *.md.backup
