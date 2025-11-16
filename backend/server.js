@@ -56,6 +56,14 @@ app.use('/public', express.static(path.join(__dirname, 'public'), {
   }
 }));
 
+// Servir imágenes directamente desde /imagenes (para compatibilidad con la BD)
+app.use('/imagenes', express.static(path.join(__dirname, 'public', 'imagenes'), {
+  setHeaders: (res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Cache-Control', 'public, max-age=3600');
+  }
+}));
+
 // ============================================
 // RUTAS DE PRUEBA
 // ============================================

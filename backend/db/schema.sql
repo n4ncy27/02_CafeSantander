@@ -94,12 +94,12 @@ CREATE TABLE IF NOT EXISTS carrito_items (
 -- =============================================
 -- Productos clásicos de cafetería
 INSERT INTO productos (nombre, precio, disponible, imagen) VALUES
-('Espresso', 7000.00, 1, '/imagenes/cafe/espresso.jpg'),          -- Café expreso clásico
-('Latte', 7000.00, 1, '/imagenes/cafe/latte.jpg'),                -- Café con leche
-('Mocachino', 8000.00, 1, '/imagenes/cafe/mocachino.jpg'),        -- Café con chocolate
-('Chocolate', 9000.00, 1, '/imagenes/cafe/chocolate.jpg'),        -- Chocolate caliente
-('Pastel de Chocolate', 15000.00, 1, '/imagenes/cafe/pastel_chocolate.jpg'),  -- Repostería
-('Galletas', 6000.00, 1, '/imagenes/cafe/galletas.jpg');          -- Acompañamiento
+('Espresso', 7000.00, 1, '/imagenes/expreso.png'),          -- Café expreso clásico
+('Latte', 7000.00, 1, '/imagenes/latte.png'),                -- Café con leche
+('Mocachino', 8000.00, 1, '/imagenes/mocachino.png'),        -- Café con chocolate
+('Chocolate', 9000.00, 1, '/imagenes/chocolate.png'),        -- Chocolate caliente
+('Pastel de Chocolate', 15000.00, 1, '/imagenes/pastelchocolate.png'),  -- Repostería
+('Galletas', 6000.00, 1, '/imagenes/galletitas.png');          -- Acompañamiento
 
 -- Productos de la ruleta AFRUTADO (18 productos)
 INSERT INTO productos (nombre, precio, disponible, imagen) VALUES

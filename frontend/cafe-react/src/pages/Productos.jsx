@@ -22,8 +22,12 @@ const Productos = () => {
 
 	// delegado para añadir producto (se pasa a ProductCard)
 	const handleAdd = (p) => {
-		// useCart expects an object with at least `id` property (numeric)
-		addItem({ id: p.id });
+		addItem({
+			id: p.id,
+			nombre: p.nombre,
+			precio: Number(p.precio),
+			imagen: p.imagen || '/imagenes/expreso.png'
+		});
 	};
 
 	return (
