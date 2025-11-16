@@ -412,8 +412,13 @@ const Servicios = () => {
 
                 {finalProduct && (
             <div className="final-product">
-              <div className="product-display">
-                <img className="product-image" src={finalProduct.imagen || finalProduct.image} alt={finalProduct.nombre || finalProduct.name} />
+                <div className="product-display">
+                <img
+                  className="product-image"
+                  src={finalProduct.imagen || finalProduct.image || '/imagenes/expreso.png'}
+                  alt={finalProduct.nombre || finalProduct.name}
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/expreso.png'; }}
+                />
                 <div className="product-details">
                   <strong>{finalProduct.nombre || finalProduct.name}</strong>
                   <div className="description">{finalProduct.descripcion || finalProduct.description}</div>

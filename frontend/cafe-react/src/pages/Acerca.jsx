@@ -31,7 +31,12 @@ function ImageCarousel() {
       <Carousel fade pause={false} indicators interval={8000} className="mb-4">
         {images.map((img, idx) => (
           <Carousel.Item key={idx}>
-            <img className="d-block w-100 carousel-img" src={img.src} alt={img.caption} />
+            <img
+              className="d-block w-100 carousel-img"
+              src={img.src}
+              alt={img.caption}
+              onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/cafe1.jpg'; }}
+            />
             <Carousel.Caption>
               <h3>{img.caption}</h3>
             </Carousel.Caption>

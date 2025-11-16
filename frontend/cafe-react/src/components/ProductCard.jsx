@@ -57,7 +57,11 @@ const ProductCard = ({ product, onAdd }) => {
   return (
     <div className="product-card">
       <div className="product-image">
-        <img src={product.imagen || '/imagenes/expreso.png'} alt={product.nombre} />
+        <img
+          src={product.imagen || '/imagenes/expreso.png'}
+          alt={product.nombre}
+          onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/expreso.png'; }}
+        />
       </div>
       <div className="product-info">
         <h3>{product.nombre}</h3>

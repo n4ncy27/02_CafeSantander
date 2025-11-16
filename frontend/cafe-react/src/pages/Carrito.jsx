@@ -79,7 +79,13 @@ const Carrito = () => {
             <div className="cart-items-list">
               {cart.map((item) => (
                 <article className="cart-card" key={item.id}>
-                  <div className="card-thumb"><img src={item.imagen} alt={item.nombre} /></div>
+                  <div className="card-thumb">
+                    <img
+                      src={item.imagen || '/imagenes/expreso.png'}
+                      alt={item.nombre}
+                      onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/expreso.png'; }}
+                    />
+                  </div>
                   <div className="card-body">
                     <div className="card-title"><strong>{item.nombre}</strong></div>
                     <div className="card-desc">{item.description || ''}</div>

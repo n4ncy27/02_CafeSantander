@@ -15,9 +15,14 @@ const TeamModal = ({ show, onHide, member }) => {
       </Modal.Header>
       <Modal.Body>
         <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-          <div style={{ flex: '0 0 140px' }}>
+            <div style={{ flex: '0 0 140px' }}>
             {/* Imagen del miembro (si existe) */}
-            <img src={member.image} alt={member.name} style={{ width: '140px', height: '140px', objectFit: 'cover', borderRadius: 8 }} />
+            <img
+              src={member.image || '/imagenes/integrante1.jpg'}
+              alt={member.name}
+              style={{ width: '140px', height: '140px', objectFit: 'cover', borderRadius: 8 }}
+              onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/integrante1.jpg'; }}
+            />
           </div>
           <div style={{ flex: 1 }}>
             {/* Rol y bio */}

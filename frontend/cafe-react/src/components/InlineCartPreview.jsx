@@ -29,9 +29,15 @@ const InlineCartPreview = () => {
         <div className="inline-empty">No hay productos aún. Añade algo desde la sección de productos.</div>
       ) : (
         <div className="inline-items">
-          {cart.map((item) => (
+            {cart.map((item) => (
             <div className="inline-item" key={item.id}>
-              <div className="inline-thumb"><img src={item.imagen} alt={item.nombre} /></div>
+              <div className="inline-thumb">
+                <img
+                  src={item.imagen || '/imagenes/expreso.png'}
+                  alt={item.nombre}
+                  onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/expreso.png'; }}
+                />
+              </div>
               <div className="inline-meta">
                 <div className="inline-name">{item.nombre}</div>
                 {/* Controles: disminuir/aumentar cantidad y eliminar */}

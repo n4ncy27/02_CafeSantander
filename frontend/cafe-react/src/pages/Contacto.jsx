@@ -194,10 +194,16 @@ const Contacto = () => {
 
         <section className="team-section">
           <h2 className="section-title">Nuestro Equipo de Atención</h2>
-          <div className="team-grid">
+              <div className="team-grid">
             {teamMembers.map((m, i) => (
               <div key={i} className="team-member" onClick={() => openMemberModal(m)} role="button" tabIndex={0} onKeyDown={(e)=>{ if(e.key==='Enter') openMemberModal(m); }}>
-                <div className="member-image"><img src={m.image} alt={m.name} /></div>
+                <div className="member-image">
+                  <img
+                    src={m.image || '/imagenes/integrante1.jpg'}
+                    alt={m.name}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/integrante1.jpg'; }}
+                  />
+                </div>
                 <div className="member-info">
                   <h3>{m.name}</h3>
                   <div className="member-role">{m.role}</div>
