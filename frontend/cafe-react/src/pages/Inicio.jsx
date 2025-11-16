@@ -192,12 +192,7 @@ const Inicio = () => {
   };
 
   const addToCartWithToast = (p) => {
-    addItem({
-      id: p.id,
-      nombre: p.nombre,
-      precio: Number(p.precio),
-      imagen: p.imagen || '/imagenes/expreso.png'
-    });
+    addItem({ id: p.id });
     showToast(`${p.nombre || p.name} añadido al carrito`, 'success');
   };
 

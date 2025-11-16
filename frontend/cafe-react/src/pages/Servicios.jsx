@@ -349,12 +349,7 @@ const Servicios = () => {
     if (!finalProduct) return;
     // Si el producto viene de la base de datos (tiene id), usar ese id
     if (finalProduct.id) {
-      addItem({
-        id: finalProduct.id,
-        nombre: finalProduct.nombre,
-        precio: Number(finalProduct.precio),
-        imagen: finalProduct.imagen || '/imagenes/expreso.png'
-      });
+      addItem({ id: finalProduct.id });
       alert(`${finalProduct.nombre} añadido al carrito`);
       return;
     }
