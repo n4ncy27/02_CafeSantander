@@ -1,69 +1,105 @@
 -- =============================================
--- CafeSantander - Base de Datos Completa
+-- CAFESANTANDER - ESQUEMA DE BASE DE DATOS MYSQL
+-- =============================================
+-- REQUERIMIENTO: Base de datos completa para el sistema
+-- Este archivo SQL crea toda la estructura de la base de datos:
+-- - Tablas (productos, usuarios, carritos, carrito_items)
+-- - Relaciones (Foreign Keys)
+-- - Datos iniciales (56 productos + usuario de prueba)
+-- - Usuario MySQL para el profesor (un_usr / una_clave)
 -- =============================================
 
--- Crear base de datos
+-- =============================================
+-- CREAR BASE DE DATOS
+-- =============================================
+-- Crear la base de datos si no existe
+-- CHARACTER SET utf8mb4: Soporta emojis y caracteres internacionales
+-- COLLATE utf8mb4_general_ci: Comparaciones case-insensitive (ñ = Ñ)
 CREATE DATABASE IF NOT EXISTS cafeDB CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE cafeDB;
 
 -- =============================================
--- TABLAS
+-- TABLA: productos
 -- =============================================
-
--- Tabla de productos
+-- REQUERIMIENTO: Catálogo de productos de café
+-- Almacena todos los productos disponibles en la tienda
 CREATE TABLE IF NOT EXISTS productos (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(255) NOT NULL,
-  precio DECIMAL(10,2) DEFAULT 0,
-  disponible TINYINT(1) DEFAULT 1,
-  imagen VARCHAR(255),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id INT AUTO_INCREMENT PRIMARY KEY,          -- Identificador único del producto
+  nombre VARCHAR(255) NOT NULL,               -- Nombre del producto (ej: "Espresso", "Café con Mora")
+  precio DECIMAL(10,2) DEFAULT 0,             -- Precio en pesos colombianos (10 dígitos, 2 decimales)
+  disponible TINYINT(1) DEFAULT 1,            -- Disponibilidad (1 = disponible, 0 = agotado)
+  imagen VARCHAR(255),                        -- Ruta de la imagen del producto
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha de creación automática
 );
 
--- Tabla de usuarios
+-- =============================================
+-- TABLA: usuarios
+-- =============================================
+-- REQUERIMIENTO: Sistema de autenticación de usuarios
+-- Almacena información de usuarios registrados
 CREATE TABLE IF NOT EXISTS usuarios (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  nombre VARCHAR(100) NOT NULL,
-  apellido VARCHAR(100) NOT NULL,
-  telefono VARCHAR(20),
-  direccion TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id INT AUTO_INCREMENT PRIMARY KEY,          -- Identificador único del usuario
+  email VARCHAR(255) NOT NULL UNIQUE,         -- Email (UNIQUE: no permite duplicados)
+  password VARCHAR(255) NOT NULL,             -- Contraseña encriptada con bcrypt
+  nombre VARCHAR(100) NOT NULL,               -- Nombre del usuario
+  apellido VARCHAR(100) NOT NULL,             -- Apellido del usuario
+  telefono VARCHAR(20),                       -- Teléfono (opcional)
+  direccion TEXT,                             -- Dirección de envío (opcional)
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha de registro
 );
 
--- Tabla de carritos
+-- =============================================
+-- TABLA: carritos
+-- =============================================
+-- REQUERIMIENTO: Sistema de carrito de compras
+-- Un usuario puede tener múltiples carritos (actual + historial de compras)
 CREATE TABLE IF NOT EXISTS carritos (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  usuario_id INT NOT NULL,
-  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  estado ENUM('activo', 'comprado') DEFAULT 'activo',
+  id INT AUTO_INCREMENT PRIMARY KEY,          -- Identificador único del carrito
+  usuario_id INT NOT NULL,                    -- ID del usuario dueño del carrito
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de creación
+  estado ENUM('activo', 'comprado') DEFAULT 'activo',  -- Estado del carrito
+  
+  -- RELACIÓN: Un carrito pertenece a un usuario
+  -- ON DELETE CASCADE: Si se elimina el usuario, se eliminan sus carritos
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- Tabla de items del carrito
+-- =============================================
+-- TABLA: carrito_items
+-- =============================================
+-- REQUERIMIENTO: Items individuales dentro del carrito
+-- Tabla de relación muchos-a-muchos entre carritos y productos
 CREATE TABLE IF NOT EXISTS carrito_items (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  carrito_id INT NOT NULL,
-  producto_id INT NOT NULL,
-  cantidad INT NOT NULL DEFAULT 1,
-  precio DECIMAL(10,2) NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY,          -- Identificador único del item
+  carrito_id INT NOT NULL,                    -- ID del carrito al que pertenece
+  producto_id INT NOT NULL,                   -- ID del producto
+  cantidad INT NOT NULL DEFAULT 1,            -- Cantidad de unidades
+  precio DECIMAL(10,2) NOT NULL,              -- Precio al momento de agregar (puede cambiar después)
+  
+  -- RELACIONES:
+  -- Un item pertenece a un carrito
   FOREIGN KEY (carrito_id) REFERENCES carritos(id) ON DELETE CASCADE,
+  -- Un item está asociado a un producto
   FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE
 );
 
 -- =============================================
--- DATOS DE PRODUCTOS (47 PRODUCTOS)
+-- DATOS INICIALES: PRODUCTOS
 -- =============================================
+-- REQUERIMIENTO: Catálogo de 56 productos de café
+-- Los productos están organizados por categorías según la rueda de sabores del café
 
--- Productos básicos (6 productos)
+-- =============================================
+-- PRODUCTOS BÁSICOS (6 productos)
+-- =============================================
+-- Productos clásicos de cafetería
 INSERT INTO productos (nombre, precio, disponible, imagen) VALUES
-('Espresso', 7000.00, 1, '/imagenes/cafe/espresso.jpg'),
-('Latte', 7000.00, 1, '/imagenes/cafe/latte.jpg'),
-('Mocachino', 8000.00, 1, '/imagenes/cafe/mocachino.jpg'),
-('Chocolate', 9000.00, 1, '/imagenes/cafe/chocolate.jpg'),
-('Pastel de Chocolate', 15000.00, 1, '/imagenes/cafe/pastel_chocolate.jpg'),
-('Galletas', 6000.00, 1, '/imagenes/cafe/galletas.jpg');
+('Espresso', 7000.00, 1, '/imagenes/cafe/espresso.jpg'),          -- Café expreso clásico
+('Latte', 7000.00, 1, '/imagenes/cafe/latte.jpg'),                -- Café con leche
+('Mocachino', 8000.00, 1, '/imagenes/cafe/mocachino.jpg'),        -- Café con chocolate
+('Chocolate', 9000.00, 1, '/imagenes/cafe/chocolate.jpg'),        -- Chocolate caliente
+('Pastel de Chocolate', 15000.00, 1, '/imagenes/cafe/pastel_chocolate.jpg'),  -- Repostería
+('Galletas', 6000.00, 1, '/imagenes/cafe/galletas.jpg');          -- Acompañamiento
 
 -- Productos de la ruleta AFRUTADO (18 productos)
 INSERT INTO productos (nombre, precio, disponible, imagen) VALUES
@@ -142,19 +178,53 @@ INSERT INTO productos (nombre, precio, disponible, imagen) VALUES
 ('Café con Avellana', 18150.00, 1, '/imagenes/cafe/cafeavellana.jpg');
 
 -- =============================================
--- USUARIO DE APLICACIÓN PARA EL PROFESOR
--- Usuario de prueba ya registrado en la aplicación
--- Email: un_usr@gmail.com  |  Contraseña: una_clave
+-- USUARIO DE APLICACIÓN DE PRUEBA
 -- =============================================
+-- REQUERIMIENTO: Usuario de prueba ya registrado
+-- 
+-- CREDENCIALES:
+-- Email: un_usr@gmail.com
+-- Contraseña: una_clave
+-- 
+-- NOTA IMPORTANTE: La contraseña está encriptada con bcrypt
+-- Hash: $2b$10$ibSg3SrWkuH95NrpBLntKu6qolSG2XQGO5V1QojdVYMtlIVSpmWYi
+-- Este hash corresponde a la contraseña "una_clave"
+-- 
+-- USO: El profesor puede usar este usuario para probar la aplicación
+-- sin necesidad de registrarse
 INSERT INTO usuarios (email, password, nombre, apellido, telefono, direccion) VALUES
 ('un_usr@gmail.com', '$2b$10$ibSg3SrWkuH95NrpBLntKu6qolSG2XQGO5V1QojdVYMtlIVSpmWYi', 'Usuario', 'Prueba', '3001234567', 'Dirección de prueba');
 
 -- =============================================
--- USUARIO DE BASE DE DATOS PARA EL PROFESOR
--- Crea el usuario MySQL solicitado y le da permisos sobre cafeDB
--- Usuario: un_usr  |  Clave: una_clave
--- Nota: IF NOT EXISTS evita error si ya existe
+-- USUARIO DE BASE DE DATOS MYSQL
 -- =============================================
+-- REQUERIMIENTO: Credenciales MySQL específicas
+-- 
+-- CREDENCIALES MYSQL:
+-- Usuario: un_usr
+-- Contraseña: una_clave
+-- Base de datos: cafeDB
+-- Host: localhost
+-- Puerto: 3306
+-- 
+-- PERMISOS: El usuario tiene TODOS los privilegios sobre la base de datos cafeDB
+-- Puede: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, etc.
+-- 
+-- CONEXIÓN EN .env:
+-- DB_HOST=localhost
+-- DB_USER=un_usr
+-- DB_PASSWORD=una_clave
+-- DB_NAME=cafeDB
+-- DB_PORT=3306
 CREATE USER IF NOT EXISTS 'un_usr'@'localhost' IDENTIFIED BY 'una_clave';
 GRANT ALL PRIVILEGES ON cafeDB.* TO 'un_usr'@'localhost';
 FLUSH PRIVILEGES;
+
+-- =============================================
+-- FIN DEL SCHEMA
+-- =============================================
+-- Total de registros creados:
+-- - 56 productos (cafés especiales y básicos)
+-- - 1 usuario de prueba (un_usr@gmail.com)
+-- - 1 usuario MySQL (un_usr)
+-- =============================================

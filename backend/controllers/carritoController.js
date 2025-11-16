@@ -1,9 +1,34 @@
+// ============================================
+// CONTROLADOR DEL CARRITO DE COMPRAS
+// ============================================
+// REQUERIMIENTO: Sistema de carrito de compras funcional
+// ⭐ REQUERIMIENTO CRUD COMPLETO: Create, Read, Update, Delete
+// Este controlador maneja todas las operaciones del carrito:
+// - Obtener carrito del usuario (Read)
+// - Agregar productos (Create)
+// - Actualizar cantidades (Update)
+// - Eliminar productos (Delete)
+// - Funciones administrativas para gestionar todos los carritos
+// ============================================
+
+// Importar pool de conexiones a MySQL
 const pool = require('../db/connection');
 
+// ============================================
+// OBJETO CONTROLADOR CON TODAS LAS FUNCIONES
+// ============================================
 const carritoController = {
-  // Obtener o crear carrito del usuario y obtener todos los items
+  
+  // ==========================================
+  // OBTENER CARRITO DEL USUARIO - READ
+  // ==========================================
+  // REQUERIMIENTO: Mostrar productos en el carrito del usuario autenticado
+  // Ruta: GET /api/carrito
+  // Autenticación: Requiere token JWT (req.user viene del middleware auth.js)
   obtenerCarrito: async (req, res) => {
     try {
+      // PASO 1: Obtener ID del usuario desde el token JWT
+      // req.user es agregado por el middleware de autenticación
       const userId = req.user.id;
       const connection = await pool.getConnection();
       

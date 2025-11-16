@@ -1,88 +1,176 @@
-﻿// Archivo: Inicio.jsx
-// Página principal: hero, productos destacados y secciones informativas.
+﻿// ============================================
+// INICIO.JSX - PÁGINA PRINCIPAL DE LA APLICACIÓN
+// ============================================
+// REQUERIMIENTO: Página de inicio con:
+// - Hero section con imágenes rotativas
+// - Catálogo de productos (integración con backend)
+// - Secciones informativas (nosotros, proceso, testimonios, blog)
+// - Navegación smooth scroll
+// - Sistema de notificaciones (toasts)
+// ============================================
 
+// Importar hooks de React
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Para navegación SPA
+
+// Importar componentes
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import ProductCard from '../components/ProductCard';
-import '../styles/global.css';
-import useCart from '../hooks/useCart';
-import { productoService } from '../services/productoService';
+import ProductCard from '../components/ProductCard'; // Tarjeta de producto individual
 
-// Delegar el encabezado al componente global para mantener los controles de autenticación en la esquina superior.
+// Importar estilos y servicios
+import '../styles/global.css';
+import useCart from '../hooks/useCart';                    // Hook personalizado para carrito
+import { productoService } from '../services/productoService'; // Servicio API para productos
+
+// ============================================
+// COMPONENTE PAGEHEADER
+// ============================================
+// Delega el encabezado al componente global Header
+// para mantener los controles de autenticación consistentes
 const PageHeader = () => {
   return <Header />;
 };
 
+// ============================================
+// COMPONENTE PRINCIPAL INICIO
+// ============================================
 const Inicio = () => {
+  // ============================================
+  // ESTADO DEL COMPONENTE
+  // ============================================
+  
+  // Estado para productos obtenidos desde el backend
   const [products, setProducts] = useState([]);
+  
+  // Estado de carga (mientras se obtienen productos de la API)
   const [loading, setLoading] = useState(true);
+  
+  // Estado de error (si falla la petición al backend)
   const [error, setError] = useState(null);
+  
+  // Hook personalizado para manejar el carrito
   const { addItem } = useCart();
+  
+  // Estado para controlar qué imagen del hero se muestra (rotación automática)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Cargar productos desde la API
+  // ============================================
+  // EFECTO: CARGAR PRODUCTOS DESDE LA API
+  // ============================================
+  // REQUERIMIENTO: Integración con backend para mostrar productos
   useEffect(() => {
+    /**
+     * Función asíncrona para obtener productos desde el backend
+     * Ruta API: GET /api/productos
+     */
     const cargarProductos = async () => {
       try {
-        setLoading(true);
+        setLoading(true); // Activar estado de carga
+        
+        // Llamar al servicio que hace la petición HTTP al backend
         const datos = await productoService.obtenerProductos();
-        setProducts(datos);
-        setError(null);
+        
+        setProducts(datos); // Guardar productos en el estado
+        setError(null);     // Limpiar cualquier error anterior
       } catch (err) {
+        // Si hay error (backend no disponible, error de red, etc.)
         console.error('Error al cargar productos:', err);
         setError('No se pudieron cargar los productos');
-        // Fallback: usar productos locales si la API falla
+        
+        // Fallback: usar array vacío si la API falla
         setProducts([]);
       } finally {
+        // Siempre desactivar el estado de carga al finalizar
         setLoading(false);
       }
     };
 
-    cargarProductos();
-  }, []);
+    cargarProductos(); // Ejecutar la función al montar el componente
+  }, []); // Array vacío = solo se ejecuta una vez al montar
 
+  // Array de imágenes para el hero rotativo (desde Unsplash)
   const heroImages = [
     'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80',
     'https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80',
     'https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'
   ];
 
-  // El estado del carrito lo gestiona el hook useCart (persistencia y migración de clave)
-
-  // Auto-rotación del hero
+  // ============================================
+  // EFECTO: AUTO-ROTACIÓN DEL HERO
+  // ============================================
+  // Cambia automáticamente la imagen de fondo cada 5 segundos
   useEffect(() => {
-    const interval = setInterval(() => setCurrentImageIndex(i => (i + 1) % heroImages.length), 5000);
+    // Configurar intervalo que incrementa el índice cíclicamente
+    // (i + 1) % heroImages.length asegura que vuelva a 0 después de la última imagen
+    const interval = setInterval(() => 
+      setCurrentImageIndex(i => (i + 1) % heroImages.length), 
+      5000 // 5000ms = 5 segundos
+    );
+    
+    // Cleanup: limpiar el intervalo al desmontar el componente
     return () => clearInterval(interval);
-  }, [heroImages.length]);
+  }, [heroImages.length]); // Re-crear intervalo si cambia el número de imágenes
 
-  // Scroll suave para enlaces que apuntan a ids
+  // ============================================
+  // EFECTO: SMOOTH SCROLL PARA ENLACES INTERNOS
+  // ============================================
+  // REQUERIMIENTO: Navegación suave a secciones de la página
   useEffect(() => {
+    /**
+     * Función que maneja el click en enlaces que apuntan a IDs (#productos, #nosotros, etc.)
+     * Previene el comportamiento por defecto y hace scroll suave
+     */
     const smoothScroll = (e) => {
       const target = e.currentTarget.getAttribute('href');
+      
+      // Solo procesar enlaces que empiezan con #
       if (target && target.startsWith('#')) {
-        e.preventDefault();
-        const el = document.querySelector(target);
-        if (el) window.scrollTo({ top: el.offsetTop - 140, behavior: 'smooth' });
+        e.preventDefault(); // Prevenir el salto brusco por defecto
+        
+        const el = document.querySelector(target); // Buscar el elemento objetivo
+        
+        if (el) {
+          // Calcular posición considerando el header fijo (140px)
+          window.scrollTo({ 
+            top: el.offsetTop - 140, 
+            behavior: 'smooth' // Animación suave
+          });
+        }
       }
     };
 
-    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', smoothScroll));
-    return () => document.querySelectorAll('a[href^="#"]').forEach(a => a.removeEventListener('click', smoothScroll));
-  }, []);
+    // Agregar listener a todos los enlaces internos
+    document.querySelectorAll('a[href^="#"]').forEach(a => 
+      a.addEventListener('click', smoothScroll)
+    );
+    
+    // Cleanup: remover listeners al desmontar
+    return () => document.querySelectorAll('a[href^="#"]').forEach(a => 
+      a.removeEventListener('click', smoothScroll)
+    );
+  }, []); // Solo ejecutar una vez
 
-  // Si la página carga con un hash (p.ej. /#productos), hacer un scroll único a esa sección.
-  // Esto permite mantener el comportamiento de Inicio y soportar enlaces desde otras rutas.
+  // ============================================
+  // EFECTO: SCROLL INICIAL SI HAY HASH EN LA URL
+  // ============================================
+  // Ejemplo: Si el usuario visita /#productos, hacer scroll a esa sección
   useEffect(() => {
-    const hash = window.location.hash;
+    const hash = window.location.hash; // Obtener el hash de la URL
+    
     if (hash) {
+      // Esperar 80ms para que el DOM esté completamente renderizado
       setTimeout(() => {
         const el = document.querySelector(hash);
-        if (el) window.scrollTo({ top: el.offsetTop - 140, behavior: 'smooth' });
+        if (el) {
+          window.scrollTo({ 
+            top: el.offsetTop - 140, 
+            behavior: 'smooth' 
+          });
+        }
       }, 80);
     }
-  }, []);
+  }, []); // Solo ejecutar al montar el componente
 
   
 
@@ -179,8 +267,8 @@ const Inicio = () => {
                     id: p.id, 
                     nombre: p.nombre, 
                     descripcion: p.descripcion || '', 
-                    precio: p.precio, 
-                    imagen: p.imagen 
+                    precio: Number(p.precio) || 0, 
+                    imagen: p.imagen || '/imagenes/expreso.png'
                   }} onAdd={addToCartWithToast} />
                 ))}
               </div>

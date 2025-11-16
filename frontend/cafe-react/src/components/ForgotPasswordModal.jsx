@@ -1,13 +1,38 @@
+// ============================================
+// FORGOTPASSWORDMODAL.JSX - MODAL DE RECUPERACIÓN DE CONTRASEÑA
+// ============================================
+// REQUERIMIENTO: Recuperación de contraseña por email
+// Funcionalidad:
+// - Usuario ingresa su email registrado
+// - Backend genera contraseña temporal aleatoria
+// - Backend hashea nueva contraseña y actualiza BD
+// - Backend envía email con contraseña temporal (nodemailer)
+// - Usuario recibe email y puede iniciar sesión con nueva contraseña
+
 import { useState } from 'react';
 import { Modal, Form, Button, Alert } from 'react-bootstrap';
 import '../styles/auth-modals.css';
 
 const ForgotPasswordModal = ({ show, onClose }) => {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  // ============================================
+  // ESTADO LOCAL
+  // ============================================
+  const [email, setEmail] = useState('');        // Email del usuario
+  const [loading, setLoading] = useState(false); // Estado de carga
+  const [message, setMessage] = useState('');    // Mensaje de éxito
+  const [error, setError] = useState('');        // Mensaje de error
 
+  // ============================================
+  // HANDLER: Enviar solicitud de recuperación
+  // ============================================
+  // Endpoint: POST /api/auth/forgot-password
+  // Body: { email }
+  // Backend:
+  // 1. Busca usuario por email
+  // 2. Genera contraseña temporal: Math.random().toString(36).slice(-8)
+  // 3. Hashea con bcrypt(password, 10)
+  // 4. Actualiza tabla usuarios
+  // 5. Envía email con nodemailer
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

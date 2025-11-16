@@ -1,9 +1,20 @@
-// Controlador para gestión de archivos (upload/download/list)
+// ============================================
+// ARCHIVOSCONTROLLER.JS - CONTROLADOR DE ARCHIVOS
+// ============================================
+// REQUERIMIENTO: Gestión de archivos multimedia
+// Funciones:
+// - Subir archivo(s) a /public/uploads
+// - Listar archivos de /uploads y /turismo
+// - Descargar archivo específico
+// - Eliminar archivo
+// Usa multer para procesamiento de archivos multipart/form-data
+
 const path = require('path');
 const fs = require('fs');
 
-const uploadsDir = path.join(__dirname, '../public/uploads');
-const turismoDir = path.join(__dirname, '../public/turismo');
+// Directorios de almacenamiento
+const uploadsDir = path.join(__dirname, '../public/uploads');   // Archivos subidos por usuarios
+const turismoDir = path.join(__dirname, '../public/turismo');   // Archivos de turismo estáticos
 
 const archivosController = {
   // Subir archivo

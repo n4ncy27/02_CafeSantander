@@ -1,17 +1,38 @@
-// Archivo: ProductCard.jsx
-// Tarjeta visual para un producto: muestra imagen, nombre, descripción, precio y botón para añadir al carrito.
+// ============================================
+// PRODUCTCARD.JSX - TARJETA DE PRODUCTO
+// ============================================
+// REQUERIMIENTO: Componente reutilizable para mostrar productos
+// Características:
+// - Muestra imagen, nombre, precio del producto
+// - Botón para añadir al carrito
+// - Indicador visual de cantidad en carrito
+// - Feedback inmediato al añadir (animación)
+// - Sincronización en tiempo real con el carrito global
 
 import React from 'react';
 import useCart from '../hooks/useCart';
 import { useState, useEffect } from 'react';
 
 const ProductCard = ({ product, onAdd }) => {
-  // Hook personalizado para acceder al carrito (persistencia y sincronización)
+  // ============================================
+  // INTEGRACIÓN CON CARRITO GLOBAL
+  // ============================================
+  // Hook personalizado que proporciona acceso al carrito
+  // y sincronización automática entre componentes
   const { cart } = useCart();
 
-  // Estado local para micro-feedback al añadir (animación/estilo breve)
+  // ============================================
+  // ESTADO LOCAL PARA FEEDBACK VISUAL
+  // ============================================
+  // Control de animación breve al añadir producto
   const [justAdded, setJustAdded] = useState(false);
 
+  // ============================================
+  // CÁLCULO DE CANTIDAD EN CARRITO
+  // ============================================
+  // useMemo optimiza el cálculo evitando búsquedas innecesarias
+  // Busca este producto en el carrito y retorna su cantidad
+  // Si no está en el carrito, retorna 0
   const inCartQty = React.useMemo(() => {
     const found = cart.find((c) => c.id === product.id);
     return found ? found.quantity : 0;
@@ -36,15 +57,14 @@ const ProductCard = ({ product, onAdd }) => {
   return (
     <div className="product-card">
       <div className="product-image">
-        <img src={product.imagen} alt={product.nombre} />
+        <img src={product.imagen || '/imagenes/expreso.png'} alt={product.nombre} />
       </div>
       <div className="product-info">
         <h3>{product.nombre}</h3>
         {product.descripcion && <p>{product.descripcion}</p>}
         <div className="product-price">
           <div>
-            <div className="price">${product.precio.toLocaleString()} COP</div>
-            {inCartQty > 0 && <div className="in-cart-note">En carrito: {inCartQty}</div>}
+            <div className="price">${Number(product.precio).toLocaleString('es-CO')} COP</div>
           </div>
           <button
             className={`add-to-cart ${inCartQty > 0 || justAdded ? 'added' : ''}`}

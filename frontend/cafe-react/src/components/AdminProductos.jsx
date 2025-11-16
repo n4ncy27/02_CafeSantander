@@ -202,7 +202,7 @@ export default function AdminProductos() {
                 <tr key={producto.id}>
                   <td>{producto.id}</td>
                   <td>{producto.nombre}</td>
-                  <td>${producto.precio ? Number(producto.precio).toFixed(2) : '0.00'}</td>
+                  <td>${Number(producto.precio).toLocaleString('es-CO')} COP</td>
                   <td>
                     <span className={`badge ${producto.disponible === 1 ? 'bg-success' : 'bg-danger'}`}>
                       {producto.disponible === 1 ? 'Sí' : 'No'}

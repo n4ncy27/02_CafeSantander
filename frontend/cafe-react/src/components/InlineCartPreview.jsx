@@ -42,16 +42,16 @@ const InlineCartPreview = () => {
                   <button className="remove" onClick={() => removeItem(item.id)}>Eliminar</button>
                 </div>
               </div>
-              <div className="inline-price">${(item.precio || 0).toLocaleString()}</div>
+              <div className="inline-price">${(item.precio || 0).toLocaleString('es-CO')}</div>
             </div>
           ))}
 
           {/* Resumen con subtotal, envío, descuento y total final */}
           <div className="inline-summary">
-            <div className="row"><span>Subtotal ({count})</span><span>${(total||0).toLocaleString()}</span></div>
-            <div className="row"><span>Envío</span><span>${shipping.toLocaleString()}</span></div>
-            <div className="row"><span>Descuento</span><span className="discount">-${discount.toLocaleString()}</span></div>
-            <div className="row total"><span>Total</span><span>${finalTotal.toLocaleString()}</span></div>
+            <div className="row"><span>Subtotal ({count})</span><span>${(total||0).toLocaleString('es-CO')}</span></div>
+            <div className="row"><span>Envío</span><span>${shipping.toLocaleString('es-CO')}</span></div>
+            <div className="row"><span>Descuento</span><span className="discount">-${discount.toLocaleString('es-CO')}</span></div>
+            <div className="row total"><span>Total</span><span>${finalTotal.toLocaleString('es-CO')}</span></div>
             <button className="checkout" onClick={() => navigate('/carrito')}>Ir al Carrito</button>
           </div>
         </div>

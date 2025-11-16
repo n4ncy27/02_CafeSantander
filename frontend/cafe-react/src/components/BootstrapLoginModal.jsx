@@ -1,31 +1,63 @@
-// Archivo: BootstrapLoginModal.jsx
-// Componente: modal de acceso y registro con Bootstrap.
+// ============================================
+// BOOTSTRAPLOGINMODAL.JSX - MODAL DE LOGIN/REGISTRO
+// ============================================
+// REQUERIMIENTO: Modal centralizado para autenticación
+// Características:
+// - Dos tabs: Login y Registro
+// - Validación con CAPTCHA matemático (suma)
+// - Toggle para mostrar/ocultar contraseña
+// - Credenciales de prueba mostradas en alert
+// - Integración con backend (/api/auth/login y /api/auth/register)
+// - Modal de recuperación de contraseña
+
 import { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form, Alert, InputGroup } from 'react-bootstrap';
 import { useAuth } from '../context/useAuthHook.js';
 import ForgotPasswordModal from './ForgotPasswordModal';
 
 const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
-  const [tab, setTab] = useState(initialTab);
-  const [email, setEmail] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  // ============================================
+  // ESTADO LOCAL DEL MODAL
+  // ============================================
+  const [tab, setTab] = useState(initialTab);                    // 'login' | 'register'
+  const [email, setEmail] = useState('');                        // Email del usuario
+  const [nombre, setNombre] = useState('');                      // Nombre (solo registro)
+  const [password, setPassword] = useState('');                  // Contraseña
+  const [error, setError] = useState(null);                      // Mensaje de error
+  const [loading, setLoading] = useState(false);                 // Estado de carga
+  const [showPassword, setShowPassword] = useState(false);       // Toggle para mostrar contraseña
+  const [showForgotPassword, setShowForgotPassword] = useState(false); // Modal de recuperación
+  
+  // ============================================
+  // CAPTCHA MATEMÁTICO (SUMA)
+  // ============================================
+  // REQUERIMIENTO: Validación anti-bot simple
+  // Genera dos números aleatorios y pide su suma
   const [captchaA, setCaptchaA] = useState(() => Math.floor(Math.random() * 8) + 2);
   const [captchaB, setCaptchaB] = useState(() => Math.floor(Math.random() * 8) + 1);
-  const [captchaInput, setCaptchaInput] = useState('');
-  const [captchaError, setCaptchaError] = useState(null);
-  const captchaRef = useRef(null);
+  const [captchaInput, setCaptchaInput] = useState('');          // Respuesta del usuario
+  const [captchaError, setCaptchaError] = useState(null);        // Error de CAPTCHA
+  const captchaRef = useRef(null);                               // Referencia para autofocus
+  
   const { login } = useAuth();
 
-  // Sincronizar tab con initialTab cuando cambia el prop
+  // ============================================
+  // EFECTO: Sincronizar tab con prop initialTab
+  // ============================================
   useEffect(() => {
     setTab(initialTab);
   }, [initialTab]);
 
+  // ============================================
+  // HANDLER: Login de usuario
+  // ============================================
+  // REQUERIMIENTO: Autenticación con JWT
+  // Proceso:
+  // 1. Validar CAPTCHA
+  // 2. POST /api/auth/login con credenciales
+  // 3. Backend retorna { token, user }
+  // 4. Guardar token en localStorage
+  // 5. Actualizar contexto de autenticación
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
@@ -66,6 +98,16 @@ const BootstrapLoginModal = ({ show, onHide, initialTab = 'login' }) => {
     }
   };
 
+  // ============================================
+  // HANDLER: Registro de nuevo usuario
+  // ============================================
+  // REQUERIMIENTO: Creación de cuentas de usuario
+  // Proceso:
+  // 1. Validar CAPTCHA
+  // 2. Validar campos requeridos (email, nombre, password)
+  // 3. POST /api/auth/register
+  // 4. Backend valida email, hashea contraseña (bcrypt), inserta en BD
+  // 5. Cambiar a tab de login y mostrar mensaje de éxito
   const handleRegister = async (e) => {
     e.preventDefault();
     setError(null);

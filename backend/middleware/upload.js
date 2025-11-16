@@ -1,15 +1,31 @@
-// Middleware para subir archivos con multer
+// ============================================
+// UPLOAD.JS - MIDDLEWARE DE CARGA DE ARCHIVOS
+// ============================================
+// REQUERIMIENTO: Procesamiento de archivos multimedia con multer
+// Configuración:
+// - Almacenamiento en /public/uploads
+// - Nombre único: nombre-timestamp-random.ext
+// - Tipos permitidos: imágenes, videos, documentos
+// - Límite: 100MB por archivo
+// - Validación de tipos MIME
+
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Crear carpeta uploads si no existe
+// ============================================
+// CREAR DIRECTORIO DE UPLOADS
+// ============================================
+// Verifica y crea /public/uploads si no existe
 const uploadsDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Configuración de almacenamiento
+// ============================================
+// CONFIGURACIÓN DE ALMACENAMIENTO
+// ============================================
+// Define dónde y cómo guardar los archivos
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadsDir);
@@ -23,7 +39,14 @@ const storage = multer.diskStorage({
   }
 });
 
-// Filtro de tipos de archivo permitidos
+// ============================================
+// FILTRO DE TIPOS DE ARCHIVO
+// ============================================
+// Valida que el archivo sea de un tipo permitido
+// Tipos aceptados:
+// - Imágenes: JPEG, JPG, PNG, GIF, WEBP
+// - Videos: MP4, WEBM, MPEG, MOV
+// - Documentos: PDF, TXT, DOC, DOCX
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [
     // Imágenes
@@ -51,16 +74,25 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Configuración de multer
+// ============================================
+// CONFIGURACIÓN DE MULTER
+// ============================================
+// Combina storage, fileFilter y limits
 const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
+  storage: storage,          // Dónde y cómo guardar
+  fileFilter: fileFilter,    // Qué tipos permitir
   limits: {
     fileSize: 100 * 1024 * 1024 // 100 MB límite máximo
   }
 });
 
-// Middleware personalizado para manejar errores de multer
+// ============================================
+// MIDDLEWARE DE MANEJO DE ERRORES DE MULTER
+// ============================================
+// Captura y formatea errores de multer
+// Casos comunes:
+// - LIMIT_FILE_SIZE: Archivo muy grande
+// - Tipo de archivo no permitido
 const handleMulterError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {

@@ -1,10 +1,23 @@
-// Rutas para gestión de archivos
+// ============================================
+// ROUTES/ARCHIVOS.JS - RUTAS DE GESTIÓN DE ARCHIVOS
+// ============================================
+// REQUERIMIENTO: Sistema de carga y descarga de archivos multimedia
+// Funcionalidades:
+// - Listar archivos de /uploads y /turismo
+// - Subir archivo simple o múltiples archivos
+// - Descargar archivo específico
+// - Eliminar archivo
+// - Validación de tipos de archivo (imágenes, videos, documentos)
+// - Límite de tamaño: 100MB por archivo
+
 const express = require('express');
 const router = express.Router();
 const archivosController = require('../controllers/archivosController');
 const { upload, handleMulterError } = require('../middleware/upload');
 
-// Rutas públicas
+// ============================================
+// RUTAS PÚBLICAS - LISTADO Y DESCARGA
+// ============================================
 
 // GET - Listar archivos de uploads
 router.get('/uploads', archivosController.listarArchivos);

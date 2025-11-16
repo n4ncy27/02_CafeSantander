@@ -33,7 +33,13 @@ const Productos = () => {
 				<h2 className="section-title">Catálogo de Productos</h2>
 				<div className="products-grid">
 					{products.map(p => (
-						<ProductCard key={p.id} product={p} onAdd={handleAdd} />
+						<ProductCard key={p.id} product={{
+							id: p.id,
+							nombre: p.nombre,
+							descripcion: p.descripcion || '',
+							precio: Number(p.precio) || 0,
+							imagen: p.imagen || '/imagenes/expreso.png'
+						}} onAdd={handleAdd} />
 					))}
 				</div>
 			</main>

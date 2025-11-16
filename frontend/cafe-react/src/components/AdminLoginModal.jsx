@@ -1,17 +1,35 @@
-// components/AdminLoginModal.jsx
+// ============================================
+// ADMINLOGINMODAL.JSX - MODAL DE ACCESO ADMINISTRATIVO
+// ============================================
+// REQUERIMIENTO: Acceso a panel de administración
+// Características:
+// - Botón "Admin" visible en Header
+// - Modal de login con credenciales de admin
+// - Credenciales hardcoded: admin / 123
+// - Guarda flag en localStorage (isAdmin)
+// - Redirige a /admin al autenticarse
+// - Panel administrativo con gestión de usuarios y productos
+
 import { useState } from 'react';
 import { Modal, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminLoginModal() {
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [usuario, setUsuario] = useState('');
-  const [contrasena, setContrasena] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  
+  // ============================================
+  // ESTADO LOCAL
+  // ============================================
+  const [show, setShow] = useState(false);         // Visibilidad del modal
+  const [usuario, setUsuario] = useState('');      // Usuario admin
+  const [contrasena, setContrasena] = useState(''); // Contraseña admin
+  const [error, setError] = useState('');          // Mensaje de error
+  const [loading, setLoading] = useState(false);   // Estado de carga
 
-  // Credenciales de admin
+  // ============================================
+  // CREDENCIALES DE ADMINISTRADOR
+  // ============================================
+  // NOTA: En producción, esto debería validarse con el backend
   const ADMIN_USER = 'admin';
   const ADMIN_PASSWORD = '123';
 

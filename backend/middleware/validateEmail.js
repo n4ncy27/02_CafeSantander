@@ -1,17 +1,36 @@
 // ============================================
-// FUNCIONALIDAD NOVEDOSA Y DE INTERÉS
-// Middleware para validar el correo electrónico con expresiones regulares
+// MIDDLEWARE DE VALIDACIÓN DE EMAIL
+// ============================================
+// ⭐ REQUERIMIENTO NOVEDOSO ⭐
+// Funcionalidad de interés: Validación de correo electrónico usando EXPRESIONES REGULARES
+// Este middleware implementa validación avanzada de emails antes de procesarlos en el sistema
 // ============================================
 
 /**
- * Middleware de validación de email usando expresiones regulares
- * Valida el formato del correo electrónico antes de procesarlo
- * Expresión regular RFC 5322 simplificada
+ * MIDDLEWARE PRINCIPAL DE VALIDACIÓN DE EMAIL
+ * 
+ * Función: Validar el formato del correo electrónico usando expresiones regulares (RegEx)
+ * 
+ * EXPRESIONES REGULARES UTILIZADAS:
+ * 1. emailRegex: Validación básica - permite letras, números, puntos, guiones
+ * 2. strictEmailRegex: RFC 5322 simplificada - estándar de formato de email
+ * 3. advancedEmailRegex: Validación avanzada con restricciones adicionales
+ * 
+ * FLUJO DE VALIDACIÓN:
+ * 1. Verificar que el email esté presente en la petición
+ * 2. Aplicar expresión regular para validar formato
+ * 3. Validaciones personalizadas (longitud, espacios, caracteres especiales)
+ * 4. Advertencias sobre dominios poco comunes
+ * 5. Si todo es correcto, continuar con next()
  */
 const validateEmail = (req, res, next) => {
+  // Extraer el email del cuerpo de la petición
+  // Extraer el email del cuerpo de la petición
   const { email } = req.body;
 
-  // Verificar que el email esté presente
+  // ============================================
+  // VALIDACIÓN 1: Verificar presencia del email
+  // ============================================
   if (!email) {
     return res.status(400).json({
       success: false,
@@ -19,19 +38,34 @@ const validateEmail = (req, res, next) => {
     });
   }
 
-  // Expresión regular para validar formato de email
-  // Valida: usuario@dominio.extension
-  // Permite letras, números, puntos, guiones y guiones bajos
+  // ============================================
+  // EXPRESIONES REGULARES PARA VALIDACIÓN
+  // ============================================
+  
+  // REGEX 1: Validación básica
+  // Patrón: usuario@dominio.extension
+  // Permite: letras (a-z, A-Z), números (0-9), puntos (.), guiones (-), guiones bajos (_)
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  // Expresión regular más estricta (RFC 5322 simplificada)
-  // Esta es más completa y sigue los estándares de email
+  // REGEX 2: Expresión regular estricta (RFC 5322 simplificada)
+  // Esta expresión sigue los estándares internacionales de formato de email
+  // Valida: [cualquier carácter excepto espacios y @] + @ + [dominio] + . + [extensión]
   const strictEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Expresión regular avanzada con validaciones adicionales
+  // REGEX 3: Expresión regular avanzada con validaciones adicionales
+  // (?!.*\.\.): No permite puntos consecutivos (..)
+  // (?!.*@.*@): No permite múltiples símbolos @
+  // [a-zA-Z0-9]: Debe comenzar con letra o número
+  // (?:[a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?: Parte local (antes del @)
+  // @[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?: Dominio
+  // (?:\.[a-zA-Z]{2,})+$: Extensión (.com, .es, .edu, etc.)
   const advancedEmailRegex = /^(?!.*\.\.)(?!.*@.*@)[a-zA-Z0-9](?:[a-zA-Z0-9._-]{0,61}[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/;
 
-  // Validar usando la expresión regular estricta
+  // ============================================
+  // VALIDACIÓN 2: Aplicar expresión regular estricta
+  // ============================================
+  // Usar la regex strictEmailRegex para validar el formato
+  // .test() retorna true si el email cumple con el patrón, false si no
   if (!strictEmailRegex.test(email)) {
     return res.status(400).json({
       success: false,
@@ -40,10 +74,15 @@ const validateEmail = (req, res, next) => {
     });
   }
 
-  // Validaciones adicionales personalizadas
+  // ============================================
+  // VALIDACIONES ADICIONALES PERSONALIZADAS
+  // ============================================
+  
+  // Convertir email a minúsculas para comparaciones
   const emailLower = email.toLowerCase();
 
-  // Validar longitud razonable
+  // VALIDACIÓN 3: Longitud máxima
+  // RFC 5321 especifica que un email no debe exceder 254 caracteres
   if (emailLower.length > 254) {
     return res.status(400).json({
       success: false,
@@ -51,7 +90,8 @@ const validateEmail = (req, res, next) => {
     });
   }
 
-  // Validar que no tenga espacios
+  // VALIDACIÓN 4: No permitir espacios en blanco
+  // Regex /\s/ detecta cualquier tipo de espacio (espacio, tab, salto de línea)
   if (/\s/.test(email)) {
     return res.status(400).json({
       success: false,
@@ -59,7 +99,8 @@ const validateEmail = (req, res, next) => {
     });
   }
 
-  // Validar que no tenga caracteres especiales no permitidos
+  // VALIDACIÓN 5: Caracteres especiales no permitidos
+  // Regex que detecta caracteres peligrosos o no permitidos en emails
   const invalidChars = /[<>()[\]\\,;:"/]/;
   if (invalidChars.test(email)) {
     return res.status(400).json({
@@ -68,18 +109,27 @@ const validateEmail = (req, res, next) => {
     });
   }
 
-  // Validar dominios comunes mal escritos (sugerencias)
+  // ============================================
+  // VALIDACIÓN 6: Advertencia de dominios poco comunes
+  // ============================================
+  // Lista de dominios de email más comunes y confiables
   const commonDomains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com'];
+  
+  // Extraer el dominio del email (parte después del @)
   const domain = emailLower.split('@')[1];
   
-  // Advertencia para dominios sospechosos (opcional, solo log)
+  // Si el dominio no está en la lista común, registrar advertencia
+  // (esto es solo informativo, no bloquea el registro)
   if (domain && !commonDomains.includes(domain)) {
     console.log(`⚠️ Dominio de email poco común: ${domain} (${email})`);
   }
 
-  // Si todas las validaciones pasan, continuar
+  // ============================================
+  // VALIDACIÓN EXITOSA
+  // ============================================
+  // Si todas las validaciones pasaron, registrar en consola y continuar
   console.log(`✅ Email validado correctamente: ${email}`);
-  next();
+  next(); // Pasar al siguiente middleware o controlador
 };
 
 /**

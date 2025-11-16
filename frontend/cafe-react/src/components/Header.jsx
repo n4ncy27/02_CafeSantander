@@ -1,5 +1,14 @@
-// Archivo: Header.jsx
-// Componente: cabecera de la aplicación con navegación y controles de usuario.
+// ============================================
+// HEADER.JSX - CABECERA DE LA APLICACIÓN
+// ============================================
+// REQUERIMIENTO: Navegación principal con autenticación
+// Características:
+// - Menú responsive con toggle móvil
+// - Integración con sistema de autenticación (login/logout)
+// - Vista previa del carrito con contador
+// - Modales de login, registro y perfil de usuario
+// - Navegación con React Router (NavLink)
+
 import { useState, useEffect } from 'react';
 import useCart from '../hooks/useCart';
 import { useAuth } from '../context/useAuthHook.js';
@@ -8,35 +17,62 @@ import { NavLink, Link } from 'react-router-dom';
 import BootstrapLoginModal from './BootstrapLoginModal';
 import UserProfileModal from './UserProfileModal';
 import AdminLoginModal from './AdminLoginModal';
-// El header mantiene la estructura para que el CSS de página siga funcionando.
+
 const Header = () => {
-  const [isNavActive, setIsNavActive] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [activeAuthTab, setActiveAuthTab] = useState('login');
-  // escuchar eventos globales para abrir el modal de login (ej. MandatoryAuthModal)
+  // ============================================
+  // ESTADO LOCAL
+  // ============================================
+  const [isNavActive, setIsNavActive] = useState(false);       // Control del menú móvil
+  const [isModalOpen, setIsModalOpen] = useState(false);       // Modal de login/registro
+  const [isProfileOpen, setIsProfileOpen] = useState(false);   // Modal de perfil de usuario
+  const [activeAuthTab, setActiveAuthTab] = useState('login'); // Tab activo en modal (login/register) // Tab activo en modal (login/register)
+  
+  // ============================================
+  // EFECTO: Escuchar eventos globales para abrir modal de login
+  // ============================================
+  // Caso de uso: Componentes como MandatoryAuthModal o PrivateRoute
+  // disparan evento 'open-login-modal' cuando se requiere autenticación
+  // Detail: { tab: 'login' | 'register' }
   useEffect(() => {
     const handler = (e) => {
       try {
+        // Determinar qué tab mostrar según el evento
         const tab = e?.detail?.tab === 'register' ? 'register' : 'login';
         setActiveAuthTab(tab);
         setIsModalOpen(true);
       } catch {
+        // Fallback a login si hay error
         setActiveAuthTab('login');
         setIsModalOpen(true);
       }
     };
+    
+    // Registrar listener al montar
     window.addEventListener('open-login-modal', handler);
+    
+    // Limpiar listener al desmontar
     return () => window.removeEventListener('open-login-modal', handler);
   }, []);
 
+  // ============================================
+  // FUNCIÓN: Toggle del menú móvil
+  // ============================================
   const toggleNav = () => setIsNavActive(s => !s);
 
+  // ============================================
+  // HOOKS DE AUTENTICACIÓN Y CARRITO
+  // ============================================
+  // Obtener funciones de logout y estado de autenticación
   const { logout, isAuthenticated } = useAuth();
 
+  // Obtener contador de items del carrito para mostrar badge
   const { count: hookCount } = useCart();
 
-  // util de notificaciones breves (misma funcionalidad en otros componentes)
+  // ============================================
+  // FUNCIÓN: Mostrar notificaciones toast
+  // ============================================
+  // Utilidad para feedback visual (éxito/error)
+  // Misma implementación en otros componentes para consistencia
   const showToast = (message, type = 'success') => {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;

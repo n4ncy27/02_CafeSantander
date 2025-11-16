@@ -1,4 +1,14 @@
-// Página de Encuesta con QR
+// ============================================
+// ENCUESTA.JSX - PÁGINA DE ENCUESTA DE SATISFACCIÓN
+// ============================================
+// REQUERIMIENTO: Recopilación de feedback de usuarios
+// Funcionalidades:
+// - Información sobre la encuesta y su objetivo
+// - Código QR para acceso desde móviles
+// - Botón para redirigir a Google Forms
+// - Contador regresivo antes de redirigir
+// - Diseño atractivo con beneficios de participar
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
@@ -7,10 +17,18 @@ import '../styles/encuesta.css';
 
 const Encuesta = () => {
   const navigate = useNavigate();
-  const [countdown, setCountdown] = useState(null);
-  const encuestaURL = 'https://forms.gle/YhJHj9RM8porf36t8';
+  
+  // ============================================
+  // ESTADO LOCAL
+  // ============================================
+  const [countdown, setCountdown] = useState(null); // Contador regresivo
+  const encuestaURL = 'https://forms.gle/YhJHj9RM8porf36t8'; // URL de Google Forms
 
-  // Función para redirigir directamente a la encuesta
+  // ============================================
+  // FUNCIÓN: Redirigir a encuesta con countdown
+  // ============================================
+  // Muestra contador de 3 segundos antes de abrir
+  // la encuesta en nueva pestaña
   const irAEncuesta = () => {
     setCountdown(3);
     const interval = setInterval(() => {

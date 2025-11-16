@@ -1,9 +1,19 @@
-// services/adminService.js - Servicio para las llamadas de admin
+// ============================================
+// ADMINSERVICE.JS - SERVICIO DE ADMINISTRACIÓN
+// ============================================
+// REQUERIMIENTO: Cliente HTTP para operaciones CRUD administrativas
+// Consume los endpoints de /api/admin para:
+// - Gestión de productos (crear, leer, actualizar, eliminar, buscar)
+// - Gestión de usuarios (leer, actualizar, eliminar, buscar)
+// - Estadísticas del sistema
+// Todas las peticiones usan axios con interceptores JWT
+
 import api from './api';
 
 // ============================================
-// PRODUCTOS
+// PRODUCTOS - CRUD COMPLETO
 // ============================================
+// Endpoints: /api/admin/productos
 
 export const getAllProductos = async () => {
   try {

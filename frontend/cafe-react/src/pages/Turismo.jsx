@@ -1,3 +1,14 @@
+// ============================================
+// TURISMO.JSX - PÁGINA DE TURISMO Y CULTURA CAFETERA
+// ============================================
+// REQUERIMIENTO: Promoción turística de la región
+// Contenido:
+// - Lugares turísticos emblemáticos de Santander
+// - Relación de cada lugar con el café local
+// - Galería de imágenes con modal de vista ampliada
+// - Sistema de carga de archivos multimedia
+// - Integración con backend para gestión de archivos
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
@@ -6,15 +17,25 @@ import '../styles/turismo.css';
 import axios from 'axios';
 
 const Turismo = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imageLoaded, setImageLoaded] = useState({});
-  const [archivosTurismo, setArchivosTurismo] = useState([]);
-  const [archivosSubidos, setArchivosSubidos] = useState([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadMessage, setUploadMessage] = useState('');
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [showUploadSection, setShowUploadSection] = useState(false);
+  // ============================================
+  // ESTADO LOCAL
+  // ============================================
+  const [selectedImage, setSelectedImage] = useState(null);      // Imagen seleccionada para modal
+  const [imageLoaded, setImageLoaded] = useState({});            // Control de carga de imágenes
+  const [archivosTurismo, setArchivosTurismo] = useState([]);    // Archivos de /public/turismo
+  const [archivosSubidos, setArchivosSubidos] = useState([]);    // Archivos subidos por usuarios
+  const [uploading, setUploading] = useState(false);             // Estado de carga de archivo
+  const [uploadMessage, setUploadMessage] = useState('');        // Mensaje de resultado
+  const [selectedFile, setSelectedFile] = useState(null);        // Archivo seleccionado
+  const [showUploadSection, setShowUploadSection] = useState(false); // Toggle sección de carga
 
+  // ============================================
+  // DATOS: Lugares turísticos de Santander
+  // ============================================
+  // Cada lugar incluye:
+  // - Descripción del sitio
+  // - Ubicación
+  // - Relación con el café de la zona
   const lugares = [
     {
       id: 1,
@@ -45,7 +66,12 @@ const Turismo = () => {
     }
   ];
 
-  // Cargar archivos de turismo desde el backend
+  // ============================================
+  // EFECTO: Cargar archivos desde backend
+  // ============================================
+  // Al montar, carga:
+  // 1. Archivos de /public/turismo (GET /api/archivos/turismo)
+  // 2. Archivos subidos por usuarios (GET /api/archivos/uploads)
   useEffect(() => {
     const cargarArchivos = async () => {
       try {
@@ -73,7 +99,9 @@ const Turismo = () => {
     cargarArchivosSubidos();
   }, []);
 
-  // Manejar selección de archivo
+  // ============================================
+  // HANDLER: Selección de archivo
+  // ============================================
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -82,7 +110,12 @@ const Turismo = () => {
     }
   };
 
-  // Subir archivo
+  // ============================================
+  // HANDLER: Subir archivo al servidor
+  // ============================================
+  // Endpoint: POST /api/archivos/upload
+  // Body: FormData con el archivo
+  // Backend guarda en /public/uploads
   const handleUpload = async () => {
     if (!selectedFile) {
       setUploadMessage('Por favor selecciona un archivo');

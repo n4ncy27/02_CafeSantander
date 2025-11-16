@@ -1,4 +1,14 @@
-// pages/Admin.jsx
+// ============================================
+// ADMIN.JSX - PANEL DE ADMINISTRACIÓN
+// ============================================
+// REQUERIMIENTO: Sistema de administración CRUD
+// Funcionalidades:
+// - Gestión de productos (crear, leer, actualizar, eliminar)
+// - Gestión de usuarios (leer, actualizar, eliminar)
+// - Estadísticas del sistema (total productos, usuarios, carritos)
+// - Protección por credenciales (admin / 123)
+// - Tabs para organizar funcionalidades
+
 import { useState, useEffect } from 'react';
 import { Container, Nav, Tab, Alert, Button, Row, Col, Card, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -9,12 +19,19 @@ import '../styles/admin.css';
 
 export default function Admin() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('productos');
-  const [stats, setStats] = useState(null);
-  const [loadingStats, setLoadingStats] = useState(true);
-  const [error, setError] = useState('');
+  
+  // ============================================
+  // ESTADO LOCAL
+  // ============================================
+  const [activeTab, setActiveTab] = useState('productos'); // Tab activo (productos/usuarios)
+  const [stats, setStats] = useState(null);                // Estadísticas del sistema
+  const [loadingStats, setLoadingStats] = useState(true);  // Estado de carga
+  const [error, setError] = useState('');                  // Mensajes de error
 
-  // Verificar si es admin
+  // ============================================
+  // EFECTO: Verificar autenticación de admin
+  // ============================================
+  // Si no hay flag isAdmin en localStorage, redirigir a home
   useEffect(() => {
     const isAdmin = localStorage.getItem('isAdmin');
     if (!isAdmin) {

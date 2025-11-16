@@ -417,7 +417,7 @@ const Servicios = () => {
                 <div className="product-details">
                   <strong>{finalProduct.nombre || finalProduct.name}</strong>
                   <div className="description">{finalProduct.descripcion || finalProduct.description}</div>
-                  <div className="price">${(finalProduct.precio || finalProduct.price || 0).toLocaleString()} COP</div>
+                  <div className="price">${Number(finalProduct.precio || finalProduct.price || 0).toLocaleString('es-CO')} COP</div>
                   <button className="add-to-cart-final" onClick={addToCart}><i className="fas fa-shopping-cart"></i> Añadir al carrito</button>
                 </div>
               </div>

@@ -1,14 +1,31 @@
+// ============================================
+// USECART.JS - HOOK PERSONALIZADO DEL CARRITO
+// ============================================
+// REQUERIMIENTO: Hook para gestión global del carrito de compras
+// Proporciona estado y funciones para manipular el carrito
+// Sincronización en tiempo real entre componentes mediante eventos
+
 import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../context/useAuthHook';
 import { API_BASE_URL } from '../services/api';
 
 export default function useCart() {
+  // Obtener estado de autenticación del AuthContext
   const { isAuthenticated, token } = useAuth();
-  const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  
+  // ============================================
+  // ESTADO LOCAL DEL HOOK
+  // ============================================
+  const [cart, setCart] = useState([]);        // Items del carrito
+  const [loading, setLoading] = useState(false); // Estado de carga
+  const [error, setError] = useState(null);     // Errores de operaciones
 
-  // senderId para evitar reaccionar a nuestros propios eventos
+  // ============================================
+  // GENERADOR DE ID ÚNICO PARA SINCRONIZACIÓN
+  // ============================================
+  // senderId: Identificador único de esta instancia del hook
+  // Propósito: Evitar reaccionar a eventos generados por esta misma instancia
+  // Caso de uso: Múltiples instancias de useCart (Header, Carrito, ProductCard)
   const senderId = (() => {
     try {
       const key = '__cafesantander_cart_sender_id__';
@@ -19,17 +36,33 @@ export default function useCart() {
     }
   })();
 
+  // ============================================
+  // broadcastCart() - Emitir evento de actualización del carrito
+  // ============================================
+  // Propósito: Sincronizar cambios del carrito entre componentes
+  // Evento: 'cafesantander_cart_updated'
+  // Detail: { cart, count, __sender }
   const broadcastCart = (newCart) => {
     try {
-      const detail = { cart: newCart, count: (newCart || []).reduce((t, i) => t + (i.quantity || 0), 0), __sender: senderId };
+      const detail = { 
+        cart: newCart, 
+        count: (newCart || []).reduce((t, i) => t + (i.quantity || 0), 0), 
+        __sender: senderId 
+      };
       window.dispatchEvent(new CustomEvent('cafesantander_cart_updated', { detail }));
     } catch (err) {
-      // ignorar
+      // Ignorar errores de broadcast (no críticos)
     }
   };
 
-  // Obtener carrito del backend
+  // ============================================
+  // fetchCart() - Obtener carrito desde el backend
+  // ============================================
+  // Endpoint: GET /api/carrito
+  // Requiere: Usuario autenticado con token JWT
+  // Comportamiento: Convierte formato de API a formato de UI
   const fetchCart = useCallback(async () => {
+    // Si no está autenticado, vaciar carrito local
     if (!isAuthenticated || !token) {
       setCart([]);
       return;
@@ -38,6 +71,7 @@ export default function useCart() {
     setLoading(true);
     setError(null);
     try {
+      // Petición al backend con token JWT
       const response = await fetch(`${API_BASE_URL}/carrito`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -50,17 +84,25 @@ export default function useCart() {
       }
 
       const data = await response.json();
-      // Convertir el formato de API al formato esperado por la UI
+      
+      // ============================================
+      // TRANSFORMACIÓN DE DATOS API → UI
+      // ============================================
+      // Backend retorna: { items: [{ id, producto_id, nombre, precio, cantidad, imagen }] }
+      // UI espera: [{ id, itemId, nombre, precio, quantity, imagen }]
       const cartItems = (data.items || []).map(item => ({
-        id: item.producto_id,
-        itemId: item.id, // ID de carrito_items para actualizaciones
+        id: item.producto_id,        // ID del producto (para identificación)
+        itemId: item.id,              // ID de carrito_items (para actualizaciones/eliminación)
         nombre: item.nombre,
         imagen: item.imagen,
         precio: item.precio,
         quantity: item.cantidad
       }));
+      
       setCart(cartItems);
-      // Broadcast para sincronizar otras instancias del hook (Header, etc.)
+      
+      // Emitir evento para sincronizar con otros componentes
+      // Ejemplo: Header muestra contador actualizado
       broadcastCart(cartItems);
     } catch (err) {
       console.error('Error al cargar carrito:', err);
@@ -70,28 +112,48 @@ export default function useCart() {
     }
   }, [isAuthenticated, token]);
 
-  // Cargar carrito al montar o cuando cambia autenticación
+  // ============================================
+  // EFECTO: Cargar carrito al montar o cuando cambia autenticación
+  // ============================================
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
 
-  // Escuchar actualizaciones externas del carrito y sincronizar
+  // ============================================
+  // EFECTO: Sincronización entre instancias del hook
+  // ============================================
+  // Escucha eventos 'cafesantander_cart_updated' de otras instancias
+  // Evita loops infinitos verificando __sender
   useEffect(() => {
     const handler = (e) => {
       try {
         const detail = e?.detail;
         if (!detail) return;
-        if (detail.__sender === senderId) return; // evento propio
+        
+        // Ignorar eventos propios (generados por esta instancia)
+        if (detail.__sender === senderId) return;
+        
+        // Actualizar carrito local con datos del evento
         const incoming = Array.isArray(detail.cart) ? detail.cart : [];
         setCart(incoming);
       } catch {
-        // ignorar
+        // Ignorar errores de sincronización
       }
     };
+    
+    // Registrar listener al montar
     window.addEventListener('cafesantander_cart_updated', handler);
+    
+    // Limpiar listener al desmontar
     return () => window.removeEventListener('cafesantander_cart_updated', handler);
   }, [senderId]);
 
+  // ============================================
+  // addItem() - Agregar producto al carrito
+  // ============================================
+  // Parámetros: item { id } - Objeto con ID del producto
+  // Endpoint: POST /api/carrito/agregar
+  // Comportamiento: Si el producto ya existe, incrementa cantidad
   const addItem = useCallback(async (item) => {
     if (!isAuthenticated || !token) {
       console.log('Usuario no autenticado');
@@ -99,6 +161,7 @@ export default function useCart() {
     }
 
     try {
+      // Petición POST para agregar producto
       const response = await fetch(`${API_BASE_URL}/carrito/agregar`, {
         method: 'POST',
         headers: {
@@ -106,8 +169,8 @@ export default function useCart() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          productId: item.id,
-          quantity: 1
+          productId: item.id,  // ID del producto a agregar
+          quantity: 1          // Por defecto 1 unidad
         })
       });
 
@@ -115,7 +178,8 @@ export default function useCart() {
         throw new Error('Error al agregar producto');
       }
 
-      // Recargar carrito después de agregar
+      // Recargar carrito completo desde el backend
+      // Esto actualiza el estado y emite evento de sincronización
       await fetchCart();
     } catch (err) {
       console.error('Error al agregar al carrito:', err);
@@ -123,18 +187,30 @@ export default function useCart() {
     }
   }, [isAuthenticated, token, fetchCart]);
 
+  // ============================================
+  // removeItem() - Eliminar producto del carrito
+  // ============================================
+  // Parámetros: id - ID del producto (no itemId)
+  // Endpoint: DELETE /api/carrito/eliminar/:itemId
+  // Nota: Busca itemId en carrito local antes de eliminar
   const removeItem = useCallback(async (id) => {
     if (!isAuthenticated || !token) {
       return;
     }
 
     try {
-      // Buscar el itemId (ID de carrito_items) desde el carrito actual
+      // ============================================
+      // IMPORTANTE: Diferencia entre id e itemId
+      // ============================================
+      // id: producto_id (identifica el producto)
+      // itemId: id de carrito_items (identifica el registro en la tabla)
+      // Backend necesita itemId para eliminar
       const item = cart.find(i => i.id === id);
       if (!item || !item.itemId) {
         throw new Error('Item no encontrado');
       }
 
+      // Petición DELETE con itemId en la URL
       const response = await fetch(`${API_BASE_URL}/carrito/eliminar/${item.itemId}`, {
         method: 'DELETE',
         headers: {
@@ -147,7 +223,7 @@ export default function useCart() {
         throw new Error('Error al eliminar producto');
       }
 
-      // Recargar carrito
+      // Recargar carrito desde backend
       await fetchCart();
     } catch (err) {
       console.error('Error al eliminar del carrito:', err);
@@ -155,22 +231,32 @@ export default function useCart() {
     }
   }, [isAuthenticated, token, cart, fetchCart]);
 
+  // ============================================
+  // updateQuantity() - Actualizar cantidad de un producto
+  // ============================================
+  // Parámetros:
+  //   - id: ID del producto
+  //   - quantity: Nueva cantidad (si es 0 o negativo, elimina el item)
+  // Endpoint: PUT /api/carrito/actualizar/:itemId
   const updateQuantity = useCallback(async (id, quantity) => {
     if (!isAuthenticated || !token) {
       return;
     }
 
+    // Si la cantidad es 0 o negativa, eliminar el item
     if (quantity <= 0) {
       await removeItem(id);
       return;
     }
 
     try {
+      // Buscar itemId del producto en carrito local
       const item = cart.find(i => i.id === id);
       if (!item || !item.itemId) {
         throw new Error('Item no encontrado');
       }
 
+      // Petición PUT para actualizar cantidad
       const response = await fetch(`${API_BASE_URL}/carrito/actualizar/${item.itemId}`, {
         method: 'PUT',
         headers: {
@@ -184,7 +270,7 @@ export default function useCart() {
         throw new Error('Error al actualizar cantidad');
       }
 
-      // Recargar carrito
+      // Recargar carrito desde backend
       await fetchCart();
     } catch (err) {
       console.error('Error al actualizar carrito:', err);
@@ -192,12 +278,18 @@ export default function useCart() {
     }
   }, [isAuthenticated, token, cart, fetchCart, removeItem]);
 
+  // ============================================
+  // clearCart() - Vaciar carrito completamente
+  // ============================================
+  // Endpoint: DELETE /api/carrito/vaciar
+  // Comportamiento: Elimina todos los items del carrito activo
   const clearCart = useCallback(async () => {
     if (!isAuthenticated || !token) {
       return;
     }
 
     try {
+      // Petición DELETE para vaciar carrito
       const response = await fetch(`${API_BASE_URL}/carrito/vaciar`, {
         method: 'DELETE',
         headers: {
@@ -210,7 +302,10 @@ export default function useCart() {
         throw new Error('Error al vaciar carrito');
       }
 
+      // Actualizar estado local a carrito vacío
       setCart([]);
+      
+      // Emitir evento de sincronización con carrito vacío
       broadcastCart([]);
     } catch (err) {
       console.error('Error al vaciar carrito:', err);
@@ -218,18 +313,28 @@ export default function useCart() {
     }
   }, [isAuthenticated, token]);
 
+  // ============================================
+  // CÁLCULOS DERIVADOS
+  // ============================================
+  // count: Total de items (suma de cantidades)
   const count = cart.reduce((t, i) => t + (i.quantity || 0), 0);
+  
+  // total: Precio total del carrito (suma de precio × cantidad)
   const total = cart.reduce((t, i) => t + (i.precio * (i.quantity || 0)), 0);
 
+  // ============================================
+  // RETORNO DEL HOOK
+  // ============================================
+  // Proporciona estado y funciones para gestionar carrito
   return {
-    cart,
-    addItem,
-    removeItem,
-    updateQuantity,
-    clearCart,
-    count,
-    total,
-    loading,
-    error
+    cart,           // Array de items del carrito
+    addItem,        // Función para agregar producto
+    removeItem,     // Función para eliminar producto
+    updateQuantity, // Función para actualizar cantidad
+    clearCart,      // Función para vaciar carrito
+    count,          // Total de items (número)
+    total,          // Precio total (número)
+    loading,        // Estado de carga (boolean)
+    error           // Error si hubo alguno (string | null)
   };
 }

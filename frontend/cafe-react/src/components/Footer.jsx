@@ -1,5 +1,15 @@
-// Archivo: Footer.jsx
-// Componente: pie de página con enlaces rápidos, políticas y contacto.
+// ============================================
+// FOOTER.JSX - PIE DE PÁGINA
+// ============================================
+// REQUERIMIENTO: Footer global con información de la empresa
+// Contenido:
+// - Descripción breve de CaféSantander
+// - Enlaces rápidos a páginas principales (React Router)
+// - Enlaces a políticas (términos, privacidad, envíos)
+// - Información de contacto (dirección, teléfono, email, horario)
+// - Redes sociales
+// - Copyright
+
 import { Link } from 'react-router-dom';
 
 const Footer = () => {

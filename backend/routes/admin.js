@@ -1,9 +1,21 @@
-// routes/admin.js - Rutas de administración (CRUD)
+// ============================================
+// ROUTES/ADMIN.JS - RUTAS DE ADMINISTRACIÓN
+// ============================================
+// REQUERIMIENTO: Sistema CRUD completo para gestión administrativa
+// Endpoints:
+// - Productos: GET (listar/buscar/por ID), POST (crear), PUT (actualizar), DELETE (eliminar)
+// - Usuarios: GET (listar/buscar/por ID), PUT (actualizar), DELETE (eliminar)
+// - Estadísticas: GET (totales del sistema)
+
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
 
-// Middleware de autenticación de admin (verificar en el frontend)
+// ============================================
+// MIDDLEWARE DE AUTENTICACIÓN DE ADMIN
+// ============================================
+// Nota: La validación principal se realiza en frontend
+// Este middleware es un placeholder para validaciones futuras
 const adminAuth = (req, res, next) => {
   // Nota: La validación de admin se realiza principalmente en el frontend
   // El backend protegerá estas rutas con validación básica

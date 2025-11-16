@@ -1,4 +1,12 @@
-// adminController.js - Controlador para funciones de administración
+// ============================================
+// ADMINCONTROLLER.JS - CONTROLADOR DE ADMINISTRACIÓN
+// ============================================
+// REQUERIMIENTO: Sistema CRUD completo para panel administrativo
+// Implementa todas las operaciones CRUD para:
+// - Productos (crear, leer, actualizar, eliminar, buscar)
+// - Usuarios (leer, actualizar, eliminar, buscar)
+// - Estadísticas del sistema
+
 const pool = require('../db/connection');
 
 // ============================================

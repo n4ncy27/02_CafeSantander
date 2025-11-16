@@ -1,9 +1,28 @@
+// ============================================
+// USERPROFILEMODAL.JSX - MODAL DE PERFIL DE USUARIO
+// ============================================
+// REQUERIMIENTO: Vista de información del usuario autenticado
+// Muestra:
+// - Avatar con inicial del nombre
+// - Nombre completo
+// - Email
+// - ID de usuario
+// - Botón de cerrar sesión
+
 import { useAuth } from '../context/useAuthHook.js';
 import { Modal, Button, Alert } from 'react-bootstrap';
 
 const UserProfileModal = ({ show, onHide }) => {
+  // Obtener datos del usuario del contexto de autenticación
   const { user, logout } = useAuth();
 
+  // ============================================
+  // HANDLER: Cerrar sesión
+  // ============================================
+  // Proceso:
+  // 1. Llamar función logout del AuthContext
+  // 2. Limpiar localStorage (token)
+  // 3. Cerrar modal
   const handleLogout = () => {
     logout();
     onHide();
