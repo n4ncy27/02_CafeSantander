@@ -7,6 +7,7 @@ import { Dropdown, Button } from 'react-bootstrap';
 import { NavLink, Link } from 'react-router-dom';
 import BootstrapLoginModal from './BootstrapLoginModal';
 import UserProfileModal from './UserProfileModal';
+import AdminLoginModal from './AdminLoginModal';
 // El header mantiene la estructura para que el CSS de página siga funcionando.
 const Header = () => {
   const [isNavActive, setIsNavActive] = useState(false);
@@ -60,26 +61,32 @@ const Header = () => {
           <NavLink to="/" end className={({isActive}) => isActive ? 'active' : ''} onClick={() => setIsNavActive(false)}>Inicio</NavLink>
           <NavLink to="/acerca" className={({isActive}) => isActive ? 'active' : ''} onClick={() => setIsNavActive(false)}>Acerca</NavLink>
           <NavLink to="/servicios" className={({isActive}) => isActive ? 'active' : ''} onClick={() => setIsNavActive(false)}>Servicios</NavLink>
+          <NavLink to="/turismo" className={({isActive}) => isActive ? 'active' : ''} onClick={() => setIsNavActive(false)}>Turismo</NavLink>
           <NavLink to="/contacto" className={({isActive}) => isActive ? 'active' : ''} onClick={() => setIsNavActive(false)}>Contacto</NavLink>
           {/* enlace a la página principal con hash para desplazar a la sección productos */}
           {/* Usar Link con pathname+hash para que react-router actualice la ubicación sin recargar */}
           <Link to={{ pathname: '/', hash: '#productos' }} className="nav-link" onClick={() => setIsNavActive(false)}>Nuestros Productos</Link>
+          <NavLink to="/encuesta" className={({isActive}) => isActive ? 'active' : ''} onClick={() => setIsNavActive(false)}>Encuesta</NavLink>
         </nav>
 
         <div className="auth-buttons">
           {!isAuthenticated ? (
             <>
               <Button variant="outline-primary" size="sm" className="me-2" onClick={() => { setActiveAuthTab('login'); setIsModalOpen(true); }}>Iniciar Sesión</Button>
-              <Button variant="outline-success" size="sm" onClick={() => { setActiveAuthTab('register'); setIsModalOpen(true); }}>Registrarse</Button>
+              <Button variant="outline-success" size="sm" className="me-2" onClick={() => { setActiveAuthTab('register'); setIsModalOpen(true); }}>Registrarse</Button>
+              <AdminLoginModal />
             </>
           ) : (
-            <Dropdown align="end">
-              <Dropdown.Toggle variant="outline-secondary" id="user-dropdown">Mi Cuenta</Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => setIsProfileOpen(true)}>Mi Perfil</Dropdown.Item>
-                <Dropdown.Item onClick={() => { logout(); showToast('Sesión cerrada', 'success'); }}>Cerrar sesión</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <>
+              <Dropdown align="end">
+                <Dropdown.Toggle variant="outline-secondary" id="user-dropdown">Mi Cuenta</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => setIsProfileOpen(true)}>Mi Perfil</Dropdown.Item>
+                  <Dropdown.Item onClick={() => { logout(); showToast('Sesión cerrada', 'success'); }}>Cerrar sesión</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <AdminLoginModal />
+            </>
           )}
     {/* Icono de carrito siempre visible; no autenticado abre modal, si autenticado va a /carrito */}
           {isAuthenticated ? (

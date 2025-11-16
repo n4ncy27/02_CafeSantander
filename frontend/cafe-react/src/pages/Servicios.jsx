@@ -66,34 +66,158 @@ const Servicios = () => {
         Cítricos: ['Pomelo','Naranja', 'Limón','Lima']
       },
       products: {
-        Mora: { name: 'Café con Mora', description: 'Aromático dulce...', image: '/imagenes/cafe/temora.jpg' },
-        Frambuesa: { name: 'Café con Frambuesa', description: 'Aromático...', image: '/imagenes/cafe/teframbuesa.jpg' },
-        Arandano: { name: 'Café con Arándano', description: 'Aromático...', image: '/imagenes/cafe/tearanonos.jpg' },
-        Fresa: { name: 'Café con Fresa', description: 'Aromático...', image: '/imagenes/cafe/tefresas.jpg' },
-        'Pasas de uva': { name: 'Café con Pasas de Uva', description: 'Aromático...', image: '/imagenes/cafe/teuvaspasas.jpg' },
-        'Pasas de ciruela': { name: 'Café con Pasas de Ciruela', description: 'Aromático...', image: '/imagenes/cafe/tepasasciruela.jpg' },
-        Coco: { name: 'Café con Coco', description: 'Aromático...', image: '/imagenes/cafe/cafecoco.jpg' },
-        Cereza: { name: 'Café con Cereza', description: 'Aromático...', image: '/imagenes/cafe/cafecereza.jpg' },
-        Granada: { name: 'Café con Granada', description: 'Aromático...', image: '/imagenes/cafe/cafegranada.jpg' },
-        Piña: { name: 'Café con Piña', description: 'Aromático...', image: '/imagenes/cafe/cafepiña.jpg' },
-        Uva: { name: 'Café con Uva', description: 'Aromático...', image: '/imagenes/cafe/cafeuva.jpg' },
-        Manzana: { name: 'Café con Manzana', description: 'Aromático...', image: '/imagenes/cafe/cafemanzana.jpg' },
-        Melocotón: { name: 'Café con Melocotón', description: 'Aromático...', image: '/imagenes/cafe/cafedurazno.jpg' },
-        Pera: { name: 'Café con Pera', description: 'Aromático...', image: '/imagenes/cafe/cafepera.jpg' },
-        Pomelo: { name: 'Café con Pomelo', description: 'Aromático...', image: '/imagenes/cafe/cafepomelo.jpg' },
-        Naranja: { name: 'Café con Naranja', description: 'Aromático...', image: '/imagenes/cafe/cafenaranja.jpg' },
-        Limón: { name: 'Café con Limón', description: 'Aromático...', image: '/imagenes/cafe/cafelimon.jpg' },
-        Lima: { name: 'Café con Lima', description: 'Aromático...', image: '/imagenes/cafe/cafelima.jpg' }
+        Mora: { name: 'Café con Mora', description: 'Aromático dulce con notas de mora', image: '/imagenes/cafe/temora.jpg' },
+        Frambuesa: { name: 'Café con Frambuesa', description: 'Aromático con frambuesa', image: '/imagenes/cafe/teframbuesa.jpg' },
+        Arandano: { name: 'Café con Arándano', description: 'Aromático con arándano', image: '/imagenes/cafe/tearanonos.jpg' },
+        Fresa: { name: 'Café con Fresa', description: 'Aromático con fresa', image: '/imagenes/cafe/tefresas.jpg' },
+        'Pasas de uva': { name: 'Café con Pasas de Uva', description: 'Aromático con pasas', image: '/imagenes/cafe/teuvaspasas.jpg' },
+        'Pasas de ciruela': { name: 'Café con Pasas de Ciruela', description: 'Aromático con ciruela', image: '/imagenes/cafe/tepasasciruela.jpg' },
+        Coco: { name: 'Café con Coco', description: 'Aromático tropical', image: '/imagenes/cafe/cafecoco.jpg' },
+        Cereza: { name: 'Café con Cereza', description: 'Aromático con cereza', image: '/imagenes/cafe/cafecereza.jpg' },
+        Granada: { name: 'Café con Granada', description: 'Aromático con granada', image: '/imagenes/cafe/cafegranada.jpg' },
+        Piña: { name: 'Café con Piña', description: 'Aromático tropical', image: '/imagenes/cafe/cafepiña.jpg' },
+        Uva: { name: 'Café con Uva', description: 'Aromático con uva', image: '/imagenes/cafe/cafeuva.jpg' },
+        Manzana: { name: 'Café con Manzana', description: 'Aromático con manzana', image: '/imagenes/cafe/cafemanzana.jpg' },
+        Melocotón: { name: 'Café con Melocotón', description: 'Aromático con durazno', image: '/imagenes/cafe/cafedurazno.jpg' },
+        Pera: { name: 'Café con Pera', description: 'Aromático con pera', image: '/imagenes/cafe/cafepera.jpg' },
+        Pomelo: { name: 'Café con Pomelo', description: 'Aromático cítrico', image: '/imagenes/cafe/cafepomelo.jpg' },
+        Naranja: { name: 'Café con Naranja', description: 'Aromático cítrico', image: '/imagenes/cafe/cafenaranja.jpg' },
+        Limón: { name: 'Café con Limón', description: 'Aromático cítrico', image: '/imagenes/cafe/cafelimon.jpg' },
+        Lima: { name: 'Café con Lima', description: 'Aromático cítrico', image: '/imagenes/cafe/cafelima.jpg' }
       }
     },
-    FLORAL: { description: 'Aromas florales', subOptions: ['Floral','Té negro'], finalOptions: { Floral: ['Manzanilla','Jazmín','Rosa'] }, products: { Manzanilla: { name: 'Café con Manzanilla', image: '/imagenes/cafe/temanzanilla.jpg' }, Jazmín: { name: 'Café con Jazmín', image: '/imagenes/cafe/tejazmin.jpg' }, Rosa: { name: 'Café con Rosas', image: '/imagenes/cafe/terosa.jpg' } } },
-    DULCE: { description: 'Frutas secas y especiadas', subOptions: ['Azucar morena','Azucarados'], finalOptions: { 'Azucar morena': ['Melaza','Jarabe de manzana','Caramelizado','Miel'] }, products: { Melaza: { name: 'Café de Melaza', image: '/imagenes/cafe/cafemelaza.jpg' }, Miel: { name: 'Café de Miel', image: '/imagenes/cafe/cafemiel.jpg' } } },
-    'ACIDO/FERMENTADO': { description: 'Notas ácidas', subOptions: ['Acido','Alcohol/Fermentado'], finalOptions: { Acido: ['Aromaticos ácidos','Ácido acético'] }, products: { 'Aromaticos ácidos': { name: 'Café con Aromáticos Ácidos', image: '/imagenes/cafe/cafearomaticoacido.jpg' } } },
-    'VERDE/VEGETAL': { description: 'Notas herbales', subOptions: ['Verde/vegetativo','Otros'], finalOptions: { 'Verde/vegetativo': ['Poco mauduro','Peapod','Fresco'] }, products: { 'Poco mauduro': { name: 'Café Poco Maduro', image: '/imagenes/cafe/cafepocomaduro.jpg' } } },
-    OTROS: { description: 'Notas variadas', subOptions: ['Papel/Mohoso','Químico'], finalOptions: { 'Papel/Mohoso': ['Duro','Cartón'] }, products: { Duro: { name: 'Café Duro', image: '/imagenes/cafe/cafeuro.jpg' } } },
-    TOSTADO: { description: 'Impresión de tostado', subOptions: ['Quemado','Cereal'], finalOptions: { Quemado: ['Acre','Ceniciento'] }, products: { 'Marrón,Tostado': { name: 'Café Tostado', image: '/imagenes/cafe/cafetostado.jpg' } } },
-    ESPECIAS: { description: 'Especias', subOptions: ['Especias marrón','Otras especias'], finalOptions: { 'Especias marrón': ['Anís','Nuez moscada','Canela','Clavo'] }, products: { Anís: { name: 'Café de Anís', image: '/imagenes/cafe/cafeanis.jpg' } } },
-    'NUECES/CACAO': { description: 'Nueces y cacao', subOptions: ['Nuez','Cacao'], finalOptions: { Nuez: ['Cacahuates','Avellana'] }, products: { Cacahuates: { name: 'Café de Cacahuate', image: '/imagenes/cafe/cafecacahuate.jpg' } } }
+    FLORAL: { 
+      description: 'Aromas florales delicados y aromáticos que evocan jardines en primavera', 
+      subOptions: ['Floral','Té negro'], 
+      finalOptions: { 
+        Floral: ['Manzanilla','Jazmín','Rosa'],
+        'Té negro': ['Té negro']
+      }, 
+      products: { 
+        Manzanilla: { name: 'Café con Manzanilla', description: 'Suave y floral', image: '/imagenes/cafe/temanzanilla.jpg' }, 
+        Jazmín: { name: 'Café con Jazmín', description: 'Aromático floral', image: '/imagenes/cafe/tejazmin.jpg' }, 
+        Rosa: { name: 'Café con Rosas', description: 'Delicado y floral', image: '/imagenes/cafe/terosa.jpg' },
+        'Té negro': { name: 'Café con Té Negro', description: 'Complejo y aromático', image: '/imagenes/cafe/temanzanilla.jpg' }
+      } 
+    },
+    DULCE: { 
+      description: 'Notas dulces y caramelizadas que recuerdan a postres', 
+      subOptions: ['Azucar morena','Azucarados'], 
+      finalOptions: { 
+        'Azucar morena': ['Melaza','Jarabe de manzana','Caramelizado','Miel'],
+        Azucarados: ['Vainilla','Aroma de vainilla','Dulce en general']
+      }, 
+      products: { 
+        Melaza: { name: 'Café de Melaza', description: 'Dulce profundo', image: '/imagenes/cafe/cafemelaza.jpg' }, 
+        Miel: { name: 'Café de Miel', description: 'Suave y dulce', image: '/imagenes/cafe/cafemiel.jpg' },
+        'Jarabe de manzana': { name: 'Café con Jarabe de Manzana', description: 'Dulce frutal', image: '/imagenes/cafe/cafemiel.jpg' },
+        Caramelizado: { name: 'Café Caramelizado', description: 'Tostado dulce', image: '/imagenes/cafe/cafemelaza.jpg' },
+        Vainilla: { name: 'Café de Vainilla', description: 'Aromático dulce', image: '/imagenes/cafe/cafemiel.jpg' },
+        'Aroma de vainilla': { name: 'Café con Aroma de Vainilla', description: 'Suave vainilla', image: '/imagenes/cafe/cafemiel.jpg' },
+        'Dulce en general': { name: 'Café Dulce', description: 'Dulzor equilibrado', image: '/imagenes/cafe/cafemelaza.jpg' }
+      } 
+    },
+    'ACIDO/FERMENTADO': { 
+      description: 'Notas ácidas y fermentadas complejas', 
+      subOptions: ['Acido','Alcohol/Fermentado'], 
+      finalOptions: { 
+        Acido: ['Aromaticos ácidos','Ácido acético','Ácido butírico','Ácido isovalérico','Ácido cítrico','Ácido málico'],
+        'Alcohol/Fermentado': ['Vinoso','Whisky','Fermentado','Muy maduro']
+      }, 
+      products: { 
+        'Aromaticos ácidos': { name: 'Café con Aromáticos Ácidos', description: 'Complejo ácido', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        'Ácido acético': { name: 'Café Ácido Acético', description: 'Ácido vibrante', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        'Ácido butírico': { name: 'Café Ácido Butírico', description: 'Ácido complejo', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        'Ácido isovalérico': { name: 'Café Ácido Isovalérico', description: 'Ácido intenso', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        'Ácido cítrico': { name: 'Café Ácido Cítrico', description: 'Ácido brillante', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        'Ácido málico': { name: 'Café Ácido Málico', description: 'Ácido fresco', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        Vinoso: { name: 'Café Vinoso', description: 'Fermentado vinoso', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        Whisky: { name: 'Café Whisky', description: 'Fermentado complejo', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        Fermentado: { name: 'Café Fermentado', description: 'Fermentado artesanal', image: '/imagenes/cafe/cafearomaticoacido.jpg' },
+        'Muy maduro': { name: 'Café Muy Maduro', description: 'Fermentado maduro', image: '/imagenes/cafe/cafearomaticoacido.jpg' }
+      } 
+    },
+    'VERDE/VEGETAL': { 
+      description: 'Notas herbales y vegetales frescas', 
+      subOptions: ['Verde/vegetativo','Otros'], 
+      finalOptions: { 
+        'Verde/vegetativo': ['Poco maduro','Peapod','Fresco'],
+        Otros: ['Duro','Cartón']
+      }, 
+      products: { 
+        'Poco maduro': { name: 'Café Poco Maduro', description: 'Verde fresco', image: '/imagenes/cafe/cafepocomaduro.jpg' },
+        Peapod: { name: 'Café Peapod', description: 'Verde vegetal', image: '/imagenes/cafe/cafepocomaduro.jpg' },
+        Fresco: { name: 'Café Fresco', description: 'Verde brillante', image: '/imagenes/cafe/cafepocomaduro.jpg' },
+        Duro: { name: 'Café Duro', description: 'Robusto intenso', image: '/imagenes/cafe/cafeuro.jpg' },
+        Cartón: { name: 'Café Cartón', description: 'Seco intenso', image: '/imagenes/cafe/cafeuro.jpg' }
+      } 
+    },
+    OTROS: { 
+      description: 'Notas especiales y únicas', 
+      subOptions: ['Papel/Mohoso','Químico'], 
+      finalOptions: { 
+        'Papel/Mohoso': ['Duro','Cartón','Papel','Mohoso'],
+        Químico: ['Químico','Medicinal']
+      }, 
+      products: { 
+        Duro: { name: 'Café Duro', description: 'Intenso robusto', image: '/imagenes/cafe/cafeuro.jpg' },
+        Cartón: { name: 'Café Cartón', description: 'Seco', image: '/imagenes/cafe/cafeuro.jpg' },
+        Papel: { name: 'Café Papel', description: 'Seco suave', image: '/imagenes/cafe/cafeuro.jpg' },
+        Mohoso: { name: 'Café Mohoso', description: 'Terroso', image: '/imagenes/cafe/cafeuro.jpg' },
+        Químico: { name: 'Café Químico', description: 'Intenso', image: '/imagenes/cafe/cafeuro.jpg' },
+        Medicinal: { name: 'Café Medicinal', description: 'Herbal intenso', image: '/imagenes/cafe/cafeuro.jpg' }
+      } 
+    },
+    TOSTADO: { 
+      description: 'Impresión de tostado profundo', 
+      subOptions: ['Quemado','Cereal'], 
+      finalOptions: { 
+        Quemado: ['Acre','Ceniciento','Humo'],
+        Cereal: ['Marrón','Tostado','Grano']
+      }, 
+      products: { 
+        Acre: { name: 'Café Acre', description: 'Tostado intenso', image: '/imagenes/cafe/cafetostado.jpg' },
+        Ceniciento: { name: 'Café Ceniciento', description: 'Tostado profundo', image: '/imagenes/cafe/cafetostado.jpg' },
+        Humo: { name: 'Café Ahumado', description: 'Tostado ahumado', image: '/imagenes/cafe/cafetostado.jpg' },
+        Marrón: { name: 'Café Marrón Tostado', description: 'Tostado medio', image: '/imagenes/cafe/cafetostado.jpg' },
+        Tostado: { name: 'Café Tostado', description: 'Tostado clásico', image: '/imagenes/cafe/cafetostado.jpg' },
+        Grano: { name: 'Café Grano Tostado', description: 'Cereal tostado', image: '/imagenes/cafe/cafetostado.jpg' }
+      } 
+    },
+    ESPECIAS: { 
+      description: 'Especias aromáticas y complejas', 
+      subOptions: ['Especias marrón','Otras especias'], 
+      finalOptions: { 
+        'Especias marrón': ['Anís','Nuez moscada','Canela','Clavo'],
+        'Otras especias': ['Pimienta','Jengibre','Cardamomo']
+      }, 
+      products: { 
+        Anís: { name: 'Café de Anís', description: 'Especiado anisado', image: '/imagenes/cafe/cafeanis.jpg' },
+        'Nuez moscada': { name: 'Café de Nuez Moscada', description: 'Especiado cálido', image: '/imagenes/cafe/cafeanis.jpg' },
+        Canela: { name: 'Café de Canela', description: 'Especiado dulce', image: '/imagenes/cafe/cafeanis.jpg' },
+        Clavo: { name: 'Café de Clavo', description: 'Especiado intenso', image: '/imagenes/cafe/cafeanis.jpg' },
+        Pimienta: { name: 'Café de Pimienta', description: 'Especiado picante', image: '/imagenes/cafe/cafeanis.jpg' },
+        Jengibre: { name: 'Café de Jengibre', description: 'Especiado vibrante', image: '/imagenes/cafe/cafeanis.jpg' },
+        Cardamomo: { name: 'Café de Cardamomo', description: 'Especiado aromático', image: '/imagenes/cafe/cafeanis.jpg' }
+      } 
+    },
+    'NUECES/CACAO': { 
+      description: 'Nueces y cacao intensos', 
+      subOptions: ['Nuez','Cacao'], 
+      finalOptions: { 
+        Nuez: ['Cacahuates','Avellana','Almendra','Nuez'],
+        Cacao: ['Chocolate','Chocolate negro','Cacao']
+      }, 
+      products: { 
+        Cacahuates: { name: 'Café de Cacahuate', description: 'Nueces tostadas', image: '/imagenes/cafe/cafecacahuate.jpg' },
+        Avellana: { name: 'Café de Avellana', description: 'Nueces dulces', image: '/imagenes/cafe/cafecacahuate.jpg' },
+        Almendra: { name: 'Café de Almendra', description: 'Nueces suaves', image: '/imagenes/cafe/cafecacahuate.jpg' },
+        Nuez: { name: 'Café de Nuez', description: 'Nueces intensas', image: '/imagenes/cafe/cafecacahuate.jpg' },
+        Chocolate: { name: 'Café de Chocolate', description: 'Cacao dulce', image: '/imagenes/cafe/cafecacahuate.jpg' },
+        'Chocolate negro': { name: 'Café de Chocolate Negro', description: 'Cacao intenso', image: '/imagenes/cafe/cafecacahuate.jpg' },
+        Cacao: { name: 'Café de Cacao', description: 'Cacao puro', image: '/imagenes/cafe/cafecacahuate.jpg' }
+      } 
+    }
   }), []);
 
   const sectores = [
@@ -113,7 +237,7 @@ const Servicios = () => {
     const wheelGroup = document.getElementById('wheelGroup');
     if (!wheelGroup) return;
 
-    const cx = 250, cy = 250, outerR = 200, innerR = 90;
+    const cx = 250, cy = 250, outerR = 220, innerR = 60;
     const total = sectores.length;
     const anglePer = 360 / total;
     let currentAngle = 0;
@@ -143,16 +267,35 @@ const Servicios = () => {
       path.addEventListener('click', () => handleCategorySelect(s.name));
       wheelGroup.appendChild(path);
 
-  // etiqueta centrada del sector
-  const mid = start + anglePer / 2;
-      const labelPos = polarToCartesian(cx, cy, (outerR + innerR) / 2, mid);
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', String(labelPos.x));
-      text.setAttribute('y', String(labelPos.y));
-      text.setAttribute('class', 'sector-label');
-      text.setAttribute('text-anchor', 'middle');
-      text.textContent = s.name;
-      wheelGroup.appendChild(text);
+      // etiqueta centrada del sector con mejor posicionamiento
+      const mid = start + anglePer / 2;
+      const labelRadius = (outerR + innerR) / 2 + 15;
+      const labelPos = polarToCartesian(cx, cy, labelRadius, mid);
+      
+      // Dividir texto largo en múltiples líneas
+      const words = s.name.split('/');
+      if (words.length > 1) {
+        // Para categorías con '/', dividir en dos líneas
+        words.forEach((word, idx) => {
+          const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          text.setAttribute('x', String(labelPos.x));
+          text.setAttribute('y', String(labelPos.y + (idx - 0.5) * 14));
+          text.setAttribute('class', 'sector-label');
+          text.setAttribute('text-anchor', 'middle');
+          text.setAttribute('dominant-baseline', 'middle');
+          text.textContent = word.trim();
+          wheelGroup.appendChild(text);
+        });
+      } else {
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', String(labelPos.x));
+        text.setAttribute('y', String(labelPos.y));
+        text.setAttribute('class', 'sector-label');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'middle');
+        text.textContent = s.name;
+        wheelGroup.appendChild(text);
+      }
 
       currentAngle += anglePer;
     });
@@ -231,9 +374,18 @@ const Servicios = () => {
 
       <section className="ruleta-section">
         <div className="wheel-area">
-          <svg width="520" height="520" viewBox="0 0 500 500" aria-hidden>
-                  <g id="wheelGroup"></g>
-                </svg>
+          <div className="wheel-container">
+            <svg width="700" height="700" viewBox="0 0 500 500" aria-hidden className="flavor-wheel">
+              <g id="wheelGroup"></g>
+            </svg>
+            <div className="wheel-center">
+              <div className="center-logo">
+                <i className="fas fa-coffee"></i>
+                <span>Café</span>
+              </div>
+            </div>
+          </div>
+          <p className="wheel-instruction">👆 Haz clic en una sección para explorar sabores</p>
         </div>
 
         <div className="panel" aria-live="polite">
@@ -271,6 +423,10 @@ const Servicios = () => {
               </div>
             </div>
           )}
+
+          <div className="panel-footer">
+            <em>CaféSantander</em>
+          </div>
         </div>
       </section>
 

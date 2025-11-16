@@ -140,3 +140,21 @@ INSERT INTO productos (nombre, precio, disponible, imagen) VALUES
 INSERT INTO productos (nombre, precio, disponible, imagen) VALUES
 ('Café de Cacahuate', 18150.00, 1, '/imagenes/cafe/cafecacahuate.jpg'),
 ('Café con Avellana', 18150.00, 1, '/imagenes/cafe/cafeavellana.jpg');
+
+-- =============================================
+-- USUARIO DE APLICACIÓN PARA EL PROFESOR
+-- Usuario de prueba ya registrado en la aplicación
+-- Email: un_usr@gmail.com  |  Contraseña: una_clave
+-- =============================================
+INSERT INTO usuarios (email, password, nombre, apellido, telefono, direccion) VALUES
+('un_usr@gmail.com', '$2b$10$ibSg3SrWkuH95NrpBLntKu6qolSG2XQGO5V1QojdVYMtlIVSpmWYi', 'Usuario', 'Prueba', '3001234567', 'Dirección de prueba');
+
+-- =============================================
+-- USUARIO DE BASE DE DATOS PARA EL PROFESOR
+-- Crea el usuario MySQL solicitado y le da permisos sobre cafeDB
+-- Usuario: un_usr  |  Clave: una_clave
+-- Nota: IF NOT EXISTS evita error si ya existe
+-- =============================================
+CREATE USER IF NOT EXISTS 'un_usr'@'localhost' IDENTIFIED BY 'una_clave';
+GRANT ALL PRIVILEGES ON cafeDB.* TO 'un_usr'@'localhost';
+FLUSH PRIVILEGES;

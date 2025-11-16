@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turismo en Bucaramanga - Café Santander</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f0eb 0%, #e8dbd0 100%);
+      color: #333;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #6b4423;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #8b6f47;
+      font-style: italic;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(135deg, #e0c097 0%, #d4a574 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    .card-content {
+      padding: 25px;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      color: #6b4423;
+      margin-bottom: 10px;
+    }
+
+    .card-description {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .card-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #c4842f;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .btn-view {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #c4842f;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .btn-view:hover {
+      background: #a66b24;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+      border-top: 2px solid rgba(196,132,37,0.2);
+    }
+
+    .info-box {
+      background: #fff7ef;
+      border-left: 4px solid #c4842f;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏛️ Turismo en Bucaramanga</h1>
+      <p class="subtitle">Descubre los destinos turísticos más hermosos de Bucaramanga y su área metropolitana</p>
+    </header>
+
+    <div class="info-box">
+      <strong>ℹ️ Nota:</strong> Bucaramanga es conocida como la "Ciudad de los Parques" y tiene una ubicación privilegiada en los Andes colombianos. 
+      Te invitamos a explorar sus maravillas naturales y culturales.
+    </div>
+
+    <div class="gallery">
+      <!-- Tarjeta 1: Parque Arví -->
+      <div class="card">
+        <div class="card-image">🚠</div>
+        <div class="card-content">
+          <h2 class="card-title">Parque Arví</h2>
+          <p class="card-description">
+            Disfruta de vistas panorámicas espectaculares de la ciudad desde uno de los cable cars más antiguos del mundo. 
+            El Parque Arví ofrece senderos, restaurantes y zonas de picnic.
+          </p>
+          <div class="card-location">
+            📍 Bucaramanga - Floridablanca
+          </div>
+          <a href="/public/turismo/parque_arvi.jpg" class="btn-view" download>
+            Ver Imagen
+          </a>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: Monumento a los Héroes Inmortales -->
+      <div class="card">
+        <div class="card-image">🗿</div>
+        <div class="card-content">
+          <h2 class="card-title">Monumento a los Héroes Inmortales</h2>
+          <p class="card-description">
+            Símbolo icónico de Bucaramanga ubicado en el Parque García Rovira. Este monumento honra a los héroes 
+            de la independencia colombiana y es punto de encuentro de la ciudad.
+          </p>
+          <div class="card-location">
+            📍 Centro - Bucaramanga
+          </div>
+          <a href="/public/turismo/monumento_heroes.jpg" class="btn-view" download>
+            Ver Imagen
+          </a>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3: Cañón del Chicamocha -->
+      <div class="card">
+        <div class="card-image">⛰️</div>
+        <div class="card-content">
+          <h2 class="card-title">Cañón del Chicamocha</h2>
+          <p class="card-description">
+            Uno de los cañones más espectaculares de Colombia con profundidades superiores a 600 metros. 
+            Ideal para paragliding, senderismo y disfrutar de la naturaleza salvaje.
+          </p>
+          <div class="card-location">
+            📍 Área Metropolitana - Departamento de Santander
+          </div>
+          <a href="/public/turismo/chicamocha_canyon.jpg" class="btn-view" download>
+            Ver Imagen
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>🏔️ Bucaramanga - La Ciudad de los Parques | Café Santander © 2025</p>
+      <p style="margin-top: 10px; font-size: 0.9rem;">
+        Para acceder a las imágenes desde el servidor, usa: 
+        <code>http://localhost:5000/public/turismo/[nombre-imagen]</code>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

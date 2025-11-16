@@ -1,0 +1,481 @@
+/* Estilos para la página de Encuesta */
+
+.encuesta-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff7ef 0%, #fff 100%);
+}
+
+/* Hero Section */
+.encuesta-hero {
+  background: linear-gradient(135deg, #4b1248 0%, #8B4513 100%);
+  color: white;
+  padding: 80px 20px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.encuesta-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="40">☕</text></svg>') repeat;
+  opacity: 0.05;
+  animation: float 20s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100px); }
+}
+
+.encuesta-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.encuesta-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.encuesta-subtitle {
+  font-size: 1.5rem;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+/* Contenido Principal */
+.encuesta-content {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.encuesta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+/* Columna de Información */
+.encuesta-info .info-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.encuesta-info .info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+}
+
+.info-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.info-card h2 {
+  color: #4b1248;
+  font-size: 2rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.info-description {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+/* Objetivo Box */
+.objetivo-box {
+  background: linear-gradient(135deg, #f0c27b 0%, #f6a11c 100%);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-left: 5px solid #4b1248;
+}
+
+.objetivo-box h3 {
+  color: #4b1248;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.objetivo-box p {
+  color: #2c1810;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Lista de Beneficios */
+.beneficios-list {
+  margin-bottom: 30px;
+}
+
+.beneficios-list h3 {
+  color: #4b1248;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.beneficios-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.beneficios-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: transform 0.2s ease;
+}
+
+.beneficios-list li:hover {
+  transform: translateX(5px);
+}
+
+.beneficios-list li:last-child {
+  border-bottom: none;
+}
+
+.beneficios-list i {
+  color: #4CAF50;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.beneficios-list span {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Botón principal de encuesta web */
+.btn-encuesta-web {
+  width: 100%;
+  background: linear-gradient(135deg, #4b1248 0%, #8B4513 100%);
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(75, 18, 72, 0.3);
+}
+
+.btn-encuesta-web:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(75, 18, 72, 0.4);
+}
+
+.btn-encuesta-web:active {
+  transform: translateY(-1px);
+}
+
+/* Columna QR */
+.encuesta-qr .qr-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.qr-header {
+  margin-bottom: 30px;
+}
+
+.qr-header i {
+  font-size: 3rem;
+  color: #4b1248;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.qr-header h3 {
+  color: #4b1248;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* Contenedor de imagen QR */
+.qr-image-container {
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.qr-code-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+.qr-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+/* Instrucciones QR */
+.qr-instructions {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.qr-instructions h4 {
+  color: #4b1248;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.qr-instructions ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.qr-instructions li {
+  color: #555;
+  padding: 8px 0;
+  line-height: 1.6;
+}
+
+.qr-footer {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.qr-note {
+  color: #777;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.qr-note i {
+  color: #f6a11c;
+}
+
+/* Botón móvil */
+.mobile-only {
+  display: none;
+  margin-top: 20px;
+}
+
+.btn-encuesta-mobile {
+  width: 100%;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-encuesta-mobile:hover {
+  background: #45a049;
+  transform: scale(1.02);
+}
+
+/* Estadísticas */
+.encuesta-stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  padding: 40px 20px;
+  margin-bottom: 60px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #4b1248;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  color: #777;
+  font-weight: 500;
+}
+
+/* Call to Action Final */
+.encuesta-cta {
+  text-align: center;
+  background: linear-gradient(135deg, #f0c27b 0%, #f6a11c 100%);
+  border-radius: 20px;
+  padding: 50px 30px;
+  color: #4b1248;
+}
+
+.encuesta-cta h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.encuesta-cta p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+.btn-back-productos {
+  background: white;
+  color: #4b1248;
+  border: 2px solid #4b1248;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-back-productos:hover {
+  background: #4b1248;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(75, 18, 72, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .encuesta-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .encuesta-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .encuesta-subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .encuesta-hero {
+    padding: 60px 20px 40px;
+  }
+
+  .encuesta-hero h1 {
+    font-size: 2rem;
+  }
+
+  .encuesta-subtitle {
+    font-size: 1rem;
+  }
+
+  .encuesta-content {
+    padding: 40px 15px;
+  }
+
+  .info-card, .qr-card {
+    padding: 25px;
+  }
+
+  .info-card h2, .qr-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .encuesta-stats {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .stat-item {
+    width: 100%;
+  }
+
+  .encuesta-cta {
+    padding: 35px 20px;
+  }
+
+  .encuesta-cta h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .qr-image-container {
+    max-width: 250px;
+  }
+
+  .btn-encuesta-web,
+  .btn-encuesta-mobile {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+}

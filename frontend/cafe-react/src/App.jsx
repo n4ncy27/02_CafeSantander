@@ -5,14 +5,15 @@ import Carrito from './pages/Carrito';
 import Contacto from './pages/Contacto';
 import Servicios from './pages/Servicios';
 import Acerca from './pages/Acerca';
+import Admin from './pages/Admin';
+import Turismo from './pages/Turismo';
+import Encuesta from './pages/Encuesta';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
-import MandatoryAuthModal from './components/MandatoryAuthModal';
 
 function App() {
   return (
     <AuthProvider>
-      <MandatoryAuthModal />
       <ScrollHandler />
       <Routes>
         <Route path="/" element={<Inicio />} />
@@ -20,6 +21,9 @@ function App() {
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/servicios" element={<Servicios />} />
         <Route path="/acerca" element={<Acerca />} />
+        <Route path="/turismo" element={<Turismo />} />
+        <Route path="/encuesta" element={<Encuesta />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </AuthProvider>
   );

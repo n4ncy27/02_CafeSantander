@@ -725,6 +725,7 @@ header {
   padding: 2vw 5vw;
   background: rgba(231,163,61,0.7);
   border-radius: 10px;
+  border: 2px solid var(--accent);
   max-width: calc(95vw - 10px);
   box-sizing: border-box;
   width: calc(100% - 10px);
@@ -744,7 +745,7 @@ header {
 }
 
 .hero h1 {
-  font-size: 3.5rem;
+  font-size: 4.2rem;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
@@ -1154,6 +1155,10 @@ section {
 @media (max-width: 768px) {
   .hero {
     height: calc(55vh - 10px);
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
   }
 
   .product-image {

@@ -218,6 +218,138 @@ const carritoController = {
       console.error('Error al vaciar carrito:', error);
       res.status(500).json({ error: 'Error al vaciar carrito' });
     }
+  },
+
+  // CRUD COMPLETO - Funciones administrativas
+
+  // Listar todos los carritos (para admin)
+  listarTodosLosCarritos: async (req, res) => {
+    try {
+      const connection = await pool.getConnection();
+      
+      const [carritos] = await connection.query(
+        `SELECT 
+          c.id,
+          c.usuario_id,
+          c.estado,
+          c.created_at,
+          u.nombre as usuario_nombre,
+          u.email as usuario_email,
+          COUNT(ci.id) as total_items,
+          COALESCE(SUM(ci.cantidad * ci.precio), 0) as total_precio
+        FROM carritos c
+        LEFT JOIN usuarios u ON c.usuario_id = u.id
+        LEFT JOIN carrito_items ci ON c.id = ci.carrito_id
+        GROUP BY c.id, c.usuario_id, c.estado, c.created_at, u.nombre, u.email
+        ORDER BY c.created_at DESC`
+      );
+
+      connection.release();
+      res.json({ 
+        success: true,
+        data: carritos,
+        total: carritos.length
+      });
+    } catch (error) {
+      console.error('Error al listar carritos:', error);
+      res.status(500).json({ error: 'Error al listar carritos' });
+    }
+  },
+
+  // Obtener carrito por ID (para admin)
+  obtenerCarritoPorId: async (req, res) => {
+    try {
+      const { carritoId } = req.params;
+      const connection = await pool.getConnection();
+      
+      // Obtener información del carrito
+      const [carrito] = await connection.query(
+        `SELECT 
+          c.id,
+          c.usuario_id,
+          c.estado,
+          c.created_at,
+          u.nombre as usuario_nombre,
+          u.email as usuario_email
+        FROM carritos c
+        LEFT JOIN usuarios u ON c.usuario_id = u.id
+        WHERE c.id = ?`,
+        [carritoId]
+      );
+
+      if (carrito.length === 0) {
+        connection.release();
+        return res.status(404).json({ error: 'Carrito no encontrado' });
+      }
+
+      // Obtener items del carrito
+      const [items] = await connection.query(
+        `SELECT 
+          ci.id,
+          ci.producto_id,
+          ci.cantidad,
+          ci.precio,
+          p.nombre as producto_nombre,
+          p.imagen as producto_imagen
+        FROM carrito_items ci
+        JOIN productos p ON ci.producto_id = p.id
+        WHERE ci.carrito_id = ?`,
+        [carritoId]
+      );
+
+      connection.release();
+      res.json({
+        success: true,
+        data: {
+          ...carrito[0],
+          items,
+          total: items.reduce((sum, item) => sum + (item.precio * item.cantidad), 0)
+        }
+      });
+    } catch (error) {
+      console.error('Error al obtener carrito:', error);
+      res.status(500).json({ error: 'Error al obtener carrito' });
+    }
+  },
+
+  // Eliminar carrito completo (para admin)
+  eliminarCarrito: async (req, res) => {
+    try {
+      const { carritoId } = req.params;
+      const connection = await pool.getConnection();
+      
+      // Verificar que el carrito existe
+      const [existe] = await connection.query(
+        'SELECT id FROM carritos WHERE id = ?',
+        [carritoId]
+      );
+
+      if (existe.length === 0) {
+        connection.release();
+        return res.status(404).json({ error: 'Carrito no encontrado' });
+      }
+
+      // Eliminar items del carrito primero (por foreign key)
+      await connection.query(
+        'DELETE FROM carrito_items WHERE carrito_id = ?',
+        [carritoId]
+      );
+
+      // Eliminar el carrito
+      await connection.query(
+        'DELETE FROM carritos WHERE id = ?',
+        [carritoId]
+      );
+
+      connection.release();
+      res.json({ 
+        success: true,
+        message: 'Carrito eliminado exitosamente' 
+      });
+    } catch (error) {
+      console.error('Error al eliminar carrito:', error);
+      res.status(500).json({ error: 'Error al eliminar carrito' });
+    }
   }
 };
 

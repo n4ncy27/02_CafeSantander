@@ -1,0 +1,716 @@
+/* Turismo.css - Estilos coherentes con el diseño de Café Santander */
+
+.turismo-page {
+  min-height: 100vh;
+  background: var(--light-bg);
+}
+
+/* Hero Section */
+.turismo-hero {
+  position: relative;
+  height: 500px;
+  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover;
+  opacity: 0.2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 900px;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-style: italic;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Banner informativo */
+.info-banner {
+  background: white;
+  border-left: 5px solid var(--accent);
+  padding: 30px;
+  margin: 40px auto;
+  border-radius: var(--radius);
+  color: var(--dark-text);
+  max-width: 1200px;
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.banner-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.banner-content {
+  flex: 1;
+}
+
+.banner-content strong {
+  color: var(--accent-dark);
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.banner-content p {
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.turismo-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto 50px;
+  padding: 0 20px;
+}
+
+.turismo-card {
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.turismo-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.turismo-image-container {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.turismo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.turismo-image-container:hover .turismo-image {
+  transform: scale(1.1);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.turismo-image-container:hover .image-overlay {
+  opacity: 1;
+}
+
+.zoom-icon {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.turismo-content {
+  padding: 25px;
+}
+
+.turismo-title {
+  font-size: 1.5rem;
+  color: var(--dark-text);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.turismo-emoji {
+  font-size: 1.8rem;
+}
+
+.turismo-description {
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.turismo-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+/* Conexión con el café - NUEVO */
+.cafe-connection {
+  background: linear-gradient(135deg, #fff7ef 0%, #ffecd6 100%);
+  border-left: 3px solid var(--accent);
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: var(--radius);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cafe-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.cafe-text {
+  color: var(--dark-text);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+
+.turismo-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-view-image {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: center;
+  background: var(--accent);
+  color: white;
+}
+
+.btn-view-image:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231,163,61,0.4);
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from { 
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: white;
+  border: none;
+  color: #333;
+  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.lightbox-close:hover {
+  background: var(--accent);
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* Call to Action - NUEVO */
+.cta-section {
+  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
+  padding: 80px 20px;
+  text-align: center;
+  margin: 60px 0 0;
+}
+
+.cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-content h2 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.cta-content p {
+  color: rgba(255,255,255,0.95);
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 15px 40px;
+  background: white;
+  color: var(--accent-dark);
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  color: var(--accent-dark);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .turismo-hero {
+    height: 400px;
+    margin-top: 70px;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+  }
+
+  .info-banner {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .banner-icon {
+    font-size: 2rem;
+  }
+
+  .turismo-gallery {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .turismo-actions {
+    flex-direction: column;
+  }
+
+  .lightbox-close {
+    top: 10px;
+    right: 10px;
+  }
+
+  .cta-content h2 {
+    font-size: 1.8rem;
+  }
+
+  .cta-content p {
+    font-size: 1rem;
+  }
+}
+
+/* ========================================
+   SECCIÓN DE UPLOAD DE ARCHIVOS
+======================================== */
+
+.upload-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.upload-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.upload-header h2 {
+  color: var(--dark-text);
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.upload-header p {
+  color: var(--text);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.toggle-upload-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.toggle-upload-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231,163,61,0.4);
+}
+
+.upload-form {
+  background: white;
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 40px;
+}
+
+.file-input-wrapper {
+  margin-bottom: 20px;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: block;
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  color: var(--dark-text);
+}
+
+.file-label:hover {
+  background: linear-gradient(135deg, #fff7ef 0%, #ffecd6 100%);
+  border-color: var(--accent-dark);
+  transform: translateY(-2px);
+}
+
+.upload-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 20px;
+}
+
+.upload-btn:hover:not(:disabled) {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231,163,61,0.4);
+}
+
+.upload-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.upload-message {
+  padding: 15px;
+  border-radius: var(--radius);
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.upload-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.upload-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.upload-info {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--accent);
+}
+
+.upload-info strong {
+  color: var(--accent-dark);
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.upload-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.upload-info ul li {
+  padding: 5px 0;
+  color: var(--text);
+}
+
+.upload-info p {
+  margin: 10px 0 0;
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Archivos subidos */
+.uploaded-files {
+  background: white;
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.uploaded-files h3 {
+  color: var(--dark-text);
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.file-card {
+  background: #f8f9fa;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+  transition: var(--transition);
+}
+
+.file-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+
+.file-preview {
+  width: 100%;
+  height: 180px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.file-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-icon {
+  font-size: 4rem;
+  color: var(--accent);
+}
+
+.file-info {
+  padding: 15px;
+  background: white;
+}
+
+.file-name {
+  font-weight: 600;
+  color: var(--dark-text);
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-size {
+  color: #6c757d;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.file-actions {
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px;
+  background: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.btn-download-file,
+.btn-delete-file {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-download-file {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-download-file:hover {
+  background: var(--accent-dark);
+  transform: scale(1.05);
+}
+
+.btn-delete-file {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-delete-file:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+/* Responsive para upload */
+@media (max-width: 768px) {
+  .files-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .upload-form {
+    padding: 20px;
+  }
+  
+  .upload-header h2 {
+    font-size: 1.5rem;
+  }
+}

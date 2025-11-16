@@ -232,14 +232,86 @@ Vista previa
 
 ## **Roadmap y próximas mejoras**
 
-- Integrar backend para autenticación real y persistencia (BD).
+- Integrar backend para autenticación real y persistencia (BD). ✅ **COMPLETADO**
+  - Backend en Node.js + Express
+  - Base de datos MySQL configurada
+  - Rutas REST API completamente funcionales
+  
+- **🆕 Panel de Administración Implementado** ✅
+  - CRUD completo para productos (47 cafés especializados)
+  - CRUD completo para usuarios
+  - Búsquedas y filtrado en tiempo real
+  - Estadísticas en tiempo real
+  - Interfaz profesional y responsiva
+  - Documentación exhaustiva incluida
+
 - Añadir encuesta y estadísticas.
 - Mejorar la rueda catadora con datos sensoriales guardados por usuario.
 - Implementar captcha y validaciones robustas en formularios.
 - Mejorar el estilo CSS.
 - Entre otras mejoras conforme avancemos.
 
-<!-- Sección de instrucciones rápidas eliminada (ya incluida en 'Instalación y ejecución (local y nube)') -->
+## **🆕 Panel de Administración (NUEVO)**
+
+Se ha implementado una **sección completa de administración** para gestionar productos y usuarios.
+
+### Acceso
+- **Ubicación**: Botón "Admin" en la esquina superior derecha del sitio
+- **Usuario**: `admin`
+- **Contraseña**: `123`
+
+### Características
+- ✅ **CRUD de Productos**: Crear, leer, actualizar, eliminar y buscar productos
+- ✅ **CRUD de Usuarios**: Leer, actualizar, eliminar y buscar usuarios
+- ✅ **Estadísticas**: Total de productos, usuarios y carritos activos
+- ✅ **Búsqueda**: Búsqueda en tiempo real para productos y usuarios
+- ✅ **Interfaz Responsiva**: Funciona en móvil, tablet y desktop
+- ✅ **Validaciones**: Validación de datos en formularios
+- ✅ **Documentación**: Guías completas para uso y desarrollo
+
+### Documentación de Admin
+Para más detalles sobre el panel de administración, consulta:
+- **[QUICK_START.md](./QUICK_START.md)** - Inicio rápido (5 minutos)
+- **[ADMIN_DOCUMENTATION.md](./ADMIN_DOCUMENTATION.md)** - Guía completa
+- **[ADMIN_TESTING_GUIDE.md](./ADMIN_TESTING_GUIDE.md)** - Guía de pruebas
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Diagramas y arquitectura
+- **[API_EXAMPLES.md](./API_EXAMPLES.md)** - Ejemplos de API
+- **[TUTORIAL_VISUAL.md](./TUTORIAL_VISUAL.md)** - Tutorial visual paso a paso
+- **[DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)** - Índice completo de documentación
+- **[RESUMEN_EJECUTIVO.md](./RESUMEN_EJECUTIVO.md)** - Resumen ejecutivo para evaluadores
+
+---
+
+## **Backend y Base de Datos**
+
+### Requisitos
+- Node.js v18+
+- MySQL Server (XAMPP recomendado)
+
+### Instalación Backend
+```bash
+cd backend
+npm install
+npm start  # o npm run dev (con nodemon)
+```
+
+El backend se ejecutará en `http://localhost:5000`
+
+### Base de Datos
+La base de datos MySQL `cafeDB` incluye:
+- Tabla `productos` - 47 cafés especializados
+- Tabla `usuarios` - Usuarios registrados
+- Tabla `carritos` - Carritos de compra
+- Tabla `carrito_items` - Items en los carritos
+
+### Credenciales de BD
+- **Usuario**: `un_usr`
+- **Contraseña**: `una_clave`
+- **Database**: `cafeDB`
+
+Para crear la BD, ejecuta el script en `backend/db/schema.sql`
+
+---
 
 
 ## **Contacto de los integrantes**

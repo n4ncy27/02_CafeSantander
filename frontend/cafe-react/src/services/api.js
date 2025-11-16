@@ -1,36 +1,26 @@
+import axios from 'axios';
+
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Función helper para hacer requests
-const fetchAPI = async (endpoint, options = {}) => {
-  const token = localStorage.getItem('token');
-  
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { 'Authorization': `Bearer ${token}` }),
-    },
-    ...options,
-  };
+// Crear instancia de axios
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-  // Si hay body, convertirlo a JSON
-  if (config.body && typeof config.body === 'object') {
-    config.body = JSON.stringify(config.body);
-  }
-
-  try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || 'Error en la petición');
+// Interceptor para agregar token
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
-
-    return data;
-  } catch (error) {
-    console.error('API Error:', error);
-    throw error;
-  }
-};
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export { API_BASE_URL };
-export default fetchAPI;
+export default api;

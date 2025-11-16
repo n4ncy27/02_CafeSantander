@@ -170,9 +170,9 @@ const Inicio = () => {
           <h2 className="section-title">Nuestros Productos</h2>
           <div className="products-and-cart container">
             {loading && <p style={{ textAlign: 'center', padding: '40px' }}>Cargando productos...</p>}
-            {error && <p style={{ textAlign: 'center', color: 'red', padding: '40px' }}>{error}</p>}
-            {!loading && products.length === 0 && <p style={{ textAlign: 'center', padding: '40px' }}>No hay productos disponibles</p>}
-            {!loading && products.length > 0 && (
+            {!loading && error && <p style={{ textAlign: 'center', color: 'red', padding: '40px' }}>{error}</p>}
+            {!loading && !error && products.length === 0 && <p style={{ textAlign: 'center', padding: '40px' }}>No hay productos disponibles</p>}
+            {!loading && !error && products.length > 0 && (
               <div className="products-grid">
                 {products.map((p) => (
                   <ProductCard key={p.id} product={{ 
