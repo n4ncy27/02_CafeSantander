@@ -38,8 +38,15 @@ const Carrito = () => {
   // HANDLERS DE ACCIONES DEL CARRITO
   // ============================================
   // Delegan al hook useCart que se comunica con el backend
-  const handleRemove = (id) => removeItem(id);
-  const handleUpdateQuantity = (id, qty) => updateQuantity(id, qty);
+  const handleRemove = (id) => {
+    if (!id) return;
+    removeItem(id);
+  };
+  
+  const handleUpdateQuantity = (id, qty) => {
+    if (!id || !qty || qty < 1) return;
+    updateQuantity(id, qty);
+  };
 
   return (
     <div className="cart-page">
@@ -77,30 +84,35 @@ const Carrito = () => {
             </div>
           ) : (
             <div className="cart-items-list">
-              {cart.map((item) => (
-                <article className="cart-card" key={item.id}>
-                  <div className="card-thumb">
-                    <img
-                      src={item.imagen || '/imagenes/expreso.png'}
-                      alt={item.nombre}
-                      onError={(e) => { e.target.onerror = null; e.target.src = '/imagenes/expreso.png'; }}
-                    />
-                  </div>
-                  <div className="card-body">
-                    <div className="card-title"><strong>{item.nombre}</strong></div>
-                    <div className="card-desc">{item.description || ''}</div>
-                    <div className="card-actions">
-                      <div className="qty-control">
-                        <button className="qty-btn" onClick={() => handleUpdateQuantity(item.id, Math.max(1, (item.quantity || 1) - 1))}>-</button>
-                        <span className="qty">{item.quantity}</span>
-                        <button className="qty-btn" onClick={() => handleUpdateQuantity(item.id, (item.quantity || 0) + 1)}>+</button>
+              {cart.map((item) => {
+                // Validar que el item tenga los datos necesarios
+                if (!item || !item.id) return null;
+                
+                const itemQuantity = item.quantity || 0;
+                const itemPrice = item.precio || 0;
+                const itemName = item.nombre || 'Producto';
+                const itemImage = item.imagen || '/imagenes/expreso.png';
+                const itemDescription = item.description || '';
+                
+                return (
+                  <article className="cart-card" key={item.id}>
+                    <div className="card-thumb"><img src={itemImage} alt={itemName} /></div>
+                    <div className="card-body">
+                      <div className="card-title"><strong>{itemName}</strong></div>
+                      <div className="card-desc">{itemDescription}</div>
+                      <div className="card-actions">
+                        <div className="qty-control">
+                          <button className="qty-btn" onClick={() => handleUpdateQuantity(item.id, Math.max(1, itemQuantity - 1))}>-</button>
+                          <span className="qty">{itemQuantity}</span>
+                          <button className="qty-btn" onClick={() => handleUpdateQuantity(item.id, itemQuantity + 1)}>+</button>
+                        </div>
+                        <button className="link-remove" onClick={() => handleRemove(item.id)}><i className="fas fa-trash"></i> Eliminar</button>
                       </div>
-                      <button className="link-remove" onClick={() => handleRemove(item.id)}><i className="fas fa-trash"></i> Eliminar</button>
                     </div>
-                  </div>
-                  <div className="card-price">${(item.precio * (item.quantity || 0)).toLocaleString('es-CO')}</div>
-                </article>
-              ))}
+                    <div className="card-price">${(itemPrice * itemQuantity).toLocaleString('es-CO')}</div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </main>

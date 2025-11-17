@@ -98,14 +98,69 @@ export default function useCart() {
         setCart(cartItems);
         broadcastCart(cartItems);
       } else {
+        // ============================================
         // FALLBACK: Si NO está autenticado, cargar desde localStorage
-        const localCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
-        setCart(localCart);
-        broadcastCart(localCart);
+        // MEJORA: Validación robusta con manejo de errores
+        // ============================================
+        try {
+          const localCartString = localStorage.getItem('cafesantander_cart');
+          
+          if (localCartString) {
+            // Intentar parsear JSON
+            const localCart = JSON.parse(localCartString);
+            
+            // Validar que sea un array
+            if (Array.isArray(localCart)) {
+              setCart(localCart);
+              broadcastCart(localCart);
+            } else {
+              // Si no es array, resetear
+              console.warn('[useCart] localStorage contiene datos inválidos, reseteando carrito');
+              setCart([]);
+              localStorage.setItem('cafesantander_cart', JSON.stringify([]));
+              broadcastCart([]);
+            }
+          } else {
+            // Si no existe, inicializar vacío
+            setCart([]);
+            localStorage.setItem('cafesantander_cart', JSON.stringify([]));
+            broadcastCart([]);
+          }
+        } catch (parseError) {
+          // Error al parsear JSON → resetear localStorage
+          console.error('[useCart] Error al parsear localStorage:', parseError);
+          setCart([]);
+          localStorage.setItem('cafesantander_cart', JSON.stringify([]));
+          broadcastCart([]);
+        }
       }
     } catch (err) {
-      console.error('Error al cargar carrito:', err);
+      console.error('[useCart] Error al cargar carrito:', err);
       setError(err.message);
+      
+      // ============================================
+      // MEJORA: Fallback a localStorage si el backend falla
+      // ============================================
+      // Si estamos autenticados pero el backend falla,
+      // intentar cargar desde localStorage como último recurso
+      if (isAuthenticated) {
+        console.warn('[useCart] Backend falló, intentando cargar desde localStorage como fallback');
+        try {
+          const localCartString = localStorage.getItem('cafesantander_cart');
+          if (localCartString) {
+            const localCart = JSON.parse(localCartString);
+            if (Array.isArray(localCart)) {
+              setCart(localCart);
+              broadcastCart(localCart);
+              return; // Salir exitosamente
+            }
+          }
+        } catch {
+          // Ignorar errores del fallback
+        }
+      }
+      
+      // Si todo falla, carrito vacío
       setCart([]);
     } finally {
       setLoading(false);
@@ -180,29 +235,61 @@ export default function useCart() {
         // Esto actualiza el estado y emite evento de sincronización
         await fetchCart();
       } else {
+        // ============================================
         // FALLBACK: Si NO está autenticado, usar localStorage
-        const currentCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
-        const existingItem = currentCart.find(i => i.id === item.id);
+        // MEJORA: Validación robusta con manejo de errores
+        // ============================================
+        try {
+          const currentCartString = localStorage.getItem('cafesantander_cart');
+          let currentCart = [];
+          
+          // Intentar parsear carrito existente
+          if (currentCartString) {
+            const parsed = JSON.parse(currentCartString);
+            if (Array.isArray(parsed)) {
+              currentCart = parsed;
+            }
+          }
+          
+          // Buscar si el producto ya existe
+          const existingItem = currentCart.find(i => i.id === item.id);
 
-        if (existingItem) {
-          existingItem.quantity = (existingItem.quantity || 1) + 1;
-        } else {
-          currentCart.push({
+          if (existingItem) {
+            // Incrementar cantidad
+            existingItem.quantity = (existingItem.quantity || 1) + 1;
+          } else {
+            // Agregar nuevo producto
+            currentCart.push({
+              id: item.id,
+              quantity: 1,
+              // Información que obtendremos del producto
+              nombre: item.nombre || 'Producto',
+              precio: item.precio || 0,
+              imagen: item.imagen || '/imagenes/expreso.png'
+            });
+          }
+
+          // Guardar en localStorage
+          localStorage.setItem('cafesantander_cart', JSON.stringify(currentCart));
+          setCart(currentCart);
+          broadcastCart(currentCart);
+        } catch (localError) {
+          console.error('[useCart] Error al agregar a localStorage:', localError);
+          // En caso de error, resetear localStorage e intentar nuevamente
+          const newCart = [{
             id: item.id,
             quantity: 1,
-            // Información que obtendremos del producto
             nombre: item.nombre || 'Producto',
             precio: item.precio || 0,
             imagen: item.imagen || '/imagenes/expreso.png'
-          });
+          }];
+          localStorage.setItem('cafesantander_cart', JSON.stringify(newCart));
+          setCart(newCart);
+          broadcastCart(newCart);
         }
-
-        localStorage.setItem('cafesantander_cart', JSON.stringify(currentCart));
-        setCart(currentCart);
-        broadcastCart(currentCart);
       }
     } catch (err) {
-      console.error('Error al agregar al carrito:', err);
+      console.error('[useCart] Error al agregar al carrito:', err);
       setError(err.message);
     }
   }, [isAuthenticated, token, fetchCart]);
@@ -238,15 +325,38 @@ export default function useCart() {
         // Recargar carrito desde backend
         await fetchCart();
       } else {
+        // ============================================
         // FALLBACK: Si NO está autenticado, eliminar de localStorage
-        const currentCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
-        const filteredCart = currentCart.filter(item => item.id !== id);
-        localStorage.setItem('cafesantander_cart', JSON.stringify(filteredCart));
-        setCart(filteredCart);
-        broadcastCart(filteredCart);
+        // MEJORA: Validación robusta con manejo de errores
+        // ============================================
+        try {
+          const currentCartString = localStorage.getItem('cafesantander_cart');
+          let currentCart = [];
+          
+          if (currentCartString) {
+            const parsed = JSON.parse(currentCartString);
+            if (Array.isArray(parsed)) {
+              currentCart = parsed;
+            }
+          }
+          
+          // Filtrar el producto a eliminar
+          const filteredCart = currentCart.filter(item => item.id !== id);
+          
+          // Guardar en localStorage
+          localStorage.setItem('cafesantander_cart', JSON.stringify(filteredCart));
+          setCart(filteredCart);
+          broadcastCart(filteredCart);
+        } catch (localError) {
+          console.error('[useCart] Error al eliminar de localStorage:', localError);
+          // En caso de error, resetear localStorage
+          localStorage.setItem('cafesantander_cart', JSON.stringify([]));
+          setCart([]);
+          broadcastCart([]);
+        }
       }
     } catch (err) {
-      console.error('Error al eliminar del carrito:', err);
+      console.error('[useCart] Error al eliminar del carrito:', err);
       setError(err.message);
     }
   }, [isAuthenticated, token, cart, fetchCart]);
@@ -291,18 +401,42 @@ export default function useCart() {
         // Recargar carrito desde backend
         await fetchCart();
       } else {
+        // ============================================
         // FALLBACK: Si NO está autenticado, actualizar en localStorage
-        const currentCart = JSON.parse(localStorage.getItem('cafesantander_cart') || '[]');
-        const itemIndex = currentCart.findIndex(i => i.id === id);
-        if (itemIndex >= 0) {
-          currentCart[itemIndex].quantity = quantity;
-          localStorage.setItem('cafesantander_cart', JSON.stringify(currentCart));
-          setCart(currentCart);
-          broadcastCart(currentCart);
+        // MEJORA: Validación robusta con manejo de errores
+        // ============================================
+        try {
+          const currentCartString = localStorage.getItem('cafesantander_cart');
+          let currentCart = [];
+          
+          if (currentCartString) {
+            const parsed = JSON.parse(currentCartString);
+            if (Array.isArray(parsed)) {
+              currentCart = parsed;
+            }
+          }
+          
+          // Buscar el índice del producto
+          const itemIndex = currentCart.findIndex(i => i.id === id);
+          
+          if (itemIndex >= 0) {
+            // Actualizar cantidad
+            currentCart[itemIndex].quantity = quantity;
+            
+            // Guardar en localStorage
+            localStorage.setItem('cafesantander_cart', JSON.stringify(currentCart));
+            setCart(currentCart);
+            broadcastCart(currentCart);
+          } else {
+            console.warn('[useCart] Producto no encontrado para actualizar cantidad');
+          }
+        } catch (localError) {
+          console.error('[useCart] Error al actualizar cantidad en localStorage:', localError);
+          // En caso de error, mantener estado actual sin cambios
         }
       }
     } catch (err) {
-      console.error('Error al actualizar carrito:', err);
+      console.error('[useCart] Error al actualizar carrito:', err);
       setError(err.message);
     }
   }, [isAuthenticated, token, cart, fetchCart, removeItem]);
