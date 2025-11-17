@@ -125,17 +125,22 @@ const server = app.listen(PORT, () => {
 // Capturar promesas rechazadas que no fueron manejadas
 process.on('unhandledRejection', (err) => {
   console.error('❌ Error no manejado (Promise rejection):', err.message);
-  process.exit(1); // Salir con código de error
+  console.error('Stack:', err.stack);
+  // No cerrar el servidor, solo registrar el error
 });
 
 // Capturar excepciones no controladas
 process.on('uncaughtException', (err) => {
   console.error('❌ Error no capturado (Exception):', err.message);
-  process.exit(1);
+  console.error('Stack:', err.stack);
+  // No cerrar el servidor, solo registrar el error
 });
 
 // Capturar errores del servidor Express
 server.on('error', (err) => {
   console.error('❌ Error del servidor:', err.message);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Puerto ${PORT} ya está en uso. Intenta cerrar el otro proceso.`);
+  }
   process.exit(1);
 });
