@@ -215,30 +215,30 @@ A continuación se listan las capturas sugeridas y los nombres de archivo recome
 
 Vista previa
 
-![Portada]<img width="1266" height="649" alt="image" src="https://github.com/user-attachments/assets/b6088c12-a61d-4aad-a185-7cb56ce36213" />
+![Portada]<img width="1266" height="649" alt="image" src="  <img width="985" height="560" alt="image" src="https://github.com/user-attachments/assets/9187d64c-f427-491a-8798-1fa5f47ea813" />
+" />
 
 
-![Login modal]<img width="744" height="524" alt="image" src="https://github.com/user-attachments/assets/cbf3fab8-40d3-4182-89c4-cbdd42114a5d" />
+![Login modal]<img width="744" height="524" alt="image" src="<img width="980" height="546" alt="image" src="https://github.com/user-attachments/assets/89ba87d7-6392-4146-a708-01fb820629ff" />
+" />
 
 
-![Ruleta catadora]<img width="935" height="646" alt="image" src="https://github.com/user-attachments/assets/3c838fd5-a0a6-45dc-9e22-05af8302f17c" />
+![Ruleta catadora]<img width="935" height="646" alt="image" src="<img width="986" height="551" alt="image" src="https://github.com/user-attachments/assets/ad1078c6-2710-41a0-a903-7dcf3b1c26f8" />
+" />
 
 
-![Nuestra historia]<img width="693" height="648" alt="image" src="https://github.com/user-attachments/assets/22f252ef-d302-4a8d-8107-dad20b11a0fd" />
+![Carrito]<img width="693" height="648" alt="image" src="<img width="988" height="550" alt="image" src="https://github.com/user-attachments/assets/3a8bed12-97d1-47ef-97aa-6408f5c557ff" />
+" />
 
 
-![Nuestros productos]<img width="666" height="575" alt="image" src="https://github.com/user-attachments/assets/289ad17f-cb52-4af9-bfbc-96eb0d7bb5ee" />
+![Nuestros productos]<img width="666" height="575" alt="image" src="<img width="971" height="515" alt="image" src="https://github.com/user-attachments/assets/5bde1d3f-728a-4b95-a04f-505cd571e8db" />
+" />
 
 
-## **Roadmap y próximas mejoras**
 
-- Integrar backend para autenticación real y persistencia (BD). ✅ **COMPLETADO**
-  - Backend en Node.js + Express
-  - Base de datos MySQL configurada
-  - Rutas REST API completamente funcionales
-  
+
 - **🆕 Panel de Administración Implementado** ✅
-  - CRUD completo para productos (47 cafés especializados)
+  - CRUD completo para productos ( producto - cafés especializados)
   - CRUD completo para usuarios
   - Búsquedas y filtrado en tiempo real
   - Estadísticas en tiempo real
@@ -322,5 +322,7 @@ Para crear la BD, ejecuta el script en `backend/db/schema.sql`
 - Carlos David Pimienta Rivera — carlos2224380@correo.uis.edu.co  — 25%
 
 ---
+## ** En el siguiente link van incontrar un video donde se muestra el funcionamiento de la pagina web **
 
+https://www.youtube.com/watch?feature=shared&v=Nt1ACb4PqTw
 
