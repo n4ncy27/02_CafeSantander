@@ -7,6 +7,9 @@
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3+-purple)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
+
+
+
 ---
 ## **Proyecto: Café Santander — FASE I**
 
@@ -42,8 +45,10 @@ Esta es la entrega de la FASE‑I del proyecto de grupo (Grupo 2). El repositori
 - [Capturas y demostración](#capturas-y-demostracion)
 - [Roadmap y próximas mejoras](#roadmap-y-proximas-mejoras)
 - [Contacto de los integrantes](#contacto-de-los-integrantes)
-
+- [Video demostrativo del funcionamiento](#video-demostrativo-del-funcionamiento)
 ---
+
+
 
 ## **Resumen ejecutivo**
 
@@ -212,6 +217,7 @@ A continuación se listan las capturas sugeridas y los nombres de archivo recome
 - `ruleta-catadora.png` — Rueda catadora interactiva (página Servicios).
 - `historia.png` — Sección «Nuestra Historia» (banner o imagen informativa).
 - `productos.png` — Página o sección de «Nuestros productos» (galería o tarjetas de producto).
+- Las imagenes que no esten aquí al final encontraran un video donde estan el funcionamiento o desde la pagina lo podran observar 
 
 Vista previa
 
@@ -322,7 +328,7 @@ Para crear la BD, ejecuta el script en `backend/db/schema.sql`
 - Carlos David Pimienta Rivera — carlos2224380@correo.uis.edu.co  — 25%
 
 ---
-## ** En el siguiente link van incontrar un video donde se muestra el funcionamiento de la pagina web **
+## **Video demostrativo del funcionamiento**
 
 https://www.youtube.com/watch?feature=shared&v=Nt1ACb4PqTw
 
