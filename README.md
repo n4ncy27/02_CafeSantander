@@ -330,5 +330,5 @@ Para crear la BD, ejecuta el script en `backend/db/schema.sql`
 ---
 ## **Video demostrativo del funcionamiento**
 
-https://www.youtube.com/watch?feature=shared&v=Nt1ACb4PqTw
+https://youtu.be/QxDMWHpL8ZY?feature=shared
 
